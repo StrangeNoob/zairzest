@@ -95,7 +95,6 @@ $(document).ready(function () {
     $(element).click(() => fullpage_api.moveTo(navSectionMap[index]));
   });
 
-  $(document).ready(function() {
     function updateTimer() {
       future  = Date.parse("May 14, 2021 10:30:00");
       now     = new Date();
@@ -127,7 +126,6 @@ $(document).ready(function () {
           '<div>' + s + '<span class="px-4 sm:px-2">seconds</span></div>' ;
     }   
     setInterval(updateTimer(), 1000 );
-  });
 
   
 

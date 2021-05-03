@@ -1,3 +1,8 @@
+@font-face {
+  font-family: Scout;
+  src: url("../fonts/beyond_the_mountains.ttf");
+}
+
 html,
 body {
   margin: 0;
@@ -5,17 +10,14 @@ body {
   font-family: "Montserrat", sans-serif;
   scroll-behavior: smooth;
   scrollbar-width: none;
-  color: #FAFFD4;
+  background-color: #FAFFD4;
 }
 
 ::-webkit-scrollbar {
   display: none;
 }
 
-@font-face {
-  font-family: Scout;
-  src: url("../fonts/beyond_the_mountains.ttf");
-}
+
 
 .navbar {
   top: 0;
@@ -119,7 +121,7 @@ body {
 }
 
 .bg-cover {
-  background-color:#FAFFD4;
+  background-color:#FAFFD4 !important;
 }
 
 .cta-btn {
@@ -812,6 +814,9 @@ body {
 
 #home > last-row > img {
   transform: scale(1);
+}
+.text-dark {
+  color: #4C6E4E;
 }
 
 #timer {
