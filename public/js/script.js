@@ -125,7 +125,7 @@ $(document).ready(function () {
           '<div>' + m + '<span class="px-4 sm:px-2">minutes</span></div>' +
           '<div>' + s + '<span class="px-4 sm:px-2">seconds</span></div>' ;
     }   
-    setInterval(updateTimer(), 1000 );
+    setInterval(updateTimer, 1000 );
 
   
 
