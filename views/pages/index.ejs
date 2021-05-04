@@ -41,7 +41,9 @@
 
 <body>
   <!--js xor no-js -->
-
+  <div id="overlay w-screen h-screen">
+    <%- include('../partials/preloader.ejs') %>
+  </div>
 
   <main class="js mb-20 sm:mb-0">
 
@@ -97,9 +99,13 @@
     ></script>
   <script src="/js/script.js"></script>
 
-<script>
-  AOS.init();
-</script>
+  <script>
+    $(window).on("load", function() {
+      $('#overlay').fadeOut();
+    });
+
+    AOS.init();
+  </script>
 </body>
 
 </html>
