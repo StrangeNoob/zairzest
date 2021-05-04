@@ -1,4 +1,5 @@
 const assert = require('assert');
+const { EEXIST } = require('constants');
 
 const express = require("express"),
     passport = require("passport"),
@@ -19,7 +20,7 @@ const {
     ResetRequest
 } = models;
 
-const mongourl="";   //TODO:change the url while hosting
+const mongourl="mongodb+srv://m001-student:biswajit@cluster0.gzrih.mongodb.net/Zairzest?retryWrites=true&w=majority";   //TODO:change the url while hosting
 
 // TODO: SETUP DATABASE
 mongoose.connect(mongourl, {
@@ -63,10 +64,12 @@ router.use(passport.session());
 
 router.get("/logout", function (req, res) {
     req.logout();
-    res.redirect("/");
+    res.status(200);
+    res.send();
 });
 
-router.post("/login", function (req, res, next) {
+router.post("/signin", function (req, res, next) {
+    req.body.username = req.body.email
     passport.authenticate("local", function (err, user, info) {
         if (err) {
             res.status(404).json(err);
@@ -86,17 +89,22 @@ router.post("/login", function (req, res, next) {
     })(req, res, next);
 });
 
-router.post("/register", function (req, res) {
+router.post("/signup", function (req, res) {
+    req.body.username = req.body.email;
     const newUser = new User({
-        username: req.body.username,
+        username: req.body.email,
         name: req.body.name,
-        regno: req.body.regno,
+        regNo: req.body.regNo,
         branch: req.body.branch
     });
     User.register(newUser, req.body.password, (err, user) => {
         if (err) {
             console.log(err);
-            return res.status(500);
+            res.status(401);
+            return res.send({
+                status: 'fail',
+                message: err.message
+            });
         }
         passport.authenticate("local")(req, res, () => {
             ejs.renderFile(__dirname + "/mailTemplate.ejs", { name: req.user.name }, (err, data) => {
@@ -118,6 +126,9 @@ router.post("/register", function (req, res) {
                 });
             });
             res.status(200);
+            res.send({
+                status: 'success'
+            });
         });
     });
 });
@@ -125,17 +136,16 @@ router.post("/register", function (req, res) {
 // Forgot password form posts here with username(email address) in body
 router.post('/forgotpassword', (req, res) => {
     User.findOne({
-        username: req.body.username
+        username: req.body.email
     }, (err, user) => {
         let message;
         if (err) {
-            message = "Sorry, There seems to be a problem at our end";
             res.status(500);
-            res.send(message);
+            res.send({status: 'fail', message: err.message});
         } else if (!user) {
             message = "An account with the given credentials does not exist";
-            res.status(500);
-            res.send(message);
+            res.status(401);
+            res.send({status: 'fail', message});
         } else {
             // create a new password reset request
             const resetRequest = new ResetRequest({
@@ -145,9 +155,8 @@ router.post('/forgotpassword', (req, res) => {
             // save the request to the database
             resetRequest.save((err, request) => {
                 if (err) {
-                    message = "Sorry, There seems to be a problem at our end";
                     res.status(500);
-                    res.send(message);
+                    res.send({status: 'fail', message: err.message});
                     return;
                 }
 
@@ -157,16 +166,15 @@ router.post('/forgotpassword', (req, res) => {
                     from: 'Zairzest Team, CETB',
                     to: user.username,
                     subject: 'Zairzest | Password reset',
-                    text: `Hi, ${user.name}\t\nWe received a request to reset your Zairzest password. If this wasn't you, you can safely ignore this email, otherwise please go to the following link to reset your password:\nhttps://localhost:3000/resetpassword/${resetRequest._id}\n\nThe Zairzest Team`,
+                    text: `Hi, ${user.name}\t\nWe received a request to reset your Zairzest password. If this wasn't you, you can safely ignore this email, otherwise please go to the following link to reset your password:\nhttps://localhost:3000/newpassword?rid=${resetRequest._id}\n\nThe Zairzest Team`,
                 }, function (error, info) {
                     if (error) {
-                        message = "Sorry, There seems to be a problem at our end";
                         res.status(500);
-                        res.send(message);
+                        res.send({status: 'fail', message: "Sorry, There seems to be a problem at our end"});
                     } else {
                         message = "Please check your E-Mail (also check your spam folder) for instructions on how to reset your password";
                         res.status(200);
-                        res.send(message);
+                        res.send({status: 'success', message});
                     }
                 });
             });
@@ -179,25 +187,25 @@ router.post('/resetpassword/:resetRequestID', function (req, res, next) {
     ResetRequest.findByIdAndDelete(req.params.resetRequestID, function (requestError, resetRequest) {
         if (requestError || !resetRequest) {
             res.status(404);
-            res.send("Invalid password reset link, Please go to Forgot Password to request another link");
+            res.send({status: 'fail', message: "Invalid password reset link, Please go to Forgot Password to request another link"});
         } else {
             User.findById(resetRequest.r_id, function (userError, user) {
                 user.setPassword(req.body.password, function (hashingError, updatedUser) {
                     if (hashingError || !updatedUser) {
                         message = "Sorry, There seems to be a problem at our end";
                         res.status(500);
-                        res.send(message);
+                        res.send({status: 'fail', message});
                     } else {
                         updatedUser.save()
                             .then(() => {
                                 message = "Your password has been successfully reset. Please login to continue";
                                 res.status(200);
-                                res.send(message);
+                                res.send({status: 'success', message});
                             })
                             .catch(saveError => {
                                 message = "Sorry, There seems to be a problem at our end";
                                 res.status(500);
-                                res.send(message);
+                                res.send({status: 'fail', message});
                             });
                     }
                 });
@@ -216,7 +224,7 @@ router.get('/registerForEvent/:eventID', async (req, res) => {
         assert(event);
     }catch(e) {
         res.status(404);
-        res.send("Invalid Event ID");
+        res.send({status: 'fail', message: "Invalid Event ID"});
         return;
     }
 
