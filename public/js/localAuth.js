@@ -63,11 +63,20 @@ function validateEmail(email) {
   const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return re.test(String(email).toLowerCase());
 }
+//  Registration number validate
+function validateRegistrationNumber(reg_no) {
+  const re = /^[0-9]{10}$/;
+  const re2 = /^[0-9]{2}[A-Z]+[0-9]+$/; // For new registration numbers issued for 1st years
+  return re.test(reg_no) || re2.test(reg_no);
+}
 
 function authenticate(req) {
   $email = $(`#${req}_form input[type='email']`).val();
   $password = $(`#${req}_form #${req}-password`).val();
   $confirm_password = $(`#${req}_form #confirm-password`).val();
+  $reg_no = $(`#${req}_form #regno`).val();
+  $branch = $(`#${req}_form #branch`).val();
+  $name = $(`#${req}_form #name`).val();
   if (!validateEmail($email)) {
     showToast(401, "Please enter a valid email 🚫");
     return;
@@ -76,80 +85,49 @@ function authenticate(req) {
     if (!matchPassword($password, $confirm_password)) {
       return;
     }
+    if(!(validateRegistrationNumber($reg_no))){
+      return;
+    }
   }
   $(`#${req}-svg`).hide();
   $(`#${req}-btn span`).text("");
   $(`#${req}-btn`).addClass("onclic", 50);
   // console.log($email)
-  let data = {
-    email: $email,
-    password: $password,
-  };
-  // $.ajax({
-  //   type: "POST",
-  //   url: `/${req}`,
-  //   data: data,
-  //   dataType: "json",
-  // })
-  //   .done(function (data) {
-  //     // console.log("success");
-  //     validate(req, "success");
-  //   })
-  //   .fail(function (err) {
-  //     // console.log("error");
-  //     validate(req, err);
-  //   });
+  let data;
+  if (req === "signup") {
+
+    data = {
+      email: $email,
+      password: $password,
+      regdNo: $reg_no,
+      branch: $branch[0],
+      name: $name,
+    };
+  }else{
+    data = {
+      email: $email,
+      password: $password,
+    };
+  }
+    $.ajax({
+    type: "POST",
+    url: `/${req}`,
+    data: data,
+    dataType: "json",
+  })
+    .done(function (data) {
+      validate(req, "success");
+    })
+    .fail(function (err) {
+      validate(req, err);
+    });
   if (req == "signup") {
-    firebase
-      .auth()
-      .createUserWithEmailAndPassword($email, $password)
-      .then(async (userCredential) => {
-        // Signed in
-        // var user = userCredential.user;
-        // const token = await user.getIdToken();
-        // console.log(token,"token::")
-        // $.cookie("zToken", token, {
-        //   expires: 7,
-        // });
-        validate(req, "success");
-      })
-      .catch((error) => {
-        // var errorCode = error.code;
-        // var errorMessage = error.message;
-        const err = {
-          errorCode: error.code,
-          errorMessage: error.message,
-        };
-        validate(req, err);
-        // ..
-      });
+      
   } else if (req == "signin") {
-    firebase
-      .auth()
-      .signInWithEmailAndPassword($email, $password)
-      .then(async (userCredential) => {
-        // Signed in
-        // var user = userCredential.user;
-        // const token = await user.getIdToken();
-        // console.log(token)
-        // // let zairzaToken = $.cookie("zairzaToken")
-        // $.cookie("zToken", token, {
-        //   expires: 7,
-        // });
-        // ...
-        validate(req, "success");
-      })
-      .catch((error) => {
-        // var errorCode = error.code;
-        // var errorMessage = error.message;
-        const err = {
-          errorCode: 400,
-          errorMessage: error.message,
-        };
-        validate(req, err);
-      });
+    
   }
 }
+
 
 // Submit forms on click of 'ENTER' key
 $("input").keypress(function (e) {

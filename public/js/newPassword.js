@@ -15,11 +15,9 @@ $("#confirm-password").on("change", function () {
 function togglePasswordVisibility(ele) {
   $password = ele.parent().siblings();
   if ($password.attr("type") === "password") {
-    // console.log('password')
     $password.attr("type", "text");
     ele.children().removeClass("bx-hide").addClass("bx-show");
   } else {
-    // console.log('text')
     $password.attr("type", "password");
     ele.children().removeClass("bx-show").addClass("bx-hide");
   }
@@ -42,7 +40,6 @@ function matchPassword(password, confirm_password) {
 function validate(res) {
   setTimeout(function () {
     $("#update-btn").removeClass("onclic");
-    // $("#update-btn").addClass("validate", 450, callback(res));
     if (res == "success") {
       $("#update-btn").addClass("validate-success", 450, callback(res));
     } else {
