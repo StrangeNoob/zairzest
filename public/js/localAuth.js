@@ -19,7 +19,7 @@ function callback(req, res) {
       showToast(200, "Successfully signed up 🤝");
     }
   } else {
-    showToast(res.errorCode, res.errorMessage);
+    showToast(res.errorCode, res.responseJSON.message || "Sorry, There seems to be a problem at our end");
   }
   setTimeout(function () {
     // $(`#${req}-btn`).removeClass("validate");
@@ -82,12 +82,25 @@ function authenticate(req) {
     return;
   }
   if (req === "signup") {
+    if ($name.length == 0) {
+      showToast(401, "Please enter your name 🔐");
+      return;
+    }
+    if (
+      !validateRegistrationNumber($registration_no) ||
+      $registration_no.length == 0
+    ) {
+      showToast(401, "Please enter a valid registration number 🔐");
+      return;
+    }
+    if ($branch == null) {
+      showToast(401, "Please select your branch");
+      return;
+    }
     if (!matchPassword($password, $confirm_password)) {
       return;
     }
-    if(!(validateRegistrationNumber($reg_no))){
-      return;
-    }
+
   }
   $(`#${req}-svg`).hide();
   $(`#${req}-btn span`).text("");
@@ -121,11 +134,6 @@ function authenticate(req) {
     .fail(function (err) {
       validate(req, err);
     });
-  if (req == "signup") {
-      
-  } else if (req == "signin") {
-    
-  }
 }
 
 
