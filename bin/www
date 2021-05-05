@@ -4,6 +4,8 @@
  * Module dependencies.
  */
 
+require("dotenv").config({path: '.env'});
+
 var app = require('../app');
 var debug = require('debug')('zairzest:server');
 var http = require('http');

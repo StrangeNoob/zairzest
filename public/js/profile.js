@@ -11,74 +11,10 @@ function toggleFieldVisibility(ele) {
     }
   }
   
-  function ThirdPartyAuthenticate(provider_name, state, element) {
-  
-    var provider, providerId;
-    if (provider_name == "Google") {
-      provider = new firebase.auth.GoogleAuthProvider();
-      providerId = "google.com";
-    } else if (provider_name == "Github") {
-      provider = new firebase.auth.GithubAuthProvider();
-      providerId = "github.com";
-    }
-    if (!state) {
-      setState("pending", element);
-      firebase.auth().onAuthStateChanged((user) => {
-        if (user) {
-          user
-            .unlink(providerId)
-            .then(async (result) => {
-              // Auth provider unlinked from account
-              // ...
-              setState("off", element);
-              showToast(200, `${provider_name} account disconnected 😞`);
-              const token = await user.getIdToken(true);
-              $.cookie("zToken", token);
-            })
-            .catch((error) => {
-              // An error happened
-              // ...
-              setState("on", element);
-              showToast(400, error.message);
-            });
-        } else {
-          window.location.replace("/auth#signin");
-        }
-      });
-    } else if (state) {
-      setState("pending", element);
-      firebase.auth().onAuthStateChanged((user) => {
-        if (user) {
-          user
-            .linkWithPopup(provider)
-            .then(async (result) => {
-              // Accounts successfully linked.
-              var credential = result.credential;
-              var user = result.user;
-              let element = $(
-                `.connect[data-provider=${provider_name.toLowerCase()}]`
-              );
-              setState("on", element);
-              showToast(200, `${provider_name} account connected 😎`);
-              const token = await user.getIdToken(true);
-              $.cookie("zToken", token);
-              // ...
-            })
-            .catch((error) => {
-              // Handle Errors here.
-              // ...
-              setState("off", element);
-              showToast(409, error.message);
-            });
-        }
-      });
-    }
-  }
-  
   function validate(res) {
     setTimeout(function () {
       $("#update-btn").removeClass("onclic");
-      if (res == "success" || res == "restricted") {
+      if (res == "success") {
         $("#update-btn").addClass("validate-success", 450, callback(res));
       } else {
         $("#update-btn").addClass("validate-fail", 450, callback(res));
@@ -89,9 +25,7 @@ function toggleFieldVisibility(ele) {
   function callback(res) {
     if (res === "success") {
       showToast(200, "Profile updated successfully 🙌");
-    } else if (res == "restricted") {
-      showToast(200, "Your registration number is not registered at Zairza. Please contact us to register you at Zairza")
-    } else {
+    }  else {
       showToast(res.status, res.message);
     }
     setTimeout(function () {
@@ -133,12 +67,18 @@ function toggleFieldVisibility(ele) {
   function updateProfile() {
     $email = $("#profile_form input[type='email']").val();
     $registration_no = $("#profile_form #regno").val();
+<<<<<<< HEAD
     $branch = $("#profile_form #branch").val()[0];
     $wing = $("#profile_form #wing").val();
     $name = $("#profile_form #name").val();
     $newsletter_subscription = $("#profile_form #newsletter_toggle").prop(
       "checked"
     );
+=======
+    $branch = $("#profile_form #branch").val();
+    $name = $("#profile_form #name").val();
+
+>>>>>>> fd8c3b34ec11cd0abd2164a71e19a0e0f4c6d0de
     if ($name.length == 0) {
       showToast(401, "Please enter your name 🔐");
       return;
@@ -158,10 +98,14 @@ function toggleFieldVisibility(ele) {
       showToast(401, "Please select your branch");
       return;
     }
+<<<<<<< HEAD
     if ($wing.length == 0) {
       showToast(401, "Please select your zairza wing");
       return;
     }
+=======
+  
+>>>>>>> fd8c3b34ec11cd0abd2164a71e19a0e0f4c6d0de
   
     $("#update-icon").hide();
     $("#update-btn span").text("");
@@ -169,6 +113,7 @@ function toggleFieldVisibility(ele) {
   
     let data = {
       email: $email,
+<<<<<<< HEAD
       registrationNo: $registration_no,
       branch: $branch,
       wing: $wing,
@@ -177,20 +122,35 @@ function toggleFieldVisibility(ele) {
     $.ajax({
       type: "PUT",
       url: "/api/user/edit",
+=======
+      regNo: $registration_no,
+      branch: $branch,
+      name: $name,
+    };
+    console.table(data);
+    $.ajax({
+      type: "POST",
+      url: "/profile",
+>>>>>>> fd8c3b34ec11cd0abd2164a71e19a0e0f4c6d0de
       data: data,
       dataType: "json",
     })
       .done(function (data) {
+<<<<<<< HEAD
         if (data.message) {
           validate("restricted")
         } else {
           validate("success");
         }
+=======
+          validate("success");
+>>>>>>> fd8c3b34ec11cd0abd2164a71e19a0e0f4c6d0de
       })
       .fail(function (err) {
         validate(err);
       });
   }
+<<<<<<< HEAD
   
   function logout() {
     firebase
@@ -206,6 +166,9 @@ function toggleFieldVisibility(ele) {
         showToast(500, error.message);
       });
   }
+=======
+
+>>>>>>> fd8c3b34ec11cd0abd2164a71e19a0e0f4c6d0de
   
   function setState(state, element) {
     // elApp.dataset.prevState = state;
