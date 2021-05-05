@@ -6,6 +6,7 @@ const express = require("express"),
     router = express.Router(),
     ejs = require("ejs"),
     nodemailer = require("nodemailer"),
+    path = require("path"),
     mongoose = require('mongoose');
 
 
@@ -114,19 +115,19 @@ router.post("/signup", function (req, res) {
             });
         }
         passport.authenticate("local")(req, res, () => {
-            ejs.renderFile(__dirname + "/mailTemplate.ejs", { name: req.user.name, zid: req.user.regNo }, (err, data) => {
+            ejs.renderFile(__dirname + "/mailTemplate.ejs", { name: req.body.name, zid: req.body.regNo }, (err, data) => {
                 if (err) {
                     console.log(err)
                 }
                 // TODO: make email template to send registered
                 transporter.sendMail({
                     from: process.env.MAIL,
-                    to: req.user.username,
+                    to: req.body.username,
                     subject: 'Zairzest | Registration Successful',
                     attachments: [
                         {
                           filename: "Zairzest.png",
-                          path: path.join(__dirname, "..", "public/images/zairzest.png"),
+                          path: path.join(__dirname, "../../", "public/images/zairzest.png"),
                           cid:"logo"
                         }
                       ],
