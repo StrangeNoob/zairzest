@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#FF7610" />
     <link rel="icon" type="image/png" href="/images/Visual.webp" />
-    <title>My Profile | ZairzZest</title>
+    <title>My Profile | ZairZest</title>
     <link
       href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
       rel="stylesheet"
@@ -18,9 +18,11 @@
     <link rel="stylesheet" href="/css/profile.css" />
   </head>
   <body>
-    <%- include('../partials/toast.ejs') %>
-
+    
     <section>
+      <%- include('../partials/toast.ejs') %>
+      <%- include('../partials/preloader.ejs') %>
+
       <div class="container rounded-lg" style="height:900px">
         <div class="user signinBx">
           <div class="formBx">
@@ -43,6 +45,15 @@
                       placeholder="Name"
                        <% } %> 
                       />
+                      <div
+                          class="absolute inset-y-0 right-0 flex items-center px-2"
+                        >
+                        <% myClass = (user.name)?'bxs-lock':'bxs-lock-open'; %>
+                          <span
+                            class="bg-gray-200 hover:bg-gray-300 rounded px-2 py-1 text-sm text-gray-600 font-mono cursor-pointer js-password-label"
+                            onclick="toggleFieldVisibility($(this))">
+                            <i class="bx <%= myClass %>" style="color: forestgreen"></i></span>
+                        </div>
                      </div>
                     <div class="relative">
                       <input
@@ -57,8 +68,16 @@
                       placeholder="Email Address"
                        <% } %> 
                       />
-                      <% myClass = (user.name)?'bxs-lock':'bxs-lock-open'; %>
-                    </div>
+                      <div
+                          class="absolute inset-y-0 right-0 flex items-center px-2"
+                        >
+                      <% myClass = (user.username)?'bxs-lock':'bxs-lock-open'; %>
+                          <span
+                            class="bg-gray-200 hover:bg-gray-300 rounded px-2 py-1 text-sm text-gray-600 font-mono cursor-pointer js-password-label"
+                            onclick="toggleFieldVisibility($(this))">
+                            <i class="bx <%= myClass %>" style="color: forestgreen"></i></span>
+                        </div>
+                      </div>
                     <br>
                     <small class="text-red-500 hidden invalid_email"
                         >Invalid Email Address</small>
@@ -76,6 +95,7 @@
                       placeholder="Registration No."
                        <% } %> 
                       /> 
+                      
                       
                     </div>
 

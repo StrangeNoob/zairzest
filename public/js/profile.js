@@ -98,7 +98,7 @@ function toggleFieldVisibility(ele) {
   
     let data = {
       email: $email,
-      registrationNo: $registration_no,
+      regNo: $registration_no,
       branch: $branch,
       name: $name,
     };

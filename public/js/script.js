@@ -25,11 +25,16 @@ $(document).ready(function () {
     }
   });
 
+  $("#mob-menu li").on("click", function () {
+    $("#mob-menu").find("li.bg-focus").removeClass("bg-focus");
+    $(this).addClass("bg-focus");
+  })
 
-  const navSectionMap = [1, 2, 4, 5, 7, 9, 10];
-  $("#mob-menu li").each((index, element) => {
-    $(element).click(() => fullpage_api.moveTo(navSectionMap[index]));
-  });
+
+  // const navSectionMap = [1, 2, 4, 5, 7, 9, 10];
+  // $("#mob-menu li").each((index, element) => {
+  //   $(element).click(() => fullpage_api.moveTo(navSectionMap[index]));
+  // });
 
     function updateTimer() {
       future  = Date.parse("May 14, 2021 10:30:00");
