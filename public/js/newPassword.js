@@ -52,7 +52,7 @@ function callback(res) {
   if (res === "success") {
     showToast(200, "Password successfully changed 🙌");
   } else {
-    showToast(400, res.message);
+    showToast(400, res.responseJSON.message || "Sorry, There seems to be a problem at our end");
   }
   setTimeout(function () {
     if (res === "success") {
@@ -79,19 +79,24 @@ function updatePassword() {
   $("#update-btn span").text("");
   $("#update-btn").addClass("onclic", 50);
 
-  var code = new URL(window.location.href).searchParams.get("oobCode");
+  var code = new URL(window.location.href).searchParams.get("rid");
+  const data = {
+    password: $password
+  }
 
-  firebase.auth().confirmPasswordReset(code, $password)
-    .then(function () {
-      // Update successful.
-      validate("success")
-      setTimeout(function (){
-        window.location.replace("/auth#signin");
-      },1000);
+  $.ajax({
+    type: "POST",
+    url: `/resetpassword/${code}`,
+    data: data,
+    dataType: "json",
+  })
+    .done(function (data) {
+      // console.log(data)
+      validate("success");
     })
-    .catch(function (error) {
-      // An error happened.
-      validate(error)
+    .fail(function (err) {
+      // console.log("error")
+      validate(err);
     });
 }
 

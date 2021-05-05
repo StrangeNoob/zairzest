@@ -19,7 +19,7 @@ function callback(req, res) {
       showToast(200, "Successfully signed up 🤝");
     }
   } else {
-    showToast(res.errorCode, res.errorMessage);
+    showToast(res.errorCode, res.responseJSON.message || "Sorry, There seems to be a problem at our end");
   }
   setTimeout(function () {
     // $(`#${req}-btn`).removeClass("validate");
@@ -134,11 +134,6 @@ function authenticate(req) {
     .fail(function (err) {
       validate(req, err);
     });
-  if (req == "signup") {
-      
-  } else if (req == "signin") {
-    
-  }
 }
 
 

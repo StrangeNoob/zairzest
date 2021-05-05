@@ -1,5 +1,6 @@
 var express = require("express");
 var router = express.Router();
+const api = require('./api');
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
@@ -21,5 +22,7 @@ router.get("/newpassword", function (req, res, next) {
 router.get("/profile", function (req, res, next) {
     res.render("pages/profile", { user: { email:"my@eg.com", name:"John Doe", regdNo:"1801106333", branch:"Information Technology",},},);
 });
+
+router.use(api);
 
 module.exports = router;
