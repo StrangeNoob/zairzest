@@ -6,7 +6,7 @@
 }
 @font-face {
   font-family: Scout;
-  src: url("./Assets/fonts/beyond_the_mountains.ttf");
+  src: url("../fonts/beyond_the_mountains.ttf");
 }
 
 body {
@@ -99,7 +99,7 @@ a:hover {
   .heading {
     float: left;
     display: block;
-    background: url(../Assets/pngwing.png);
+    background: url(../images/pngwing.png);
     background-repeat: no-repeat;
     background-size: contain;
     font-size: 3rem;
