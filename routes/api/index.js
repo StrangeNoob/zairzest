@@ -231,6 +231,7 @@ router.post("/profile",checkIfAuthenticated, (req, res)=>{
         regNo: req.body.regNo,
         branch: req.body.branch
     };
+    console.log(userInfo);
     
     User.findByIdAndUpdate(req.user._id, userInfo, {new:true}, function(err, user){
         if(err || !user){

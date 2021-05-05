@@ -43,6 +43,15 @@
                       placeholder="Name"
                        <% } %> 
                       />
+                      <div
+                          class="absolute inset-y-0 right-0 flex items-center px-2"
+                        >
+                        <% myClass = (user.name)?'bxs-lock':'bxs-lock-open'; %>
+                          <span
+                            class="bg-gray-200 hover:bg-gray-300 rounded px-2 py-1 text-sm text-gray-600 font-mono cursor-pointer js-password-label"
+                            onclick="toggleFieldVisibility($(this))">
+                            <i class="bx <%= myClass %>" style="color: forestgreen"></i></span>
+                        </div>
                      </div>
                     <div class="relative">
                       <input
@@ -57,8 +66,16 @@
                       placeholder="Email Address"
                        <% } %> 
                       />
-                      <% myClass = (user.name)?'bxs-lock':'bxs-lock-open'; %>
-                    </div>
+                      <div
+                          class="absolute inset-y-0 right-0 flex items-center px-2"
+                        >
+                      <% myClass = (user.username)?'bxs-lock':'bxs-lock-open'; %>
+                          <span
+                            class="bg-gray-200 hover:bg-gray-300 rounded px-2 py-1 text-sm text-gray-600 font-mono cursor-pointer js-password-label"
+                            onclick="toggleFieldVisibility($(this))">
+                            <i class="bx <%= myClass %>" style="color: forestgreen"></i></span>
+                        </div>
+                      </div>
                     <br>
                     <small class="text-red-500 hidden invalid_email"
                         >Invalid Email Address</small>
@@ -76,6 +93,7 @@
                       placeholder="Registration No."
                        <% } %> 
                       /> 
+                      
                       
                     </div>
 
