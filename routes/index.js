@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-const api = require('./api');
+const api = require("./api");
 
 const redirectAuth = (req, res, next) => {
     if(req.isAuthenticated()){
@@ -13,14 +13,18 @@ const redirectAuth = (req, res, next) => {
 /* GET home page. */
 router.get("/", function (req, res, next) {
   let loggedIn = false;
-    if(req.isAuthenticated)
-        loggedIn = true;    
+  if(req.isAuthenticated)
+      loggedIn = true;    
 
   res.render("pages/index", { loggedIn });
 });
 
 router.get("/auth", function (req, res, next) {
-    res.render("pages/auth",);
+  res.render("pages/auth",);
+});
+
+router.get("/comingsoon", function (req, res, next) {
+  res.render("pages/comingsoon", { loggedIn: false });
 });
 
 router.get("/forgot", function (req, res, next) {
