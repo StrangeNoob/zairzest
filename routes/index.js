@@ -38,6 +38,18 @@ router.get("/profile", redirectAuth ,function (req, res, next) {
     res.render("pages/profile", {user},);
 });
 
+router.get("/funevents", function (req, res, next) {
+  res.render("pages/comingsoon",);
+});
+
+router.get("/webinars", function (req, res, next) {
+  res.render("pages/comingsoon",);
+});
+
+router.get("/techevents", function (req, res, next) {
+  res.render("pages/comingsoon",);
+});
+
 router.use(api);
 
 module.exports = router;
