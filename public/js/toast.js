@@ -73,7 +73,7 @@ function showToast(status_code, message) {
       .addClass("toast--blue");
   } else if (status_code >= 400 && status_code < 500) {
     $(".toast__icon").empty().html(
-      `<img src="/images/auth/cancel.png"/>`
+      `<img src="/images/cancel.png"/>`
     );
     $("#toast")
       .removeClass("toast--green")
