@@ -42,7 +42,7 @@ router.get("/funevents", function (req, res, next) {
   res.render("pages/comingsoon",);
 });
 
-router.get("/webinars", function (req, res, next) {
+router.get("/workshops", function (req, res, next) {
   res.render("pages/comingsoon",);
 });
 
