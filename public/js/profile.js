@@ -15,7 +15,7 @@ function toggleFieldVisibility(ele) {
   function validate(res) {
     setTimeout(function () {
       $("#update-btn").removeClass("onclic");
-      if (res == "success" || res == "restricted") {
+      if (res == "success") {
         $("#update-btn").addClass("validate-success", 450, callback(res));
       } else {
         $("#update-btn").addClass("validate-fail", 450, callback(res));
@@ -26,9 +26,7 @@ function toggleFieldVisibility(ele) {
   function callback(res) {
     if (res === "success") {
       showToast(200, "Profile updated successfully 🙌");
-    } else if (res == "restricted") {
-      showToast(200, "Your registration number is not registered at Zairza. Please contact us to register you at Zairza")
-    } else {
+    }  else {
       showToast(res.status, res.message);
     }
     setTimeout(function () {
@@ -70,7 +68,7 @@ function toggleFieldVisibility(ele) {
   function updateProfile() {
     $email = $("#profile_form input[type='email']").val();
     $registration_no = $("#profile_form #regno").val();
-    $branch = $("#profile_form #branch").val()[0];
+    $branch = $("#profile_form #branch").val();
     $name = $("#profile_form #name").val();
 
     if ($name.length == 0) {
@@ -92,10 +90,7 @@ function toggleFieldVisibility(ele) {
       showToast(401, "Please select your branch");
       return;
     }
-    if ($wing.length == 0) {
-      showToast(401, "Please select your zairza wing");
-      return;
-    }
+  
   
     $("#update-icon").hide();
     $("#update-btn span").text("");
@@ -103,43 +98,25 @@ function toggleFieldVisibility(ele) {
   
     let data = {
       email: $email,
-      registrationNo: $registration_no,
+      regNo: $registration_no,
       branch: $branch,
-      wing: $wing,
       name: $name,
     };
+    console.table(data);
     $.ajax({
-      type: "PUT",
-      url: "/api/user/edit",
+      type: "POST",
+      url: "/profile",
       data: data,
       dataType: "json",
     })
       .done(function (data) {
-        if (data.message) {
-          validate("restricted")
-        } else {
           validate("success");
-        }
       })
       .fail(function (err) {
         validate(err);
       });
   }
-  
-  function logout() {
-    firebase
-      .auth()
-      .signOut()
-      .then(() => {
-        // Sign-out successful.
-  
-        window.location.href = "/";
-      })
-      .catch((error) => {
-        // An error happened.
-        showToast(500, error.message);
-      });
-  }
+
   
   function setState(state, element) {
     // elApp.dataset.prevState = state;

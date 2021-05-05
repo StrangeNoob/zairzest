@@ -38,7 +38,7 @@ function callback(req, res) {
       if (nextPage) {
         window.location.replace(nextPage);
       } else {
-        window.location.replace("/me");
+        window.location.replace("/profile");
       }
     }
   }, 1250);
@@ -87,13 +87,13 @@ function authenticate(req) {
       return;
     }
     if (
-      !validateRegistrationNumber($registration_no) ||
-      $registration_no.length == 0
+      !validateRegistrationNumber($reg_no) ||
+      $reg_no.length == 0
     ) {
       showToast(401, "Please enter a valid registration number 🔐");
       return;
     }
-    if ($branch == null) {
+    if ($branch.length == 0) {
       showToast(401, "Please select your branch");
       return;
     }
@@ -112,7 +112,7 @@ function authenticate(req) {
     data = {
       email: $email,
       password: $password,
-      regdNo: $reg_no,
+      regNo: $reg_no,
       branch: $branch[0],
       name: $name,
     };

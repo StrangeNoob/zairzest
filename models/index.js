@@ -27,10 +27,32 @@ const userSchema = new mongoose.Schema({
             "Physics",
             "Chemistry",
         ],
+    },
+    },  
+    {
+        strict: true,
+        versionKey: false,
+        timestamps: { createdAt: "createdAt", updatedAt: "updatedAt" },
     }
-});
+);
 
 userSchema.plugin(localMongoose);
+
+userSchema.statics.serializeUser = function() {
+    return function(user, cb) {
+        cb(null, user.id);
+    }
+};
+
+userSchema.statics.deserializeUser = function() {
+    var self = this;
+
+    return function(id, cb) {
+        self.findOne({ _id:id }, cb);
+    }
+};
+
+
 
 const User = mongoose.model('User', userSchema);
 

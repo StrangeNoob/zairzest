@@ -6,6 +6,7 @@ const express = require("express"),
     router = express.Router(),
     ejs = require("ejs"),
     nodemailer = require("nodemailer"),
+    path = require("path"),
     mongoose = require('mongoose');
 
 
@@ -42,11 +43,11 @@ mongoose.connect(mongourl, {
 
 // Temporary test mailing setup
 const transporter = nodemailer.createTransport({
-    host: 'smtp.ethereal.email',
+    host: process.env.HOST,
     port: 587,
     auth: {
-        user: 'alexys45@ethereal.email',
-        pass: 'qX8zZT2Nfe9ZeMJFBa'
+        user: process.env.MAIL,
+        pass: process.env.PASS,
     }
 });
 
@@ -114,15 +115,22 @@ router.post("/signup", function (req, res) {
             });
         }
         passport.authenticate("local")(req, res, () => {
-            ejs.renderFile(__dirname + "/mailTemplate.ejs", { name: req.user.name }, (err, data) => {
+            ejs.renderFile(__dirname + "/mailTemplate.ejs", { name: req.body.name, zid: req.body.regNo }, (err, data) => {
                 if (err) {
                     console.log(err)
                 }
                 // TODO: make email template to send registered
                 transporter.sendMail({
-                    from: 'Zairzest Team, CETB',
-                    to: req.user.username,
+                    from: process.env.MAIL,
+                    to: req.body.username,
                     subject: 'Zairzest | Registration Successful',
+                    attachments: [
+                        {
+                          filename: "Zairzest.png",
+                          path: path.join(__dirname, "../../", "public/images/zairzest.png"),
+                          cid:"logo"
+                        }
+                      ],
                     html: data
                 }, function (error, info) {
                     if (error) {
@@ -172,10 +180,10 @@ router.post('/forgotpassword', (req, res) => {
                 // Send an E-Mail with a password reset link with id of the request
                 // TODO: use the hosted URL in email
                 transporter.sendMail({
-                    from: 'Zairzest Team, CETB',
+                    from: process.env.MAIL,
                     to: user.username,
                     subject: 'Zairzest | Password reset',
-                    text: `Hi, ${user.name}\t\nWe received a request to reset your Zairzest password. If this wasn't you, you can safely ignore this email, otherwise please go to the following link to reset your password:\nhttps://localhost:3000/newpassword?rid=${resetRequest._id}\n\nThe Zairzest Team`,
+                    text: `Hi, ${user.name}\t\nWe received a request to reset your Zairzest password. If this wasn't you, you can safely ignore this email, otherwise please go to the following link to reset your password:\n${req.protocol + '://' + req.get('host')}/newpassword?rid=${resetRequest._id}\n\nThe Zairzest Team`,
                 }, function (error, info) {
                     if (error) {
                         res.status(500);
@@ -223,7 +231,13 @@ router.post('/resetpassword/:resetRequestID', function (req, res, next) {
     });
 });
 
-// Profiel update API
+// User data api
+router.get("/user/me",checkIfAuthenticated, (req, res)=>{
+    res.send(req.user);
+})
+
+
+// Profile update API
 router.post("/profile",checkIfAuthenticated, (req, res)=>{
     const userInfo = {
         username: req.body.email,
