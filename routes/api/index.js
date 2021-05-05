@@ -1,13 +1,10 @@
 const assert = require('assert');
-const { EEXIST } = require('constants');
 
 const express = require("express"),
     passport = require("passport"),
-    localStrategy = require("passport-local"),
     models = require("../../models"),
     router = express.Router(),
     ejs = require("ejs"),
-    path = require("path"),
     nodemailer = require("nodemailer"),
     mongoose = require('mongoose');
 
@@ -20,7 +17,7 @@ const {
     ResetRequest
 } = models;
 
-const mongourl="mongodb+srv://m001-student:biswajit@cluster0.gzrih.mongodb.net/Zairzest?retryWrites=true&w=majority";   //TODO:change the url while hosting
+const mongourl=process.env.MONGO_URI;   //TODO:change the url while hosting
 
 // TODO: SETUP DATABASE
 mongoose.connect(mongourl, {
@@ -60,6 +57,16 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 router.use(passport.initialize());
 router.use(passport.session());
+
+
+const checkIfAuthenticated = (req, res, next) => {
+  console.log(req.user,req.isAuthenticated());
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.status(404).json({ status: "fail", message: "Not Authenticated" });
+};
+
 
 
 router.get("/logout", function (req, res) {
@@ -133,6 +140,8 @@ router.post("/signup", function (req, res) {
     });
 });
 
+
+
 // Forgot password form posts here with username(email address) in body
 router.post('/forgotpassword', (req, res) => {
     User.findOne({
@@ -151,7 +160,7 @@ router.post('/forgotpassword', (req, res) => {
             const resetRequest = new ResetRequest({
                 r_id: user._id,
             });
-
+            
             // save the request to the database
             resetRequest.save((err, request) => {
                 if (err) {
@@ -159,7 +168,7 @@ router.post('/forgotpassword', (req, res) => {
                     res.send({status: 'fail', message: err.message});
                     return;
                 }
-
+                
                 // Send an E-Mail with a password reset link with id of the request
                 // TODO: use the hosted URL in email
                 transporter.sendMail({
@@ -197,22 +206,41 @@ router.post('/resetpassword/:resetRequestID', function (req, res, next) {
                         res.send({status: 'fail', message});
                     } else {
                         updatedUser.save()
-                            .then(() => {
-                                message = "Your password has been successfully reset. Please login to continue";
-                                res.status(200);
-                                res.send({status: 'success', message});
-                            })
-                            .catch(saveError => {
-                                message = "Sorry, There seems to be a problem at our end";
-                                res.status(500);
-                                res.send({status: 'fail', message});
-                            });
+                        .then(() => {
+                            message = "Your password has been successfully reset. Please login to continue";
+                            res.status(200);
+                            res.send({status: 'success', message});
+                        })
+                        .catch(saveError => {
+                            message = "Sorry, There seems to be a problem at our end";
+                            res.status(500);
+                            res.send({status: 'fail', message});
+                        });
                     }
                 });
             });
         }
     });
 });
+
+// Profiel update API
+router.post("/profile",checkIfAuthenticated, (req, res)=>{
+    const userInfo = {
+        username: req.body.email,
+        name: req.body.name,
+        regNo: req.body.regNo,
+        branch: req.body.branch
+    };
+    
+    User.findByIdAndUpdate(req.user._id, userInfo, {new:true}, function(err, user){
+        if(err || !user){
+            return res.status(500).send({status: 'fail', message: "Error in updating profile"});
+        }
+        res.status(200).json({ status: "success", user, message:"Successfully Updated" });
+    });
+    
+});
+
 
 // Event API
 
