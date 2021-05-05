@@ -93,7 +93,7 @@ function authenticate(req) {
       showToast(401, "Please enter a valid registration number 🔐");
       return;
     }
-    if ($branch == null) {
+    if ($branch.length == 0) {
       showToast(401, "Please select your branch");
       return;
     }
