@@ -23,14 +23,14 @@ body {
   top: 0;
   z-index: 100;
   position: fixed;
-  height: 6rem;
+  height: 5rem;
   will-change: height;
   width: 100%;
   transition: all 300ms ease;
 }
 
 .navbar-fixed {
-  height: 5rem;
+  height: 4rem;
   box-shadow: 2px 5px 5px rgb(241, 233, 233);
 }
 
@@ -43,13 +43,13 @@ body {
   padding: 0;
 }
 
-.bg-blue:hover {
-  background-color: #1071ff;
+.bg-green:hover {
+  background-color: #4C6E4E;
   cursor: pointer;
 }
 
 .bg-focus {
-  background-color: #1071ff;
+  background-color: #4C6E4E;
   color: #ffffff;
   cursor: pointer;
   transition: all 400ms ease-in-out;
@@ -60,7 +60,7 @@ body {
 }
 
 .icon:hover {
-  color: #1071ff;
+  color: #4C6E4E;
   cursor: pointer;
 }
 
@@ -126,20 +126,20 @@ body {
 
 .cta-btn {
   /* background-color: #1471FF; */
-  color: #1471ff;
+  color: #4C6E4E;
   width: 280px;
   outline: none;
   cursor: pointer;
   background: none;
   transition: 0.5s;
-  border: 2px solid #1471ff;
+  border: 2px solid #4C6E4E;
 }
 .cta-btn:hover {
   border: none;
   color: white;
   font-size: 18px;
   transform: scale(1.1);
-  background-color: #1471ff;
+  background-color: #4C6E4E;
   transition: all 0.3s ease-in-out;
 }
 
@@ -158,7 +158,7 @@ body {
 
 .showHide {
   /* background-color: #1471FF; */
-  color: #1471ff;
+  color: #4C6E4E;
   width: 280px;
   margin-top: 2rem;
   margin-bottom: 10rem;
@@ -166,14 +166,14 @@ body {
   cursor: pointer;
   background: none;
   transition: 0.5s;
-  border: 2px solid #1471ff;
+  border: 2px solid #4C6E4E;
 }
 .showHide:hover {
   border: none;
   color: white;
   font-size: 18px;
   transform: scale(1.1);
-  background-color: #1471ff;
+  background-color: #4C6E4E;
   transition: all 0.3s ease-in-out;
 }
 
@@ -835,6 +835,17 @@ body {
   display: block;
   font-weight: 400;
 }
+
+.top-row > img {
+  width:30rem;
+  height:auto;
+}
+
+.bushes{
+  width:20rem;
+  height:auto;
+}
+
 @media screen and (max-width: 767px) {
   #timer {
   font-weight: 100;
