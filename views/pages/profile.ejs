@@ -18,6 +18,8 @@
     <link rel="stylesheet" href="/css/profile.css" />
   </head>
   <body>
+    <%- include('../partials/toast.ejs') %>
+
     <section>
       <div class="container rounded-lg" style="height:900px">
         <div class="user signinBx">
@@ -47,9 +49,9 @@
                         class="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:bg-white"
                         type="email" <%
                         if
-                        (user.email){
+                        (user.username){
                         %>
-                      value="<%= user.email %>" 
+                      value="<%= user.username %>" 
                       readonly
                       <% } else { %>
                       placeholder="Email Address"
@@ -67,9 +69,9 @@
                         type="text"
                         oninput="let p=this.selectionStart;this.value=this.value.toUpperCase();this.setSelectionRange(p, p);" <%
                         if
-                        (user.regdNo){
+                        (user.regNo){
                         %>
-                      value="<%= user.regdNo %>" 
+                      value="<%= user.regNo %>" 
                       <% } else { %>
                       placeholder="Registration No."
                        <% } %> 
