@@ -835,6 +835,17 @@ body {
   display: block;
   font-weight: 400;
 }
+
+.top-row > img {
+  width:30rem;
+  height:auto;
+}
+
+.bushes{
+  width:20rem;
+  height:auto;
+}
+
 @media screen and (max-width: 767px) {
   #timer {
   font-weight: 100;
