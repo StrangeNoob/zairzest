@@ -50,8 +50,7 @@
       <header class="navbar bg-white lg:flex lg:justify-between lg:items-center sm:px-16 sm:py-6">
         <div class="flex justify-between items-center px-4 py-3 sm:p-0">
           <div class="pt-3 sm:pt-0">
-            <img class="h-6 cursor-pointer" src="/images/zairzest.png" 
-              ">
+            <img class="h-6 cursor-pointer" src="/images/zairzest.png">
           </div>
           <div class="lg:hidden float-right">
             <button class="menu text-gray-500 hover:text-black focus:outline-none"
@@ -67,23 +66,23 @@
           </div>
         </div>
         <ul id="mob-menu" class="lg:flex lg:justify-between lg:w-8/12 px-2 pt-2 pb-4 hidden bg-white">
-          <a href="#home"><li class="block hover:text-white px-2 py-1 lg:my-0 my-1 lg:ml-2 font-normal bg-blue rounded bg-focus">Home</li></a>
-          <a href="#about"><li class="block hover:text-white px-2 py-1 lg:my-0 my-1 lg:ml-2 font-normal bg-blue rounded">About</li></a>
-          <a href="#event"><li class="block hover:text-white px-2 py-1 lg:my-0 my-1 lg:ml-2 font-normal bg-blue rounded">Event</li></a>
-          <a href="#contact"><li class="block hover:text-white px-2 py-1 lg:my-0 my-1 lg:ml-2 font-normal bg-blue rounded">Contact</li><</a>
+          <a href="#home"><li class="block hover:text-white px-2 py-1 lg:my-0 my-1 lg:ml-2 font-normal bg-green rounded bg-focus">Home</li></a>
+          <a href="#about"><li class="block hover:text-white px-2 py-1 lg:my-0 my-1 lg:ml-2 font-normal bg-green rounded">About</li></a>
+          <a href="#event"><li class="block hover:text-white px-2 py-1 lg:my-0 my-1 lg:ml-2 font-normal bg-green rounded">Event</li></a>
+          <a href="#contact"><li class="block hover:text-white px-2 py-1 lg:my-0 my-1 lg:ml-2 font-normal bg-green rounded">Contact</li></a>
           <% if(loggedIn){ %>
             <a href="/me" id="user">
-              <li class="block hover:text-white px-2 py-1 lg:my-0 my-1 lg:ml-2 font-normal bg-blue rounded" id="authRoute">Dashboard</li>
+              <li class="block hover:text-white px-2 py-1 lg:my-0 my-1 lg:ml-2 font-normal bg-green rounded" id="authRoute">Dashboard</li>
             </a>
           <% } else { %>
             <a href="/auth#signin" id="user">
-              <li class="block hover:text-white px-2 py-1 lg:my-0 my-1 lg:ml-2 font-normal bg-blue rounded" id="authRoute">Login</li>
+              <li class="block hover:text-white px-2 py-1 lg:my-0 my-1 lg:ml-2 font-normal bg-green rounded" id="authRoute">Login</li>
             </a>
           <% } %>
         </ul>
       </header>
     </section>
-      <section id="home" class="mt:24 sm:pt-0 h-screen section flex flex-col justify-between items-center w-full">
+      <section id="home" class="mt-16 lg:mt-20 sm:pt-0 h-screen section flex flex-col justify-between items-center w-full">
             <div class="top-row" >
               <img src="/images/top-boards.gif" alt="">
             </div>
