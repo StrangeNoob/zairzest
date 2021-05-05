@@ -18,8 +18,8 @@ router.get("/newpassword", function (req, res, next) {
     res.render("pages/newPassword", { loggedIn: false });
 });
 
-
-
-
+router.get("/profile", function (req, res, next) {
+    res.render("pages/profile", { loggedIn: false });
+});
 
 module.exports = router;
