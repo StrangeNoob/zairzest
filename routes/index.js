@@ -12,10 +12,7 @@ const redirectAuth = (req, res, next) => {
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
-  let loggedIn = false;
-    if(req.isAuthenticated)
-        loggedIn = true;    
-
+  let loggedIn = req.isAuthenticated();
   res.render("pages/index", { loggedIn });
 });
 
@@ -31,7 +28,7 @@ router.get("/newpassword", function (req, res, next) {
     res.render("pages/newPassword",);
 });
 
-router.get("/profile", function (req, res, next) {
+router.get("/profile", redirectAuth ,function (req, res, next) {
     user = req.user;
     console.log(user);
     res.render("pages/profile", {user},);
