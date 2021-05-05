@@ -19,7 +19,7 @@ router.get("/newpassword", function (req, res, next) {
 });
 
 router.get("/profile", function (req, res, next) {
-    res.render("pages/profile", { loggedIn: false });
+    res.render("pages/profile", { user: { email:"my@eg.com", name:"John Doe", regdNo:"1801106333", branch:"Information Technology",},},);
 });
 
 module.exports = router;
