@@ -2,6 +2,14 @@ var express = require("express");
 var router = express.Router();
 const api = require('./api');
 
+const redirectAuth = (req, res, next) => {
+    if(req.isAuthenticated()){
+        return next();
+    }
+    return res.redirect(`/auth?next=${req.url}`);
+}
+
+
 /* GET home page. */
 router.get("/", function (req, res, next) {
   res.render("pages/index", { loggedIn: false });

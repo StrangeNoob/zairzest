@@ -223,7 +223,13 @@ router.post('/resetpassword/:resetRequestID', function (req, res, next) {
     });
 });
 
-// Profiel update API
+// User data api
+router.get("/user/me",checkIfAuthenticated, (req, res)=>{
+    res.send(req.user);
+})
+
+
+// Profile update API
 router.post("/profile",checkIfAuthenticated, (req, res)=>{
     const userInfo = {
         username: req.body.email,
