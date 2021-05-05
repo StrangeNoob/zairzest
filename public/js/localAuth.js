@@ -82,12 +82,25 @@ function authenticate(req) {
     return;
   }
   if (req === "signup") {
+    if ($name.length == 0) {
+      showToast(401, "Please enter your name 🔐");
+      return;
+    }
+    if (
+      !validateRegistrationNumber($registration_no) ||
+      $registration_no.length == 0
+    ) {
+      showToast(401, "Please enter a valid registration number 🔐");
+      return;
+    }
+    if ($branch == null) {
+      showToast(401, "Please select your branch");
+      return;
+    }
     if (!matchPassword($password, $confirm_password)) {
       return;
     }
-    if(!(validateRegistrationNumber($reg_no))){
-      return;
-    }
+
   }
   $(`#${req}-svg`).hide();
   $(`#${req}-btn span`).text("");

@@ -10,70 +10,7 @@ function toggleFieldVisibility(ele) {
       ele.children().removeClass("bxs-lock-open").addClass("bxs-lock");
     }
   }
-  
-  function ThirdPartyAuthenticate(provider_name, state, element) {
-  
-    var provider, providerId;
-    if (provider_name == "Google") {
-      provider = new firebase.auth.GoogleAuthProvider();
-      providerId = "google.com";
-    } else if (provider_name == "Github") {
-      provider = new firebase.auth.GithubAuthProvider();
-      providerId = "github.com";
-    }
-    if (!state) {
-      setState("pending", element);
-      firebase.auth().onAuthStateChanged((user) => {
-        if (user) {
-          user
-            .unlink(providerId)
-            .then(async (result) => {
-              // Auth provider unlinked from account
-              // ...
-              setState("off", element);
-              showToast(200, `${provider_name} account disconnected 😞`);
-              const token = await user.getIdToken(true);
-              $.cookie("zToken", token);
-            })
-            .catch((error) => {
-              // An error happened
-              // ...
-              setState("on", element);
-              showToast(400, error.message);
-            });
-        } else {
-          window.location.replace("/auth#signin");
-        }
-      });
-    } else if (state) {
-      setState("pending", element);
-      firebase.auth().onAuthStateChanged((user) => {
-        if (user) {
-          user
-            .linkWithPopup(provider)
-            .then(async (result) => {
-              // Accounts successfully linked.
-              var credential = result.credential;
-              var user = result.user;
-              let element = $(
-                `.connect[data-provider=${provider_name.toLowerCase()}]`
-              );
-              setState("on", element);
-              showToast(200, `${provider_name} account connected 😎`);
-              const token = await user.getIdToken(true);
-              $.cookie("zToken", token);
-              // ...
-            })
-            .catch((error) => {
-              // Handle Errors here.
-              // ...
-              setState("off", element);
-              showToast(409, error.message);
-            });
-        }
-      });
-    }
-  }
+
   
   function validate(res) {
     setTimeout(function () {
@@ -134,11 +71,8 @@ function toggleFieldVisibility(ele) {
     $email = $("#profile_form input[type='email']").val();
     $registration_no = $("#profile_form #regno").val();
     $branch = $("#profile_form #branch").val()[0];
-    $wing = $("#profile_form #wing").val();
     $name = $("#profile_form #name").val();
-    $newsletter_subscription = $("#profile_form #newsletter_toggle").prop(
-      "checked"
-    );
+
     if ($name.length == 0) {
       showToast(401, "Please enter your name 🔐");
       return;
