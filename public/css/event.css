@@ -1,0 +1,151 @@
+* {
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  clear: both;
+}
+@font-face {
+  font-family: Scout;
+  src: url("./Assets/fonts/beyond_the_mountains.ttf");
+}
+
+body {
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  background-position: center;
+  background-attachment: fixed;
+}
+.container {
+  padding: 6rem;
+}
+
+a:hover {
+  -webkit-box-shadow: 1px 1px 1px 2px rgb(64, 64, 80); /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+  -moz-box-shadow: 1px 1px 1px 2px rgb(64, 64, 80); /* Firefox 3.5 - 3.6 */
+  box-shadow: 1px 1px 2px 1px rgb(64, 64, 80); /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
+}
+
+.icon {
+  z-index: 5;
+  margin-left: 21rem;
+  margin-top: 13rem;
+}
+
+.info {
+  /* color: #faffd4; */
+  color: white;
+  margin-top: -6.8rem;
+  height: 2rem;
+  width: 18rem;
+  margin-left: 3.6rem;
+  font-weight: 900;
+  font-size: 1.25rem;
+  line-height: 1.5rem;
+}
+
+.heading {
+  text-align: center;
+  font-size: 5rem;
+  margin-top: 5rem;
+  margin-bottom: -4rem;
+  color: rgba(4, 120, 87, 0.8);
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.container {
+  margin-bottom: 10rem;
+}
+
+.event {
+  margin: 1rem;
+}
+
+.event-container {
+  position: relative;
+  background-color: #d4cc87;
+  height: 2rem;
+  padding: 0;
+  border-radius: 5rem;
+  animation: myanimation 1.5s ease-in-out infinite;
+}
+
+@keyframes myanimation {
+  0% {
+    top: -0.5rem;
+  }
+  /* 25% {
+    top: 0rem;
+  } */
+  50% {
+    top: 0.5rem;
+  }
+  /* 75% {
+    top: 0rem;
+  } */
+  100% {
+    top: -0.5rem;
+  }
+}
+.event-container h1 {
+  font-size: 1.2rem;
+  text-align: center;
+  color: #4f3e30;
+  font-weight: bolder;
+}
+
+@media screen and (max-width: 768px) {
+  .heading {
+    float: left;
+    display: block;
+    background: url(../Assets/pngwing.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    font-size: 3rem;
+    font-weight: 600;
+    color: #faffd4;
+  }
+  .dummy {
+    height: 18rem;
+    width: 18rem;
+  }
+  .wood {
+    height: 100%;
+    width: 100%;
+    margin-left: -1.5rem;
+  }
+  .event-container {
+    position: relative;
+    background-color: #d4cc87;
+    height: 2rem;
+    padding: 0;
+    border-radius: 5rem;
+    animation: myanimation 1.3s ease-in-out infinite;
+    margin-left: -1.8rem;
+  }
+
+  /* .info {
+    margin-left: -0.5rem;
+    height: 100%;
+  }
+  .info {
+    /* color: #faffd4; */
+  /* color: white;
+    margin-top: -5.8rem;
+    height: 100%;
+    width: 18rem;
+    margin-left: 1rem;
+    font-weight: 500;
+    font-size: 0.8rem;
+    line-height: 1.2rem; */
+  /* } */
+  /* .info h4 {
+    position: relative;
+    font-size: 1rem;
+    margin-top: 1.5rem;
+    width: 15rem;
+    margin-left: 2.25rem;
+    line-height: 1.2rem;
+  } */
+}

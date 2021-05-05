@@ -1,148 +1,256 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#FF7610" />
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#FF7610" />
+    <meta
+      name="description"
+      content="Website of our technical event of our club, Zairza."
+    />
+    <meta
+      name="keywords"
+      content="Zairza CET, Technical society of CET, Zairza"
+    />
+    <meta name="owner" content="Zairzest" />
+    <meta name="author" content="Zairzest" />
+    <meta name="generator" content="zairzest.zairza.in" />
+    <meta name="msapplication-config" content="none" />
 
-  <meta name="description"
-    content="Website of our technical event of our club, Zairza." />
-  <meta name="keywords"
-    content="Zairza CET, Technical society of CET, Zairza" />
-  <meta name="owner" content="Zairzest" />
-  <meta name="author" content="Zairzest" />
-  <meta name="generator" content="zairzest.zairza.in" />
-  <meta name="msapplication-config" content="none" />
+    <meta property="og:title" content="Zairzest" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://zairzest.zairza.in/" />
+    <meta
+      property="og:image"
+      content="https://zairzest.zairza.in/images/zairzest.png"
+    />
+    <meta property="og:site_name" content="Zairzest" />
+    <meta
+      property="og:description"
+      content="Website of the technical club of CETB, Zairza."
+    />
 
-  <meta property="og:title"
-    content="Zairzest" />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://zairzest.zairza.in/" />
-  <meta property="og:image" content="https://zairzest.zairza.in/images/zairzest.png" />
-  <meta property="og:site_name" content="Zairzest" />
-  <meta property="og:description"
-    content="Website of the technical club of CETB, Zairza." />
+    <link rel="icon" type="image/png" href="/images/Visual.webp" />
+    <link
+      href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.0.9/fullpage.min.css" integrity="sha512-8M8By+q+SldLyFJbybaHoAPD6g07xyOcscIOQEypDzBS+sTde5d6mlK2ANIZPnSyxZUqJfCNuaIvjBUi8/RS0w==" crossorigin="anonymous" /> -->
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <title>Zairzest</title>
+  </head>
 
-  <link rel="icon" type="image/png" href="/images/Visual.webp" />
-  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
-  <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" rel="stylesheet">
-  <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
-  <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
-  <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
-  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.0.9/fullpage.min.css" integrity="sha512-8M8By+q+SldLyFJbybaHoAPD6g07xyOcscIOQEypDzBS+sTde5d6mlK2ANIZPnSyxZUqJfCNuaIvjBUi8/RS0w==" crossorigin="anonymous" /> -->
-  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"></script>
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-  <link rel="stylesheet" href="/css/style.css">
-  <title>Zairzest</title>
-</head>
+  <body>
+    <!--js xor no-js -->
+    <div id="overlay w-screen h-screen">
+      <%- include('../partials/preloader.ejs') %>
+    </div>
 
-<body>
-  <!--js xor no-js -->
-  <div id="overlay w-screen h-screen">
-    <%- include('../partials/preloader.ejs') %>
-  </div>
-
-  <main class="js mb-20 sm:mb-0">
-    <section>
-      <header class="navbar bg-white lg:flex lg:justify-between lg:items-center sm:px-16 sm:py-6">
-        <div class="flex justify-between items-center px-4 py-3 sm:p-0">
-          <div class="pt-3 sm:pt-0">
-            <img class="h-6 cursor-pointer" src="/images/zairzest.png" 
-              ">
+    <main class="js mb-20 sm:mb-0">
+      <section>
+        <header
+          class="navbar bg-white lg:flex lg:justify-between lg:items-center sm:px-16 sm:py-6"
+        >
+          <div class="flex justify-between items-center px-4 py-3 sm:p-0">
+            <div class="pt-3 sm:pt-0">
+              <img class="h-6 cursor-pointer" src="/images/zairzest.png" ">
+            </div>
+            <div class="lg:hidden float-right">
+              <button
+                class="menu text-gray-500 hover:text-black focus:outline-none"
+                onclick="toggleMenu(); this.classList.toggle('opened');"
+                aria-label="Menu"
+              >
+                <svg class="h-8 w-8 fill-current" viewBox="0 0 100 100">
+                  <path
+                    class="line line1"
+                    d="M 20,29.000046 H 80.000231 C 80.000231,29.000046 94.498839,28.817352 94.532987,66.711331 94.543142,77.980673 90.966081,81.670246 85.259173,81.668997 79.552261,81.667751 75.000211,74.999942 75.000211,74.999942 L 25.000021,25.000058"
+                  />
+                  <path class="line line2" d="M 20,50 H 80" />
+                  <path
+                    class="line line3"
+                    d="M 20,70.999954 H 80.000231 C 80.000231,70.999954 94.498839,71.182648 94.532987,33.288669 94.543142,22.019327 90.966081,18.329754 85.259173,18.331003 79.552261,18.332249 75.000211,25.000058 75.000211,25.000058 L 25.000021,74.999942"
+                  />
+                </svg>
+              </button>
+            </div>
           </div>
-          <div class="lg:hidden float-right">
-            <button class="menu text-gray-500 hover:text-black focus:outline-none"
-              onclick="toggleMenu(); this.classList.toggle('opened');" aria-label="Menu">
-              <svg class="h-8 w-8 fill-current" viewBox="0 0 100 100">
-                <path class="line line1"
-                  d="M 20,29.000046 H 80.000231 C 80.000231,29.000046 94.498839,28.817352 94.532987,66.711331 94.543142,77.980673 90.966081,81.670246 85.259173,81.668997 79.552261,81.667751 75.000211,74.999942 75.000211,74.999942 L 25.000021,25.000058" />
-                <path class="line line2" d="M 20,50 H 80" />
-                <path class="line line3"
-                  d="M 20,70.999954 H 80.000231 C 80.000231,70.999954 94.498839,71.182648 94.532987,33.288669 94.543142,22.019327 90.966081,18.329754 85.259173,18.331003 79.552261,18.332249 75.000211,25.000058 75.000211,25.000058 L 25.000021,74.999942" />
-              </svg>
-            </button>
-          </div>
-        </div>
-        <ul id="mob-menu" class="lg:flex lg:justify-between lg:w-8/12 px-2 pt-2 pb-4 hidden bg-white">
-          <a href="#home"><li class="block hover:text-white px-2 py-1 lg:my-0 my-1 lg:ml-2 font-normal bg-blue rounded bg-focus">Home</li></a>
-          <a href="#about"><li class="block hover:text-white px-2 py-1 lg:my-0 my-1 lg:ml-2 font-normal bg-blue rounded">About</li></a>
-          <a href="#event"><li class="block hover:text-white px-2 py-1 lg:my-0 my-1 lg:ml-2 font-normal bg-blue rounded">Event</li></a>
-          <a href="#contact"><li class="block hover:text-white px-2 py-1 lg:my-0 my-1 lg:ml-2 font-normal bg-blue rounded">Contact</li><</a>
-          <% if(loggedIn){ %>
+          <ul
+            id="mob-menu"
+            class="lg:flex lg:justify-between lg:w-8/12 px-2 pt-2 pb-4 hidden bg-white"
+          >
+            <a href="#home"
+              ><li
+                class="block hover:text-white px-2 py-1 lg:my-0 my-1 lg:ml-2 font-normal bg-blue rounded bg-focus"
+              >
+                Home
+              </li></a
+            >
+            <a href="#about"
+              ><li
+                class="block hover:text-white px-2 py-1 lg:my-0 my-1 lg:ml-2 font-normal bg-blue rounded"
+              >
+                About
+              </li></a
+            >
+            <a href="/events"
+              ><li
+                class="block hover:text-white px-2 py-1 lg:my-0 my-1 lg:ml-2 font-normal bg-blue rounded"
+              >
+                Event
+              </li></a
+            >
+            <a href="#contact"
+              ><li
+                class="block hover:text-white px-2 py-1 lg:my-0 my-1 lg:ml-2 font-normal bg-blue rounded"
+              >
+                Contact
+              </li>
+            </a>
+            <% if(loggedIn){ %>
             <a href="/me" id="user">
-              <li class="block hover:text-white px-2 py-1 lg:my-0 my-1 lg:ml-2 font-normal bg-blue rounded" id="authRoute">Dashboard</li>
+              <li
+                class="block hover:text-white px-2 py-1 lg:my-0 my-1 lg:ml-2 font-normal bg-blue rounded"
+                id="authRoute"
+              >
+                Dashboard
+              </li>
             </a>
-          <% } else { %>
+            <% } else { %>
             <a href="/auth#signin" id="user">
-              <li class="block hover:text-white px-2 py-1 lg:my-0 my-1 lg:ml-2 font-normal bg-blue rounded" id="authRoute">Login</li>
+              <li
+                class="block hover:text-white px-2 py-1 lg:my-0 my-1 lg:ml-2 font-normal bg-blue rounded"
+                id="authRoute"
+              >
+                Login
+              </li>
             </a>
-          <% } %>
-        </ul>
-      </header>
-    </section>
-      <section id="home" class="mt:24 sm:pt-0 h-screen section flex flex-col justify-between items-center w-full">
-            <div class="top-row" >
-              <img src="/images/top-boards.gif" alt="">
-            </div>
-            <div id="timer" class="middle-row pt-6 text-lg md:text-2xl leading-tight text-center">
-            </div>
-            <div class="last-row flex justify-between w-full">
-              <img src="/images/left-bush.gif" alt="" class="lg:inline-flex hidden bushes">
-              <img class="lg:mx-0 mx-auto"  src="/images/middle-characters.gif" alt="">
-              <img src="/images/right-bush.gif" alt="" class="lg:inline-flex hidden bushes">
-            </div>  
+            <% } %>
+          </ul>
+        </header>
       </section>
-      <section id="about" class="pt-6 sm:pt-0 h-full my-20 section bg-cover px-8">
+      <section
+        id="home"
+        class="mt:24 sm:pt-0 h-screen section flex flex-col justify-between items-center w-full"
+      >
+        <div class="top-row">
+          <img src="/images/top-boards.gif" alt="" />
+        </div>
+        <div
+          id="timer"
+          class="middle-row pt-6 text-lg md:text-2xl leading-tight text-center"
+        ></div>
+        <div class="last-row flex justify-between w-full">
+          <img
+            src="/images/left-bush.gif"
+            alt=""
+            class="lg:inline-flex hidden bushes"
+          />
+          <img
+            class="lg:mx-0 mx-auto"
+            src="/images/middle-characters.gif"
+            alt=""
+          />
+          <img
+            src="/images/right-bush.gif"
+            alt=""
+            class="lg:inline-flex hidden bushes"
+          />
+        </div>
+      </section>
+      <section
+        id="about"
+        class="pt-6 sm:pt-0 h-full my-20 section bg-cover px-8"
+      >
         <div class="grid grid-cols-1 lg:grid-cols-2">
-          <div class="flex flex-col mt-8 sm:mt-0 justify-center mx-7 sm:pt-20 lg:order-1 order-last">
-            <h1 class="lg:text-5xl md:text-3xl text-xl leading-tight lg:text-left text-center text-dark">Mr Scout</h1>
-            <h3 class="lg:text-4xl md:text-2xl text-xl mt-7 lg:text-left text-center"><span style="color:#FF7610">Zest.
-              </span><span style="color:#1A1A1A">For. </span><span style="color:#1071FF">Tech.</span></h3>
-            <p class="mt-4 lg:mt-7 lg:w-2/3  text-gray-500 w-full lg:text-left text-justify">
-              “Technology is the campfire around which we tell our stories”.In the rush to get back to normal, 
-              use this time to explore the world not physically but with the mind. 
-              Transforming the Covid-Challenge as an opportunity Zairza brings you the virtual fest-"Zairzest" Buckle up to set out on a safari around the tech-forest of Zairzest. 
-              We shall lead you to explore the wilderness of various tech-stacks, dev branches, recursion trees, creatures like firefox and python. 
-              The Best is yet to come. Stay tuned for something awesome!.</p>
+          <div
+            class="flex flex-col mt-8 sm:mt-0 justify-center mx-7 sm:pt-20 lg:order-1 order-last"
+          >
+            <h1
+              class="lg:text-5xl md:text-3xl text-xl leading-tight lg:text-left text-center text-dark"
+            >
+              Mr Scout
+            </h1>
+            <h3
+              class="lg:text-4xl md:text-2xl text-xl mt-7 lg:text-left text-center"
+            >
+              <span style="color: #ff7610">Zest. </span
+              ><span style="color: #1a1a1a">For. </span
+              ><span style="color: #1071ff">Tech.</span>
+            </h3>
+            <p
+              class="mt-4 lg:mt-7 lg:w-2/3 text-gray-500 w-full lg:text-left text-justify"
+            >
+              “Technology is the campfire around which we tell our stories”.In
+              the rush to get back to normal, use this time to explore the world
+              not physically but with the mind. Transforming the Covid-Challenge
+              as an opportunity Zairza brings you the virtual fest-"Zairzest"
+              Buckle up to set out on a safari around the tech-forest of
+              Zairzest. We shall lead you to explore the wilderness of various
+              tech-stacks, dev branches, recursion trees, creatures like firefox
+              and python. The Best is yet to come. Stay tuned for something
+              awesome!.
+            </p>
           </div>
           <div class="lg:order-last order-1">
-            <img class="animated mx-auto" src="/images/mrscout.png" >
+            <img class="animated mx-auto" src="/images/mrscout.png" />
           </div>
         </div>
       </section>
-      <section id="event" class="pt-6 sm:pt-0 h-full my-20 section bg-cover px-8">
+      <section
+        id="event"
+        class="pt-6 sm:pt-0 h-full my-20 section bg-cover px-8"
+      >
         <%- include('../partials/eventcarousel.ejs') %>
-      </section>  
+      </section>
       <%- include('../partials/footer.ejs') %>
-  </main>
-  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.0.9/vendors/scrolloverflow.min.js"
+    </main>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.0.9/vendors/scrolloverflow.min.js"
     integrity="sha512-pYyQWhzi2lV+RM4GmaUA56VPL48oLVvsHmP9tuQ8MaZMDHomVEDjXXnfSVKXayy+wLclKPte0KbsuVoFImtE7w=="
     crossorigin="anonymous"></script> -->
-  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.0.9/fullpage.min.js"
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.0.9/fullpage.min.js"
     integrity="sha512-Gx/C4x1qubng2MWpJIxTPuWch9O88dhFFfpIl3WlqH0jPHtCiNdYsmJBFX0q5gIzFHmwkPzzYTlZC/Q7zgbwCw=="
     crossorigin="anonymous"></script> -->
     <!-- <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script> -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
-            integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
-            crossorigin="anonymous"
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+      integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+      crossorigin="anonymous"
     ></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"
-            integrity="sha512-3j3VU6WC5rPQB4Ld1jnLV7Kd5xr+cq9avvhwqzbH/taCRNURoeEpoPBK9pDyeukwSxwRPJ8fDgvYXd6SkaZ2TA=="
-            crossorigin="anonymous"
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"
+      integrity="sha512-3j3VU6WC5rPQB4Ld1jnLV7Kd5xr+cq9avvhwqzbH/taCRNURoeEpoPBK9pDyeukwSxwRPJ8fDgvYXd6SkaZ2TA=="
+      crossorigin="anonymous"
     ></script>
-  <script src="/js/script.js"></script>
+    <script src="/js/script.js"></script>
 
-  <script>
-    $(window).on("load", function() {
-      $('#overlay').fadeOut();
-    });
+    <script>
+      $(window).on("load", function () {
+        $("#overlay").fadeOut();
+      });
 
-    AOS.init();
-  </script>
-</body>
-
+      AOS.init();
+    </script>
+  </body>
 </html>
-
