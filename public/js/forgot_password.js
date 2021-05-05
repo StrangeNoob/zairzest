@@ -15,7 +15,7 @@ function callback(res) {
     showToast(200, "Magic link sent to this Email! 🙌");
   } else {
     // console.log(res)
-    showToast(400, res.message);
+    showToast(400, res.responseJSON.message || "Sorry, There seems to be a problem at our end");
   }
   setTimeout(function () {
     if (res === "success") {
@@ -52,35 +52,23 @@ function sendEmail() {
   $("#update-icon").hide();
   $("#update-btn span").text("");
   $("#update-btn").addClass("onclic", 50);
-  // console.log($email);
-  // const data = {
-  //   email: $email,
-  // };
-  // $.ajax({
-  //   type: "POST",
-  //   url: "/forgot",
-  //   data: data,
-  //   dataType: "json",
-  // })
-  //   .done(function (data) {
-  //     // console.log(data)
-  //     validate("success");
-  //   })
-  //   .fail(function (err) {
-  //     // console.log("error")
-  //     validate(err);
-  //   });
-  let auth = firebase.auth();
-
-  auth
-    .sendPasswordResetEmail($email)
-    .then(function () {
-      // Email sent.
+  console.log($email);
+  const data = {
+    email: $email,
+  };
+  $.ajax({
+    type: "POST",
+    url: "/forgotpassword",
+    data: data,
+    dataType: "json",
+  })
+    .done(function (data) {
+      // console.log(data)
       validate("success");
     })
-    .catch(function (error) {
-      // An error happened.
-      validate(error)
+    .fail(function (err) {
+      // console.log("error")
+      validate(err);
     });
 }
 
