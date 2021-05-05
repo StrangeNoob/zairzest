@@ -203,12 +203,12 @@
      font-family: "Montserrat";
      font-size: calc(var(--card-width) * var(--text-size-offset, 0.2));
      white-space: nowrap;
-     color: rgb(138, 163, 68);
+     color: black;
      width: fit-content;
   }
    .info .name, .info .location {
      text-transform: uppercase;
-     color: rgb(138, 163, 68);
+     color: black;
   }
    .info .location {
      font-weight: 800;
@@ -224,7 +224,7 @@
    .info .location::before, .info .location::after {
      content: "";
      position: absolute;
-     background: rgb(138, 163, 68);
+     background: black;
      left: 0%;
      transform: translate(calc(-1 * var(--mg-left)), -50%);
   }
@@ -241,7 +241,7 @@
    .info .description {
      --text-size-offset: 0.065;
      font-weight: 800;
-     color: rgb(138, 163, 68);
+     color: black
   }
    .info.current--info {
      opacity: 1;
