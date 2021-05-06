@@ -19,7 +19,6 @@ const {
 const mongourl=process.env.MONGO_URI;   //TODO:change the url while hosting
 const TEAM_ID_LENGTH = 6
 
-// TODO: SETUP DATABASE
 mongoose.connect(mongourl, {
     useNewUrlParser: true,
     useUnifiedTopology: true
