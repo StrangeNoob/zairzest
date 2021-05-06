@@ -4,16 +4,21 @@
     <span style="color:#1071FF">Ev</span><span style="color:#000">en</span><span style="color:#FF7610">ts</span> 
 </h1>
 <div id="app" class="container mx-auto">
-    <card data-image="/images/techevents.png" >
-       <h1 slot="header" class="card__title"> Tech Events</h1>
-    </card>
-    <card data-image="/images/workshop.png" >
-        <h1 slot="header" class="card__title"> Workshop</h1>
-    </card>
-    <card data-image="/images/funevents.png" >
-        <h1 slot="header" class="card__title"> Fun Events</h1>
-    </card>
-
+    <a href="/techevents">
+      <card data-image="/images/techevents.png"  >
+        <h1 slot="header" class="card__title"> Tech Events</h1>
+     </card>
+    </a>
+    <a href="/workshops">
+      <card data-image="/images/workshop.png" >
+          <h1 slot="header" class="card__title"> Workshops</h1>
+      </card>
+    </a>
+    <a href="/funevents">
+      <card data-image="/images/funevents.png" >
+          <h1 slot="header" class="card__title"> Fun Events</h1>
+      </card>
+    </a>
 </div>  
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.1/vue.min.js"></script>
 <script>
@@ -70,7 +75,7 @@ Vue.component('card', {
     },
     cardBgImage() {
       return {
-        backgroundImage: `url(${this.dataImage}), url(/images/xtasy.jpg)` };
+        backgroundImage: `url(${this.dataImage}), url(/images/scout.png)` };
 
     } },
 

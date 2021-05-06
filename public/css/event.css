@@ -8,7 +8,9 @@
   font-family: Scout;
   src: url("../fonts/beyond_the_mountains.ttf");
 }
-
+.Scout{
+  font-family: Scout;
+}
 body {
   background-repeat: no-repeat;
   background-size: cover;
