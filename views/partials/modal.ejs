@@ -1,15 +1,27 @@
-
-<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-<link rel="stylesheet" href="/css/registration.css" />
-<div class="min-h-screen modal flex items-center justify-center content-center px-4 rounded-lg">
-  <div class="max-w-4xl flex lg:flex-row flex-col card bg-white w-full rounded-lg shadow-xl">
-    <div class="image">
-      <img class="rounded-3xl" src="https://images.unsplash.com/photo-1616235352608-0c314f4b9027?ixid=MnwxMjA3fDB8MHx0b3BpYy1mZWVkfDY2fDZzTVZqVExTa2VRfHxlbnwwfHx8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60">
-      <a href><i class="fas fa-times-circle fa-3x close"></i></a>
-              </div>
-            <div class="event flex flex-col">
-                    <h2>Event Name</h2>
-                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Excepturi deserunt doloribus ducimus commodi dicta. Illum quos facilis dicta! Optio impedit repudiandae mollitia minus at magni debitis ipsam pariatur quis officia.</p>                    
-            </div>
+<link rel="stylesheet" href="/stylesheets/modal.css" />
+<script src="/js/modal.js"></script>
+<div class="mod" data-eventID="">
+  <div class="overlay"></div>
+  <div class="mod__contents mod--transition">
+    <a class="mod__close" href="#">✕</a>
+    <img id="mod__cover" onerror="this.src='/img/mrscout.png';" src="/img/mrscout.png" />
+    <div class="mod__text">
+      <h1 id="mod__title">Loading...</h1>
+      <p id="mod__desc">
+        Loading
+      </p>
+      <p id="mod__date_time_venue"></p>
+      <p class="" id="mod__rule_desc"> To check the Rules for this Event click the button <a id="mod__rule_link" href=""><button type="button" id="downloadbtn" class="btn btn-outline-dark btn-sm">Download</button></a></p>
+      <p class="" id="mod__form_desc"> To confirm your registration for this Event click the button<a id="mod__form_link" href=""><button type="button" id="formbtn" class="btn btn-outline-dark btn-sm">fill it up</button></a></p>
+      <%	if(currentUser){ %>
+          <button id="regbtn" class="btn btn-success hide"></button>
+      <% } else { %>
+        <a href="/login">Please Log In to register for events</a>
+      <% } %>
+      <div class="spinner__container">
+        <div class="spinner-border" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+    </div>
   </div>
- </div>

@@ -15,9 +15,9 @@ router.get("/", function (req, res, next) {
   res.render("pages/index", { loggedIn });
 });
 /* Get events page*/
-// router.get("/events", function (req, res, next) {
-//   res.render("pages/events", { loggedIn: false });
-// });
+router.get("/events", function (req, res, next) {
+  res.render("pages/events", { loggedIn: false });
+});
 
 router.get("/auth", function (req, res, next) {
   res.render("pages/auth");

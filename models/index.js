@@ -76,6 +76,14 @@ const eventSchema = new mongoose.Schema({
     date: Date,
     isListed: Boolean,
     max_participants: Number,
+    category: {
+        type: String,
+        enum: [
+            "Fun",
+            "Tech",
+            "Workshop"
+        ],
+    },
     organisers: [
         {
             name: String,
