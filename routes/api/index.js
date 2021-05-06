@@ -4,13 +4,8 @@ const express = require("express"),
     passport = require("passport"),
     models = require("../../models"),
     router = express.Router(),
-    ejs = require("ejs"),
-    nodemailer = require("nodemailer"),
-    path = require("path"),
     mongoose = require('mongoose'),
-    {
-        calculateSHA256
-    } = require('./util');
+    { calculateSHA256, sendMail } = require('./util');
 
 
 const {
@@ -33,27 +28,6 @@ mongoose.connect(mongourl, {
   mongoose.set('useFindAndModify', false);
   mongoose.set('useCreateIndex', true);
 
-// TODO: Setup mailing
-// const transporter = nodemailer.createTransport({
-//     service:"Gmail",
-//     auth:{
-//     type:"OAuth2",
-//       user:"",
-//       clientId: "",
-//       clientSecret: "",
-//       refreshToken: ""
-//     }
-//   });
-
-// Temporary test mailing setup
-const transporter = nodemailer.createTransport({
-    host: process.env.HOST,
-    port: 587,
-    auth: {
-        user: process.env.MAIL,
-        pass: process.env.PASS,
-    }
-});
 
 
 //Initialization of passportjs
@@ -119,31 +93,33 @@ router.post("/signup", function (req, res) {
             });
         }
         passport.authenticate("local")(req, res, () => {
-            ejs.renderFile(__dirname + "/mailTemplate.ejs", { name: req.body.name, zid: req.body.regNo }, (err, data) => {
-                if (err) {
-                    console.log(err)
-                }
-                // TODO: make email template to send registered
-                transporter.sendMail({
-                    from: process.env.MAIL,
-                    to: req.body.username,
-                    subject: 'Zairzest | Registration Successful',
-                    attachments: [
-                        {
-                          filename: "Zairzest.png",
-                          path: path.join(__dirname, "../../", "public/images/zairzest.png"),
-                          cid:"logo"
-                        }
-                      ],
-                    html: data
-                }, function (error, info) {
-                    if (error) {
-                        console.log("mail error", error);
-                    } else {
-                        console.log('Email sent: ' + info.response);
-                    }
-                });
-            });
+            sendMail(
+				{
+					email: req.body.username,
+					subject: "Zairzest | Registration Successful",
+					templateFile: "welcomeEmail.ejs",
+					values: { name: req.body.name, zid: req.body.regNo },
+					attachments: [
+						{
+							filename: "Zairzest.png",
+							path: path.join(
+								__dirname,
+								"../../",
+								"public/images/zairzest.png"
+							),
+							cid: "logo",
+						},
+					],
+				},
+				function (err, info) {
+					if (error) {
+						console.log("mail error", error);
+					} else {
+						console.log("Email sent: " + info.response);
+					}
+				}
+			);
+
             res.status(200);
             res.send({
                 status: 'success'
@@ -181,23 +157,34 @@ router.post('/forgotpassword', (req, res) => {
                     return;
                 }
                 
-                // Send an E-Mail with a password reset link with id of the request
-                // TODO: use the hosted URL in email
-                transporter.sendMail({
-                    from: process.env.MAIL,
-                    to: user.username,
-                    subject: 'Zairzest | Password reset',
-                    text: `Hi, ${user.name}\t\nWe received a request to reset your Zairzest password. If this wasn't you, you can safely ignore this email, otherwise please go to the following link to reset your password:\n${req.protocol + '://' + req.get('host')}/newpassword?rid=${resetRequest._id}\n\nThe Zairzest Team`,
-                }, function (error, info) {
-                    if (error) {
-                        res.status(500);
-                        res.send({status: 'fail', message: "Sorry, There seems to be a problem at our end"});
-                    } else {
-                        message = "Please check your E-Mail (also check your spam folder) for instructions on how to reset your password";
-                        res.status(200);
-                        res.send({status: 'success', message});
-                    }
-                });
+                sendMail(
+					{
+						email: user.username,
+						subject: "Zairzest | Password reset",
+						text: `Hi, ${
+							user.name
+						}\t\nWe received a request to reset your Zairzest password. If this wasn't you, you can safely ignore this email, otherwise please go to the following link to reset your password:\n${
+							req.protocol + "://" + req.get("host")
+						}/newpassword?rid=${
+							resetRequest._id
+						}\n\nThe Zairzest Team`,
+					},
+					function (error, info) {
+						if (error) {
+							res.status(500);
+							res.send({
+								status: "fail",
+								message:
+									"Sorry, There seems to be a probem at our end",
+							});
+						} else {
+							message =
+								"Please check your E-Mail (also check your spam folder) for instructions on how to reset your password";
+							res.status(200);
+							res.send({ status: "success", message });
+						}
+					}
+				);
             });
         }
     });
