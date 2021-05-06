@@ -4,10 +4,8 @@ const express = require("express"),
     passport = require("passport"),
     models = require("../../models"),
     router = express.Router(),
-    ejs = require("ejs"),
-    nodemailer = require("nodemailer"),
-    path = require("path"),
-    mongoose = require('mongoose');
+    mongoose = require('mongoose'),
+    { calculateSHA256, sendMail } = require('./util');
 
 
 const {
@@ -19,8 +17,8 @@ const {
 } = models;
 
 const mongourl=process.env.MONGO_URI;   //TODO:change the url while hosting
+const TEAM_ID_LENGTH = 6
 
-// TODO: SETUP DATABASE
 mongoose.connect(mongourl, {
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -29,27 +27,6 @@ mongoose.connect(mongourl, {
   mongoose.set('useFindAndModify', false);
   mongoose.set('useCreateIndex', true);
 
-// TODO: Setup mailing
-// const transporter = nodemailer.createTransport({
-//     service:"Gmail",
-//     auth:{
-//     type:"OAuth2",
-//       user:"",
-//       clientId: "",
-//       clientSecret: "",
-//       refreshToken: ""
-//     }
-//   });
-
-// Temporary test mailing setup
-const transporter = nodemailer.createTransport({
-    host: process.env.HOST,
-    port: 587,
-    auth: {
-        user: process.env.MAIL,
-        pass: process.env.PASS,
-    }
-});
 
 
 //Initialization of passportjs
@@ -115,31 +92,33 @@ router.post("/signup", function (req, res) {
             });
         }
         passport.authenticate("local")(req, res, () => {
-            ejs.renderFile(__dirname + "/mailTemplate.ejs", { name: req.body.name, zid: req.body.regNo }, (err, data) => {
-                if (err) {
-                    console.log(err)
-                }
-                // TODO: make email template to send registered
-                transporter.sendMail({
-                    from: process.env.MAIL,
-                    to: req.body.username,
-                    subject: 'Zairzest | Registration Successful',
-                    attachments: [
-                        {
-                          filename: "Zairzest.png",
-                          path: path.join(__dirname, "../../", "public/images/zairzest.png"),
-                          cid:"logo"
-                        }
-                      ],
-                    html: data
-                }, function (error, info) {
-                    if (error) {
-                        console.log("mail error", error);
-                    } else {
-                        console.log('Email sent: ' + info.response);
-                    }
-                });
-            });
+            sendMail(
+				{
+					email: req.body.username,
+					subject: "Zairzest | Registration Successful",
+					templateFile: "welcomeEmail.ejs",
+					values: { name: req.body.name, zid: req.body.regNo },
+					attachments: [
+						{
+							filename: "Zairzest.png",
+							path: path.join(
+								__dirname,
+								"../../",
+								"public/images/zairzest.png"
+							),
+							cid: "logo",
+						},
+					],
+				},
+				function (err, info) {
+					if (error) {
+						console.log("mail error", error);
+					} else {
+						console.log("Email sent: " + info.response);
+					}
+				}
+			);
+
             res.status(200);
             res.send({
                 status: 'success'
@@ -177,23 +156,34 @@ router.post('/forgotpassword', (req, res) => {
                     return;
                 }
                 
-                // Send an E-Mail with a password reset link with id of the request
-                // TODO: use the hosted URL in email
-                transporter.sendMail({
-                    from: process.env.MAIL,
-                    to: user.username,
-                    subject: 'Zairzest | Password reset',
-                    text: `Hi, ${user.name}\t\nWe received a request to reset your Zairzest password. If this wasn't you, you can safely ignore this email, otherwise please go to the following link to reset your password:\n${req.protocol + '://' + req.get('host')}/newpassword?rid=${resetRequest._id}\n\nThe Zairzest Team`,
-                }, function (error, info) {
-                    if (error) {
-                        res.status(500);
-                        res.send({status: 'fail', message: "Sorry, There seems to be a problem at our end"});
-                    } else {
-                        message = "Please check your E-Mail (also check your spam folder) for instructions on how to reset your password";
-                        res.status(200);
-                        res.send({status: 'success', message});
-                    }
-                });
+                sendMail(
+					{
+						email: user.username,
+						subject: "Zairzest | Password reset",
+						text: `Hi, ${
+							user.name
+						}\t\nWe received a request to reset your Zairzest password. If this wasn't you, you can safely ignore this email, otherwise please go to the following link to reset your password:\n${
+							req.protocol + "://" + req.get("host")
+						}/newpassword?rid=${
+							resetRequest._id
+						}\n\nThe Zairzest Team`,
+					},
+					function (error, info) {
+						if (error) {
+							res.status(500);
+							res.send({
+								status: "fail",
+								message:
+									"Sorry, There seems to be a probem at our end",
+							});
+						} else {
+							message =
+								"Please check your E-Mail (also check your spam folder) for instructions on how to reset your password";
+							res.status(200);
+							res.send({ status: "success", message });
+						}
+					}
+				);
             });
         }
     });
@@ -259,18 +249,160 @@ router.post("/profile",checkIfAuthenticated, (req, res)=>{
 // Event API
 
 // Register for an event
-router.get('/registerForEvent/:eventID', async (req, res) => {
+router.post('/registerForEvent/:eventID', checkIfAuthenticated, async (req, res) => {
+    let event;
     try {
         const event_id = new mongoose.Types.ObjectId(req.params.eventID);
-        const event = await Event.findById(event_id).exec();
+        event = await Event.findById(event_id).exec();
         assert(event);
-    }catch(e) {
+    } catch (e) {
         res.status(404);
-        res.send({status: 'fail', message: "Invalid Event ID"});
+        res.send({ status: 'fail', message: "Invalid Event ID" });
+        return;
+    }
+    try {
+        if (event.max_participants == 1) {
+            // Individual events
+            await (new EventRegistration({
+                event_id: event._id,
+                participant_id: req.user._id
+            })).save();
+
+            return res.status(200).send({
+                status: 'success',
+                data: {
+                    registered: true
+                }
+            });
+        } else if (req.body.team_id) {
+            // Team events: Join a team
+            const team = await Team.findById(req.body.team_id).exec();
+            if (team) {
+                await (new EventRegistration({
+                    event_id: event._id,
+                    participant_id: req.user._id,
+                    team_id: team._id
+                })).save();
+    
+                return res.status(200).send({
+                    status: 'success',
+                    data: {
+                        team_id: team._id,
+                        team_name: team.name,
+                        meeting_link: team.meeting_link
+                    }
+                });
+            } else {
+                return res.status(400).send({
+                    status: 'fail',
+                    message: 'Invalid Team ID'
+                });
+            }
+        } else if (req.body.team_name && req.body.meeting_link) {
+            // Team events: Create a team
+            const team = new Team({ 
+                _id: calculateSHA256(TEAM_ID_LENGTH, req.body.team_name, event._id), 
+                name: req.body.team_name, 
+                meeting_link: req.body.meeting_link,
+                event_id: event._id
+            });
+            await team.save();
+            await (new EventRegistration({
+                event_id: event._id,
+                participant_id: req.user._id,
+                team_id: team._id
+            })).save();
+
+            return res.status(200).send({
+                status: 'success',
+                data: {
+                    team_id: team._id,
+                    team_name: team.name,
+                    meeting_link: team.meeting_link
+                }
+            });
+        } else {
+            return res.status(400).send({
+                status: 'fail',
+                message: 'Insufficient parameters'
+            });
+        }
+    } catch (e) {
+        // TODO: Better error handling to tell apart DB write errors from validation/uniqueness errors
+        res.status(500).send({ status: 'fail', message: "Sorry, Please try a different team name or try again later" });
+    }
+});
+
+router.post('/deregisterForEvent/:eventID', checkIfAuthenticated, async (req, res) => {
+    let event;
+    try {
+        const event_id = new mongoose.Types.ObjectId(req.params.eventID);
+        event = await Event.findById(event_id).exec();
+        assert(event);
+    } catch (e) {
+        res.status(404);
+        res.send({ status: 'fail', message: "Invalid Event ID" });
+        return;
+    }
+    let registration_data;
+    try {
+        registration_data = await EventRegistration.findOneAndDelete({
+            participant_id: req.user._id,
+            event_id: event._id
+        }).exec();
+
+        res.status(200).send({ status: 'success', data: { registered: false } });
+    } catch (e) {
+        res.status(500).send({ status: 'fail', message: "Sorry, There seems to be a problem at our end" });
+    }
+
+    try {
+        if (registration_data?.team_id) {
+            const lastMemberQuit = !(await EventRegistration.exists({ team_id: registration_data.team_id }));
+            if (lastMemberQuit) {
+                await Team.findByIdAndDelete(registration_data.team_id).exec()
+            }
+        }
+    } catch (e) {
+        console.error(e);
+    }
+});
+
+router.get('/getRegistrationData/:eventID', checkIfAuthenticated, async (req, res) => {
+    let event;
+    try {
+        const event_id = new mongoose.Types.ObjectId(req.params.eventID);
+        event = await Event.findById(event_id).exec();
+        assert(event);
+    } catch (e) {
+        res.status(404);
+        res.send({ status: 'fail', message: "Invalid Event ID" });
         return;
     }
 
-    // Registration happens here
-})
+    try {
+        const registration_data = await EventRegistration.findOne({participant_id: req.user._id, event_id: event._id}).exec();
+        if (event.max_participants == 1) {
+            res.status(200).send({
+                status: 'success',
+                data: {
+                    registered: !!registration_data
+                }
+            });
+        } else {
+            const team_data = await Team.findById(registration_data?.team_id).exec();
+            res.status(200).send({
+                status: 'success',
+                data: !!registration_data ? {
+                    team_id: team_data._id,
+                    team_name: team_data.name,
+                    meeting_link: team_data.meeting_link
+                } : { registered: false }
+            });
+        }
+    } catch (e) {
+        res.status(500).send({ status: 'fail', message: "Sorry, There seems to be a problem at our end" });
+    }
+});
 
 module.exports = router;
