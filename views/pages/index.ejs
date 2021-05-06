@@ -112,7 +112,12 @@
           <a href="#about"><li class="block hover:text-white px-2 py-1 lg:my-0 my-1 lg:ml-2 font-normal bg-green rounded">About</li></a>
           <a href="#event"><li class="block hover:text-white px-2 py-1 lg:my-0 my-1 lg:ml-2 font-normal bg-green rounded">Event</li></a>
           <a href="#contact"><li class="block hover:text-white px-2 py-1 lg:my-0 my-1 lg:ml-2 font-normal bg-green rounded">Contact</li></a>
-          <% if(loggedIn){ %>
+          <a href="https://zairza.in">
+            <li class="pt-3 sm:pt-0"> 
+              <img class="h-6 cursor-pointer" src="/images/Zairzalogo.webp">
+            </li>
+          </a>
+           <% if(loggedIn){ %>
             <a href="/profile" id="user">
               <li class="block hover:text-white px-2 py-1 lg:my-0 my-1 lg:ml-2 font-normal bg-green rounded" id="authRoute">Profile</li>
             </a>
