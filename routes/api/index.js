@@ -279,21 +279,29 @@ router.post('/registerForEvent/:eventID', checkIfAuthenticated, async (req, res)
         } else if (req.body.team_id) {
             // Team events: Join a team
             const team = await Team.findById(req.body.team_id).exec();
+            const member_count = await EventRegistration.count({ team_id: team.id }).exec();
             if (team) {
-                await (new EventRegistration({
-                    event_id: event._id,
-                    participant_id: req.user._id,
-                    team_id: team._id
-                })).save();
-    
-                return res.status(200).send({
-                    status: 'success',
-                    data: {
-                        team_id: team._id,
-                        team_name: team.name,
-                        extra_data: team.extra_data
-                    }
-                });
+                if (member_count < event.max_participants) {
+                    await (new EventRegistration({
+                        event_id: event._id,
+                        participant_id: req.user._id,
+                        team_id: team._id
+                    })).save();
+        
+                    return res.status(200).send({
+                        status: 'success',
+                        data: {
+                            team_id: team._id,
+                            team_name: team.name,
+                            extra_data: team.extra_data
+                        }
+                    });
+                } else {
+                    return res.status(400).send({
+                        status: 'fail',
+                        message: 'Team is full'
+                    });
+                }
             } else {
                 return res.status(400).send({
                     status: 'fail',
