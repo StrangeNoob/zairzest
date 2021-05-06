@@ -53,6 +53,10 @@ router.get("/techevents", function (req, res, next) {
   res.render("pages/comingsoon");
 });
 
+router.get("/registration", function(req, res, next) {
+    res.render("pages/registration")
+})
+
 router.use(api);
 
 module.exports = router;

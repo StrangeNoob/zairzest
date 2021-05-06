@@ -21,6 +21,7 @@
     "passport-local-mongoose": "^6.1.0"
   },
   "devDependencies": {
+    "kill-port": "^1.6.1",
     "dotenv": "^8.5.1",
     "nodemon": "^2.0.7"
   }
