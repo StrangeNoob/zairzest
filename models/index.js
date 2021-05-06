@@ -63,6 +63,9 @@ const eventRegistrationSchema = new mongoose.Schema({
     team_id: mongoose.ObjectId
 });
 
+eventRegistrationSchema.index({participant_id: 1, event_id: 1});
+eventRegistrationSchema.index({ team_id: 1 });
+
 const EventRegistration = mongoose.model('EventRegistration', eventRegistrationSchema)
 
 
@@ -72,6 +75,7 @@ const eventSchema = new mongoose.Schema({
     imageURL: String,
     date: Date,
     isListed: Boolean,
+    max_participants: Number,
     organisers: [
         {
             name: String,
@@ -84,9 +88,20 @@ const Event = mongoose.model('Event', eventSchema);
 
 
 const teamSchema = new mongoose.Schema({
-    name: String,
-    meeting_link: String
+    _id: String,
+    name: {
+        type: String,
+        uppercase: true
+    },
+    event_id: mongoose.SchemaTypes.ObjectId,
+    meeting_link: {
+        type: String,
+        match: /^(https?:\/\/)?meet\.google\.com\/[a-z]{3}-[a-z]{4}-[a-z]{3}$/
+    }
 });
+
+// Add compound unique constraint for teamname and event_id
+teamSchema.index({ name: 1, event_id: 1}, { unique: true });
 
 const Team = mongoose.model('Team', teamSchema);
 
