@@ -4,27 +4,35 @@ $(document).ready(function() {
   function validate(id,res) {
     setTimeout(function () {
       $(`#${id}`).removeClass("onclic");
-      
-      if (res.statusCode == 200) {
-        $(`#${id}`).addClass("validate-success", 450, callback(res));
+      console.log(res);
+      if (res.status == 'success') {
+        $(`#${id}`).addClass("validate-success", 450, callback(id,res));
       } else {
-        $(`#${id}`).addClass("validate-fail", 450, callback(res));
+        $(`#${id}`).addClass("validate-fail", 450, callback(id,res));
       }
     }, 2250);
   }
   
-  function callback( res) {
-    if (res.statusCode == 200) {
-      $("#join-team-form").hide();
-      $("#create-team-form").hide();
-      $("#teamreg-btn").hide();
-      $("#joinreg-btn").hide();
-      $("#unreg-btn").show();
-      showToast(200, " Team Created Successfully");
+  function callback(id, res) {
+    if (res.status == 'success') {
+      if(id=="unreg-btn"){
+        $("#unreg-btn").hide();
+      }else{
+        $("#join-team-form").hide();
+        $("#create-team-form").hide();
+        $("#teamreg-btn").hide();
+        $("#joinreg-btn").hide();
+        $("#unreg-btn").show();
+      }
+      let msg = id == "create-team-btn" ? "Team Created Successfully" : id == "join-team-btn" ? "Team Joined Successfully" : "Unregistred Successfully";
+      showToast(200, msg);
+      $(`#${id}`).removeClass("validate-success");
+      toggleModal();
     } else {
-      showToast(res.errorCode, res.message || "Sorry, There seems to be a problem at our end");
+      showToast(res.responseJSON.errorCode, res.responseJSON.message || "Sorry, There seems to be a problem at our end");
+      $(`#${id}`).removeClass("validate-fail");
     }
-    
+        
   }
   
     const overlay = document.querySelector('.modal-overlay')
@@ -64,6 +72,7 @@ $(document).ready(function() {
         $("#mod__title").text("Loading...");
         $("#mod__desc").text("");
         $("#mod__date_time_venue").html("<strong>Slot :</strong> Loading... " );
+        $(`#mod_team-details`).text("");
         $("#join-team-form").hide();
         $("#create-team-form").hide();
       }
@@ -101,6 +110,25 @@ $(document).ready(function() {
             console.log(message);
             if (message.data.registered == true) {
               // Make the button into a Unregister button
+              if(max_participants != "1"){
+                var insertHTML = "";
+                insertHTML += `<strong>Team Id : ${message.data.team_id}</strong><br>`;
+                insertHTML += `<strong>Team Name : ${message.data.team_name}</strong><br>` ;
+                insertHTML += `<ol><strong>Team Members :</strong>` ;
+                message.data.members.forEach(element => {
+                  insertHTML += `<li>${element} <li>`;  
+                });
+                insertHTML += `</ol>`;
+                console.log(!message.data.team_extra_data && message.data.extra_data.length != 0);
+                if(message.data.team_extra_data && message.data.team_extra_data.length != 0){
+                  insertHTML += `<ol><strong>Extra Details : </strong>`;
+                  Object.keys(message.data.team_extra_data).forEach(function(key,index) {
+                    insertHTML += `<li>${key} : ${message.data.team_extra_data[key]} <li>`; 
+                  });
+                  insertHTML += `</ol>`;
+                }
+                $(`#mod_team-details`).html(insertHTML);
+              }              
               $("#unreg-btn").show();
             } else {
               console.log(max_participants);
@@ -173,14 +201,14 @@ $(document).ready(function() {
         });
         $("#join-team-btn").click(function(){
 
-          var teamName = $("join-team-name").val();          
-          if(teamName === ""){
+          var team_id = $("#join-team-code").val();          
+          if(team_id === ""){
             showToast(400,"Team Name Should not be empty");
           }else{
             $(`#create-team-btn`).addClass("onclic", 50);
             const data = {
               eventID:eventID,
-              team_name: teamName,
+              team_id: team_id,
             };
             $.ajax({
               type: "POST",
@@ -196,13 +224,30 @@ $(document).ready(function() {
               });
           }
         });
+        $("#unreg-btn").click(function(){
 
+     
+            $(`#unreg-btn`).addClass("onclic", 50);
+
+            $.ajax({
+              type: "POST",
+              url: `/deregisterForEvent/${eventID}`,
+              dataType: "json",
+            })
+              .done(function (data) {
+                console.log(data);
+                validate("unreg-btn",data);
+              })
+              .fail(function (err) {
+                validate("unreg-btn",err);
+              });
+          
+        });
 
 
 
         } else {
         // When the modal closes, remove both classes and hide the button
-        $("#regbtn").removeClass("btn-success").removeClass("btn-danger").addClass("hide");
   
         // Empty the title and description
         $("#mod__title").text("Loading...");

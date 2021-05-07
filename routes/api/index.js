@@ -302,7 +302,8 @@ router.post('/registerForEvent/:eventID', checkIfAuthenticated, async (req, res)
                         data: {
                             team_id: team._id,
                             team_name: team.name,
-                            extra_data: team.extra_data
+                            extra_data: team.extra_data,
+                            team_extra_data: team.team_extra_data
                         }
                     });
             } else {
