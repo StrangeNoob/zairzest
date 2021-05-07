@@ -89,7 +89,7 @@ $(document).ready(function() {
         $("#mod__cover").attr("src", coverURL);
         $("#mod__title").text(title);
         $("#mod__desc").text(desc);
-        $("#mod__date_time_venue").html(`<strong>Time :</strong> ${date_time}`);
+        $("#mod__date_time_venue").html(`<strong>Date & Time :</strong> ${date_time} IST`);
   
         if(rule_link === '#'){
           $("#mod__rule_desc").hide();

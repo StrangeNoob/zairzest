@@ -34,7 +34,7 @@
 
        <% for (var d in events) { %>
         <% if (Object.prototype.hasOwnProperty.call(events, d)) { %>
-          <div class="wrapper antialiased text-gray-900">
+          <div class="wrapper antialiased text-gray-900 cursor-pointer">
             <div class="modal-open pointer" data-title="<%= events[d].name %>" data-desc="<%= events[d].description %>" data-image="/images/events.jpeg" data-date_time="<%= events[d].date %>" data-max_participants="<%= events[d].max_participants %>">
               <img
                   src="/images/events.jpeg"

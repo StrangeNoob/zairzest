@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="/stylesheets/modal.css" />
+<!-- <link rel="stylesheet" href="/stylesheets/modal.css" /> -->
 <!-- This example requires Tailwind CSS v2.0+ -->
 <div class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
   <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
@@ -25,12 +25,12 @@
       </div>
 
       <!--Body-->
-        <div class="grid grid-cols-2">
+        <div class="grid lg:grid-cols-2 grid-cols-1">
           <div class="">
-            <img id="mod__cover" onerror="this.src='/images/mrscout.png';" src="/images/scout.png" />
+            <img id="mod__cover" class="rounded" onerror="this.src='/images/mrscout.png';" src="/images/scout.png" />
           </div>
-          <div class="">
-            <h1 id="mod__title">Lorem ipsum</h1>
+          <div class="px-2">
+            <h1 id="mod__title" class="font-bold text-lg text-center">Lorem ipsum</h1>
             <p id="mod__desc">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Id eveniet, in
               nisi nihil accusamus et voluptatum, harum dolores incidunt sapiente
@@ -42,7 +42,7 @@
             <%	if(user){ %>
                 <button id="regbtn" class="btn btn-success hide"></button>
             <% } else { %>
-              <a href="/login">Please Log In to register for events</a>
+              <a href="/auth#signin" class="text-red-600 text-decoration-none">Please Log In to register for events</a>
             <% } %>
             <div class="spinner__container">
               <div class="spinner-border" role="status">
