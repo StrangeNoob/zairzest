@@ -20,9 +20,9 @@
     <link rel="stylesheet" type="text/css" href="/css/event.css" />
   </head>
   <body>
+      <%- include('../partials/toast.ejs') %>
       <%- include('../partials/preloader.ejs') %>
       <%- include('../partials/modal.ejs') %>
-      <%- include('../partials/toast.ejs') %>
       <h1 class="lg:text-5xl text-3xl leading-tight text-center Scout mx-auto mt-10">
         <span style="color:#FF7610">Zai</span><span style="color:#000">rz</span><span style="color:#1071FF">est</span>
         <span style="color:#1071FF">Ev</span><span style="color:#000">en</span><span style="color:#FF7610">ts</span> 
@@ -35,7 +35,7 @@
        <% for (var d in events) { %>
         <% if (Object.prototype.hasOwnProperty.call(events, d)) { %>
           <div class="wrapper antialiased text-gray-900">
-            <div class="modal-open pointer" data-id="<%= events[d]._id %>" data-title="<%= events[d].name %>" data-desc="<%= events[d].description %>" data-image="/images/events.jpeg" data-date_time="<%= events[d].date %>" data-max_participants="<%= events[d].max_participants %>">
+            <div class="modal-open pointer" data-id="<%= events[d]._id %>" data-title="<%= events[d].name %>" data-desc="<%= events[d].description %>" data-image="/images/events.jpeg" data-date_time="<%= events[d].date %>" data-max_participants="<%= events[d].max_participants %>" data-isListed="<%= events[d].isListed %>" >
               <img
                   src="/images/events.jpeg"
                   alt=""
@@ -49,11 +49,7 @@
       </div>
     </div>
 
-    <script
-      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-      crossorigin="anonymous"
-    ></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="/js/events.js"></script>
   </body>
 </html>

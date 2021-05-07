@@ -178,11 +178,7 @@
   position: absolute;
 }
 
-#regbtn.hide + .spinner__container {
-  visibility: visible;
-  margin-top: 20px;
-  position: relative;
-}
+
 
 .hide {
   position: absolute;
@@ -285,4 +281,54 @@
     stroke-dashoffset: 187;
     transform: rotate(450deg);
   }
+}
+.register-btn {
+  background-color: forestgreen;
+}
+.register-btn:hover {
+  background-color: forestgreen;
+}
+.onclic {
+  content: "" !important;
+  width: 40px;
+  border-color: #bbbbbb;
+  border-width: 3px;
+  font-size: 0;
+  border-radius: 40px;
+  background-color: #fff;
+  margin: auto;
+  margin-top: 20px;
+  border-left-color: forestgreen;
+  -webkit-animation: rotating 2s 0.25s linear infinite;
+  animation: rotating 2s 0.25s linear infinite;
+}
+.onclic:after {
+  content: " " !important;
+}
+.onclic:hover {
+  color: forestgreen;
+  background: white;
+}
+
+.validate-success {
+  font-size: 13px;
+  color: white;
+  background: forestgreen;
+}
+.validate-fail {
+  font-size: 13px;
+  color: white;
+  background: forestgreen;
+}
+.validate-success:after {
+  font-family: "FontAwesome" !important;
+  content: "\f00c" !important;
+  font-size: 20px;
+  vertical-align: middle;
+}
+.validate-fail:after {
+  font-family: "FontAwesome" !important;
+  content: "\f00d" !important;
+  font-size: 20px;
+  vertical-align: middle;
 }

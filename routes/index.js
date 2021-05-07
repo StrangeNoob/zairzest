@@ -18,7 +18,7 @@ router.get("/", function (req, res, next) {
 /* Get events page*/
 router.get("/events", function (req, res, next) {
   let user = req.isAuthenticated();
-  Event.find({},(err,data)=>{
+  Event.find({isListed:true},(err,data)=>{
     if(err){
      return next(err);
     }

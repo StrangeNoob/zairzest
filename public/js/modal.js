@@ -1,5 +1,32 @@
+
 $(document).ready(function() {
-       
+
+  function validate(id,res) {
+    setTimeout(function () {
+      $(`#${id}`).removeClass("onclic");
+      
+      if (res.statusCode == 200) {
+        $(`#${id}`).addClass("validate-success", 450, callback(res));
+      } else {
+        $(`#${id}`).addClass("validate-fail", 450, callback(res));
+      }
+    }, 2250);
+  }
+  
+  function callback( res) {
+    if (res.statusCode == 200) {
+      $("#join-team-form").hide();
+      $("#create-team-form").hide();
+      $("#teamreg-btn").hide();
+      $("#joinreg-btn").hide();
+      $("#unreg-btn").show();
+      showToast(200, " Team Created Successfully");
+    } else {
+      showToast(res.errorCode, res.message || "Sorry, There seems to be a problem at our end");
+    }
+    
+  }
+  
     const overlay = document.querySelector('.modal-overlay')
     overlay.addEventListener('click', toggleModal)
     
@@ -47,6 +74,7 @@ $(document).ready(function() {
       toggleModal();
       var mod = document.querySelector(".modal");
       if ($("body").hasClass("modal-active")) {
+        $("#spinner-id").show();
         let eventID = $(currentItem).attr("data-id")
         mod.eventID = eventID;
         let coverURL = $(currentItem).attr("data-image");
@@ -54,6 +82,7 @@ $(document).ready(function() {
         let desc = $(currentItem).attr('data-desc');
         let date_time = $(currentItem).attr('data-date_time');
         let max_participants = $(currentItem).attr('data-max_participants');
+        let isListed = $(currentItem).attr('data-isListed');
 
         $("#mod__form_desc").hide();
       
@@ -61,28 +90,30 @@ $(document).ready(function() {
   
         // Check if the user is already registered for the event
         // and set the function of the button as required
-        fetch(`/getRegistrationData/${eventID}`).then(function(res) {
-          if (res.ok) {
-          return res.json();
-          } else {
-            return { registered: false };
-          }
-        }).then(function(message) {
-          console.log(message);
-          if (message.data.registered == true) {
-            // Make the button into a Unregister button
-            $("#unreg-btn").show();
-          } else {
-            console.log(max_participants);
-            // Make the button into a Register button
-            if(max_participants == "1"){
-              $("#singlereg-btn").show();
-            }else{
-              $("#teamreg-btn").show();
-              $("#joinreg-btn").show();
+        if(isListed == "true"){
+          fetch(`/getRegistrationData/${eventID}`).then(function(res) {
+            if (res.ok) {
+            return res.json();
+            } else {
+              return { registered: false };
             }
-          }
-        });
+          }).then(function(message) {
+            console.log(message);
+            if (message.data.registered == true) {
+              // Make the button into a Unregister button
+              $("#unreg-btn").show();
+            } else {
+              console.log(max_participants);
+              // Make the button into a Register button
+              if(max_participants == "1"){
+                $("#singlereg-btn").show();
+              }else{
+                $("#teamreg-btn").show();
+                $("#joinreg-btn").show();
+              }
+            }
+          });
+        }
   
         // Add a cover image, title and description to the modal
         $("#mod__cover").attr("src", coverURL);
@@ -110,12 +141,13 @@ $(document).ready(function() {
         $("#create-team-btn").click(function(){
 
           var meetURL = $("#create-meeting-url").val(); 
-          var teamName = $("create-team-name").val();          
+          var teamName = $("#create-team-name").val();          
           if(teamName === ""){
             showToast(400,"Team Name Should not be empty");
-          }else if(validateMeetURL(meetURL)){
+          }else if(!validateMeetURL(meetURL)){
             showToast(400,"Team Meet URL is not in correct format");
           }else{
+            $(`#create-team-btn`).addClass("onclic", 50);
             const data = {
               eventID:eventID,
               team_name: teamName,
@@ -123,7 +155,7 @@ $(document).ready(function() {
                 "meetURL": meetURL,
               }
             };
-  
+            
             $.ajax({
               type: "POST",
               url: `/registerForEvent/${eventID}`,
@@ -131,19 +163,11 @@ $(document).ready(function() {
               dataType: "json",
             })
               .done(function (data) {
-                if(data.statusCode == 200){
-                  showToast(200, "Team Created Successfull");
-                  $("#join-team-form").hide();
-                  $("#create-team-form").hide();
-                  $("#teamreg-btn").hide();
-                  $("#joinreg-btn").hide();
-                  $("#unreg-btn").show();
-                }else{
-                  showToast(400, data.message);
-                }
+                validate("create-team-btn",data);
+                
               })
               .fail(function (err) {
-                showToast(400, err.message);
+                validate("create-team-btn",err);
               });
           }
         });
@@ -153,11 +177,11 @@ $(document).ready(function() {
           if(teamName === ""){
             showToast(400,"Team Name Should not be empty");
           }else{
+            $(`#create-team-btn`).addClass("onclic", 50);
             const data = {
               eventID:eventID,
               team_name: teamName,
             };
-  
             $.ajax({
               type: "POST",
               url: `/registerForEvent/${eventID}`,
@@ -165,19 +189,10 @@ $(document).ready(function() {
               dataType: "json",
             })
               .done(function (data) {
-                if(data.statusCode == 200){
-                  showToast(200, "Team Joined Successfull");
-                  $("#join-team-form").hide();
-                  $("#create-team-form").hide();
-                  $("#teamreg-btn").hide();
-                  $("#joinreg-btn").hide();
-                  $("#unreg-btn").show();
-                }else{
-                  showToast(400, data.message);
-                }
+                validate("join-team-btn",data);
               })
               .fail(function (err) {
-                showToast(400, err.message);
+                validate("join-team-btn",err);
               });
           }
         });

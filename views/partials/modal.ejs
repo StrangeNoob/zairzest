@@ -1,12 +1,6 @@
-<!-- <link rel="stylesheet" href="/stylesheets/modal.css" /> -->
+<link rel="stylesheet" href="/css/modal.css" />
 <!-- This example requires Tailwind CSS v2.0+ -->
-<style>
-  .modal{
-    background: url(../images/pngwing.png);
-    background-repeat: no-repeat;
-    background-size: contain;
-  }
-</style>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <div class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
   <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
   
@@ -55,7 +49,7 @@
                   <button id="unreg-btn" class=" hidden px-4 bg-transparent p-3 rounded-lg text-indigo-500 hover:bg-gray-100 hover:text-indigo-400 mr-2">Unregister</button>
                 </div>
             <% } else { %>
-              <a href="/auth#signin" class="text-red-600 text-decoration-none">Please Log In to register for events</a>
+              <a href="/auth#signin" class="text-red-600 text-decoration-none"><button id="unreg-btn" class=" hidden px-4 bg-transparent p-3 rounded-lg text-indigo-500 hover:bg-gray-100 hover:text-indigo-400 mr-2">Please Log In to register for events</button></a>
             <% } %>
             <div id="create-team-form" class="hidden form w-full"> 
               <div class="flex flex-col mx-auto max-w-md">
@@ -75,8 +69,8 @@
                 />
                 <button
                 id="create-team-btn"
-                class="mt-5 tracking-wide font-semibold bg-blue-500 text-gray-100 hover:text-white w-full py-4 rounded-lg transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
-               > Create Team</button>
+                class="mt-5 tracking-wide font-semibold register-btn text-gray-100 hover:text-white w-full py-4 rounded-lg transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
+                > Create Team</button>
             </div>
             </div>
             <div id="join-team-form" class="hidden form w-full">
@@ -90,13 +84,8 @@
                       />
                       <button
                       id="join-team-btn"
-                      class="mt-5 tracking-wide font-semibold bg-blue-500 text-gray-100 hover:text-white w-full py-4 rounded-lg transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
-                     > Join Team</button>
-              </div>
-            </div>
-            <div class="spinner__container" >
-              <div class="spinner-border" role="status">
-                <span class="sr-only">Loading...</span>
+                      class="mt-5 tracking-wide font-semibold register-btn text-gray-100 hover:text-white w-full py-4 rounded-lg transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
+                      > Join Team</button>
               </div>
             </div>
           </div>
