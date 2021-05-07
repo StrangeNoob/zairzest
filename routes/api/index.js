@@ -248,7 +248,7 @@ router.post("/profile",checkIfAuthenticated, (req, res)=>{
 
 
 // Event API
-// TODO: add extra_data whose keys are matched in events 
+
 // Register for an event
 router.post('/registerForEvent/:eventID', checkIfAuthenticated, async (req, res) => {
     let event;
@@ -261,6 +261,30 @@ router.post('/registerForEvent/:eventID', checkIfAuthenticated, async (req, res)
         res.send({ status: 'fail', message: "Invalid Event ID" });
         return;
     }
+
+    if (req.body.extra_data) {
+		let unknownFields = Object.keys(req.body.extra_data).filter(
+			(x) => !event.extra_data.has(x)
+		);
+		if (unknownFields.length > 0) {
+			return res
+				.status(401)
+				.json({ status: "fail", message: "Updating unknown fields" });
+		}
+	}
+
+	if (req.body.team_extra_data) {
+		let unknownFields = Object.keys(req.body.team_extra_data).filter(
+			(x) => !event.team_extra_data.has(x)
+		);
+		if (unknownFields.length > 0) {
+			return res
+				.status(401)
+				.json({ status: "fail", message: "Updating unknown fields" });
+		}
+	}
+
+
     try {
         if (event.max_participants == 1) {
             // Individual events
