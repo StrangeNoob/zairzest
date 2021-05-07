@@ -99,6 +99,7 @@ $(document).ready(function() {
   
         // Check if the user is already registered for the event
         // and set the function of the button as required
+
         if(isListed == "true"){
           fetch(`/getRegistrationData/${eventID}`).then(function(res) {
             if (res.ok) {
@@ -148,7 +149,8 @@ $(document).ready(function() {
         $("#mod__title").text(title);
         $("#mod__desc").text(desc);
         $("#mod__date_time_venue").html(`<strong>Date & Time :</strong> ${date_time} IST`);
-
+        $("#spinner").hide();
+        
         $("#teamreg-btn").click(function(){
           $("#teamreg-btn").hide();
           $("#joinreg-btn").hide();

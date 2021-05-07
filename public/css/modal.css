@@ -283,10 +283,10 @@
   }
 }
 .register-btn {
-  background-color: forestgreen;
+  background-color: forestgreen !important;
 }
 .register-btn:hover {
-  background-color: forestgreen;
+  background-color: forestgreen !important;
 }
 .onclic {
   content: "" !important;
