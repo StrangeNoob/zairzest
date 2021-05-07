@@ -6,7 +6,7 @@
 
 if (process.env.NODE_ENV !== "production") {
 	require("dotenv").config({ path: ".env" });
-
+}
 
 var app = require('../app');
 var debug = require('debug')('zairzest:server');
