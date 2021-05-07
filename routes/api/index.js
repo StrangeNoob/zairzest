@@ -381,7 +381,9 @@ router.post('/deregisterForEvent/:eventID', checkIfAuthenticated, async (req, re
 					$inc: {
 						member_count: -1,
 					},
-				}
+				}, {
+	    				new: true
+	    			}
 			).exec();
 
             if(team.member_count == 0){
