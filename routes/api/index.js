@@ -264,7 +264,7 @@ router.post('/registerForEvent/:eventID', checkIfAuthenticated, async (req, res)
 
     if (req.body.extra_data) {
 		let unknownFields = Object.keys(req.body.extra_data).filter(
-			(x) => !event.extra_data.has(x)
+			(x) => !event.extra_data.includes(x)
 		);
 		if (unknownFields.length > 0) {
 			return res
@@ -275,7 +275,7 @@ router.post('/registerForEvent/:eventID', checkIfAuthenticated, async (req, res)
 
 	if (req.body.team_extra_data) {
 		let unknownFields = Object.keys(req.body.team_extra_data).filter(
-			(x) => !event.team_extra_data.has(x)
+			(x) => !event.team_extra_data.includes(x)
 		);
 		if (unknownFields.length > 0) {
 			return res
