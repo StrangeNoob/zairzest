@@ -80,7 +80,8 @@ router.post("/signup", function (req, res) {
         username: req.body.email,
         name: req.body.name,
         regNo: req.body.regNo,
-        branch: req.body.branch
+        branch: req.body.branch,
+        phone: req.body.phone
     });
     User.register(newUser, req.body.password, (err, user) => {
         if (err) {
@@ -111,8 +112,8 @@ router.post("/signup", function (req, res) {
 					],
 				},
 				function (err, info) {
-					if (error) {
-						console.log("mail error", error);
+					if (err) {
+						console.log("mail error", err);
 					} else {
 						console.log("Email sent: " + info.response);
 					}
@@ -265,60 +266,74 @@ router.post('/registerForEvent/:eventID', checkIfAuthenticated, async (req, res)
             // Individual events
             await (new EventRegistration({
                 event_id: event._id,
-                participant_id: req.user._id
+                participant_id: req.user._id,
+                extra_data: req.body.extra_data
             })).save();
 
             return res.status(200).send({
                 status: 'success',
                 data: {
-                    registered: true
+                    registered: true,
+                    extra_data: req.body.extra_data
                 }
             });
         } else if (req.body.team_id) {
             // Team events: Join a team
             const team = await Team.findById(req.body.team_id).exec();
+            const member_count = await EventRegistration.count({ team_id: team.id }).exec();
             if (team) {
-                await (new EventRegistration({
-                    event_id: event._id,
-                    participant_id: req.user._id,
-                    team_id: team._id
-                })).save();
-    
-                return res.status(200).send({
-                    status: 'success',
-                    data: {
+                if (member_count < event.max_participants) {
+                    await (new EventRegistration({
+                        event_id: event._id,
+                        participant_id: req.user._id,
                         team_id: team._id,
-                        team_name: team.name,
-                        meeting_link: team.meeting_link
-                    }
-                });
+                        extra_data: req.body.extra_data
+                    })).save();
+        
+                    return res.status(200).send({
+                        status: 'success',
+                        data: {
+                            team_id: team._id,
+                            team_name: team.name,
+                            extra_data: team.extra_data
+                        }
+                    });
+                } else {
+                    return res.status(400).send({
+                        status: 'fail',
+                        message: 'Team is full'
+                    });
+                }
             } else {
                 return res.status(400).send({
                     status: 'fail',
                     message: 'Invalid Team ID'
                 });
             }
-        } else if (req.body.team_name && req.body.meeting_link) {
+        } else if (req.body.team_name) {
             // Team events: Create a team
             const team = new Team({ 
                 _id: calculateSHA256(TEAM_ID_LENGTH, req.body.team_name, event._id), 
                 name: req.body.team_name, 
-                meeting_link: req.body.meeting_link,
-                event_id: event._id
+                event_id: event._id,
+                team_extra_data: req.body.team_extra_data
             });
             await team.save();
-            await (new EventRegistration({
+            const regdata = new EventRegistration({
                 event_id: event._id,
                 participant_id: req.user._id,
-                team_id: team._id
-            })).save();
+                team_id: team._id,
+                extra_data: req.body.extra_data
+            });
+            await regdata.save();
 
             return res.status(200).send({
                 status: 'success',
                 data: {
                     team_id: team._id,
                     team_name: team.name,
-                    meeting_link: team.meeting_link
+                    extra_data: regdata.extra_data,
+                    team_extra_data: team.team_extra_data
                 }
             });
         } else {
@@ -386,18 +401,66 @@ router.get('/getRegistrationData/:eventID', checkIfAuthenticated, async (req, re
             res.status(200).send({
                 status: 'success',
                 data: {
-                    registered: !!registration_data
+                    registered: !!registration_data,
+                    extra_data: registration_data?.extra_data
+                }
+            });
+        } else if (registration_data) {
+            const team_data = await Team.findById(registration_data.team_id).exec();
+            // const member_ids = (await EventRegistration.find({team_id: registration_data.team_id}).select('participant_id').exec())
+            //     .map(doc => doc.participant_id);
+            // const member_names = (await User.find({ _id: { $in: member_ids } }).select('name').exec())
+            //     .map(doc => doc.name);
+            const member_info = await EventRegistration.aggregate([
+                {
+                  '$match': {
+                    'team_id': team_data._id
+                  }
+                }, {
+                  '$lookup': {
+                    'from': 'users', 
+                    'localField': 'participant_id', 
+                    'foreignField': '_id', 
+                    'as': 'data'
+                  }
+                }, {
+                  '$group': {
+                    '_id': '$team_id', 
+                    'members': {
+                      '$push': {
+                        '$arrayElemAt': [
+                          '$data', 0
+                        ]
+                      }
+                    }
+                  }
+                }, {
+                  '$project': {
+                    'members': {
+                      '$map': {
+                        'input': '$members', 
+                        'as': 'member', 
+                        'in': '$$member.name'
+                      }
+                    }
+                  }
+                }
+              ]).exec();
+            res.status(200).send({
+                status: 'success',
+                data: {
+                    team_id: team_data._id,
+                    team_name: team_data.name,
+                    members: member_info[0].members,
+                    extra_data: team_data.extra_data
                 }
             });
         } else {
-            const team_data = await Team.findById(registration_data?.team_id).exec();
             res.status(200).send({
                 status: 'success',
-                data: !!registration_data ? {
-                    team_id: team_data._id,
-                    team_name: team_data.name,
-                    meeting_link: team_data.meeting_link
-                } : { registered: false }
+                data: {
+                    registered: false
+                }
             });
         }
     } catch (e) {

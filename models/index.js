@@ -60,10 +60,14 @@ const User = mongoose.model('User', userSchema);
 const eventRegistrationSchema = new mongoose.Schema({
     event_id: mongoose.ObjectId,
     participant_id: mongoose.ObjectId,
-    team_id: mongoose.ObjectId
+    team_id: String,
+    extra_data: {
+        type: Map,
+        of: String
+    }
 });
 
-eventRegistrationSchema.index({participant_id: 1, event_id: 1});
+eventRegistrationSchema.index({ participant_id: 1, event_id: 1 });
 eventRegistrationSchema.index({ team_id: 1 });
 
 const EventRegistration = mongoose.model('EventRegistration', eventRegistrationSchema)
@@ -89,7 +93,9 @@ const eventSchema = new mongoose.Schema({
             name: String,
             phone: String
         }
-    ]
+    ],
+    extra_data: [String],
+    team_extra_data: [String]
 });
 
 const Event = mongoose.model('Event', eventSchema);
@@ -102,9 +108,9 @@ const teamSchema = new mongoose.Schema({
         uppercase: true
     },
     event_id: mongoose.SchemaTypes.ObjectId,
-    meeting_link: {
-        type: String,
-        match: /^(https?:\/\/)?meet\.google\.com\/[a-z]{3}-[a-z]{4}-[a-z]{3}$/
+    team_extra_data: {
+        type: Map,
+        of: String
     }
 });
 
