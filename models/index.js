@@ -111,7 +111,8 @@ const teamSchema = new mongoose.Schema({
     team_extra_data: {
         type: Map,
         of: String
-    }
+    },
+    member_count: Number
 });
 
 // Add compound unique constraint for teamname and event_id
