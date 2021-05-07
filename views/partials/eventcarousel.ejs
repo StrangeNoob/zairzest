@@ -1,117 +1,101 @@
-<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.1/css/all.min.css">
-<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Montserrat&amp;display=swap"rel="stylesheet">
-<link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="/css/eventcarousel.css" />
+<h1 class="lg:text-5xl md:text-3xl text-xl leading-tight lg:text-left text-center top_text">
+    <span style="color:#FF7610">Zai</span><span style="color:#000">rz</span><span style="color:#1071FF">est</span>
+    <span style="color:#1071FF">Ev</span><span style="color:#000">en</span><span style="color:#FF7610">ts</span> 
+</h1>
+<div id="app" class="container mx-auto">
+    <a href="/techevents">
+      <card data-image="/images/techevents.png"  >
+        <h1 slot="header" class="card__title"> Tech Events</h1>
+     </card>
+    </a>
+    <a href="/workshops">
+      <card data-image="/images/workshop.png" >
+          <h1 slot="header" class="card__title"> Workshops</h1>
+      </card>
+    </a>
+    <a href="/funevents">
+      <card data-image="/images/funevents.png" >
+          <h1 slot="header" class="card__title"> Fun Events</h1>
+      </card>
+    </a>
+</div>  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.1/vue.min.js"></script>
+<script>
+    Vue.config.devtools = true;
 
 
-  
-
-  <div class="app">
-    <div> 
-
-      <div class="top_text lg:text-6xl md:text-5xl mt-7 lg:text-center sm:text-center sm:text-5xl"><span style="color:#FF7610">Zai</span><span style="color:#000">rz</span><span style="color:#1071FF">est</span>
-
-        <span style="color:#1071FF">Ev</span><span style="color:#000">en</span><span style="color:#FF7610">ts</span> 
-      </div>
-    </div>
-    <div class="cardList">
-      <button class="cardList__btn btn btn--left">
-        <div class="icon">
-          <svg>
-            <use xlink:href="#arrow-left"></use>
-          </svg>
-        </div>
-      </button>
-  
-      <div class="cards__wrapper">
-        <div class="card current--card">
-
-          <div class="card__image" onclick="location.href='/techevents'" >
-
-            <a href="#"> <img src="images/techevents.png" alt="" /> </a>
-          </div>
-        </div>
-  
-        <div class="card next--card">
-
-          <div class="card__image" onclick="location.href='/webinars'" >
-
-            <a href="#"> <img src="images/webinar.png" alt="" /> </a>
-          </div>
-        </div>
-  
-        <div class="card previous--card">
-
-          <div class="card__image" onclick="location.href='/funevents'" >
-
-            <a href="#"> <img src="images/funevents.png" alt="" /> </a>
-          </div>
+Vue.component('card', {
+  template: `
+    <div class="card-wrap evbtn"
+      @mousemove="handleMouseMove"
+      @mouseenter="handleMouseEnter"
+      @mouseleave="handleMouseLeave"
+      ref="card">
+      <div class="card"
+        :style="cardStyle">
+        <div class="card-bg" :style="[cardBgTransform, cardBgImage]"></div>
+        <div class="card-info">
+          <slot name="header"></slot>
+          <slot name="content"></slot>
         </div>
       </div>
-  
-      <button class="cardList__btn btn btn--right">
-        <div class="icon">
-          <svg>
-            <use xlink:href="#arrow-right"></use>
-          </svg>
-        </div>
-      </button>
-    </div>
-  
-    <div class="infoList">
-      <div class="info__wrapper">
-        <div class="info current--info">
-          <h1 class="text name"></h1>
-          <h4 class="text location"></h4>
-          <p class="text description"></p>
-        </div>
-  
-        <div class="info next--info">
-          <h1 class="text name"></h1>
-          <h4 class="text location"></h4>
-          <p class="text description"></p>
-        </div>
-  
-        <div class="info previous--info">
-          <h1 class="text name"></h1>
-          <h4 class="text location"></h4>
-          <p class="text description"></p>
-        </div>
-      </div>
-    </div>
-  
-  
-    <div class="app__bg">
-      <div class="app__bg__image current--image">
-        <img src="images/techevents.png" alt="" />
-      </div>
-      <div class="app__bg__image next--image">
-        <img src="images/webinar.png" alt="" />
-      </div>
-      <div class="app__bg__image previous--image">
-        <img src="images/funevents.png" alt="" />
-      </div>
-    </div>
-  </div>
-  
-  
-  
+    </div>`,
+  mounted() {
+    this.width = this.$refs.card.offsetWidth;
+    this.height = this.$refs.card.offsetHeight;
+  },
+  props: ['dataImage'],
+  data: () => ({
+    width: 0,
+    height: 0,
+    mouseX: 0,
+    mouseY: 0,
+    mouseLeaveDelay: null }),
 
-  <svg class="icons" style="display: none;">
+  computed: {
+    mousePX() {
+      return this.mouseX / this.width;
+    },
+    mousePY() {
+      return this.mouseY / this.height;
+    },
+    cardStyle() {
+      const rX = this.mousePX * 30;
+      const rY = this.mousePY * -30;
+      return {
+        transform: `rotateY(${rX}deg) rotateX(${rY}deg)` };
 
-    <symbol id="arrow-left" xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'>
-      <polyline points='328 112 184 256 328 400'
-             style='fill:none;stroke:#FF7610;stroke-linecap:round;stroke-linejoin:round;stroke-width:88px' />
-    </symbol>
-  
-    <symbol id="arrow-right" xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'>
-      <polyline points='184 112 328 256 184 400'
-             style='fill:none;stroke:#1071FF;stroke-linecap:round;stroke-linejoin:round;stroke-width:88px' />
-    </symbol>
-  </svg>
+    },
+    cardBgTransform() {
+      const tX = this.mousePX * -40;
+      const tY = this.mousePY * -40;
+      return {
+        transform: `translateX(${tX}px) translateY(${tY}px)` };
 
-  
-  <script type="text/javascript" src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.3.3/gsap.min.js"></script>
-  <script type="text/javascript" src="js/eventcarousel.js"></script>
+    },
+    cardBgImage() {
+      return {
+        backgroundImage: `url(${this.dataImage}), url(/images/scout.png)` };
 
+    } },
+
+  methods: {
+    handleMouseMove(e) {
+      this.mouseX = e.pageX - this.$refs.card.offsetLeft - this.width / 2;
+      this.mouseY = e.pageY - this.$refs.card.offsetTop - this.height / 2;
+    },
+    handleMouseEnter() {
+      clearTimeout(this.mouseLeaveDelay);
+    },
+    handleMouseLeave() {
+      this.mouseLeaveDelay = setTimeout(() => {
+        this.mouseX = 0;
+        this.mouseY = 0;
+      }, 1000);
+    } } });
+
+
+const app = new Vue({
+  el: '#app' });
+</script>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Events</title>
+    <link
+      href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Skranji:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" type="text/css" href="/css/event.css" />
+  </head>
+  <body>
+      <%- include('../partials/toast.ejs') %>
+      <%- include('../partials/preloader.ejs') %>
+      <%- include('../partials/modal.ejs') %>
+      <h1 class="lg:text-5xl text-3xl leading-tight text-center Scout mx-auto mt-10">
+        <span style="color:#FF7610">Zai</span><span style="color:#000">rz</span><span style="color:#1071FF">est</span>
+        <span style="color:#1071FF">Ev</span><span style="color:#000">en</span><span style="color:#FF7610">ts</span> 
+      </h1>
+      <div class="container mx-auto">
+      <div
+        class="grid grid-cols-1 2xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-2 xl:grid-cols-3 xl:gap-28 lg:gap-64 gap-32 grid-container justify-items-center"
+      >
+
+       <% for (var d in events) { %>
+        <% if (Object.prototype.hasOwnProperty.call(events, d)) { %>
+          <div class="wrapper antialiased text-gray-900">
+            <div class="modal-open pointer" data-id="<%= events[d]._id %>" data-title="<%= events[d].name %>" data-desc="<%= events[d].description %>" data-image="<%= events[d].imageURL %>" data-date_time="<%= events[d].date %>" data-max_participants="<%= events[d].max_participants %>" data-isListed="<%= events[d].isListed %>" >
+              <img
+                  alt=""
+                  class="rounded-xl mx-auto dummy"
+                  onerror="this.src='/images/eventcomingsoon.jpeg';" 
+                  src="<%= events[d].imageURL %>"
+              />
+            </div>
+          </div>
+          <% } %>   
+       <% } %>
+
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="/js/events.js"></script>
+  </body>
+</html>
