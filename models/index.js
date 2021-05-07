@@ -77,7 +77,7 @@ const eventSchema = new mongoose.Schema({
     name: String,
     description: String,
     imageURL: String,
-    date: Date,
+    date: String,
     isListed: Boolean,
     max_participants: Number,
     category: {
@@ -122,7 +122,8 @@ const Team = mongoose.model('Team', teamSchema);
 
 
 const resetRequestSchema = new mongoose.Schema({
-    r_id: mongoose.SchemaTypes.ObjectId
+    r_id: mongoose.SchemaTypes.ObjectId,
+    createdAt: { type: Date, expires: "10m", default: Date.now },
 });
 
 const ResetRequest = mongoose.model('ResetRequest', resetRequestSchema)
