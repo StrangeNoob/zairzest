@@ -1,27 +1,65 @@
 <link rel="stylesheet" href="/stylesheets/modal.css" />
-<script src="/js/modal.js"></script>
-<div class="mod" data-eventID="">
-  <div class="overlay"></div>
-  <div class="mod__contents mod--transition">
-    <a class="mod__close" href="#">✕</a>
-    <img id="mod__cover" onerror="this.src='/img/mrscout.png';" src="/img/mrscout.png" />
-    <div class="mod__text">
-      <h1 id="mod__title">Loading...</h1>
-      <p id="mod__desc">
-        Loading
-      </p>
-      <p id="mod__date_time_venue"></p>
-      <p class="" id="mod__rule_desc"> To check the Rules for this Event click the button <a id="mod__rule_link" href=""><button type="button" id="downloadbtn" class="btn btn-outline-dark btn-sm">Download</button></a></p>
-      <p class="" id="mod__form_desc"> To confirm your registration for this Event click the button<a id="mod__form_link" href=""><button type="button" id="formbtn" class="btn btn-outline-dark btn-sm">fill it up</button></a></p>
-      <%	if(currentUser){ %>
-          <button id="regbtn" class="btn btn-success hide"></button>
-      <% } else { %>
-        <a href="/login">Please Log In to register for events</a>
-      <% } %>
-      <div class="spinner__container">
-        <div class="spinner-border" role="status">
-          <span class="sr-only">Loading...</span>
+<!-- This example requires Tailwind CSS v2.0+ -->
+<div class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
+  <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+  
+  <div class="modal-container bg-white w-2/3 mx-auto rounded shadow-lg z-50 overflow-y-auto">
+    
+    <div class="modal-close absolute top-0 right-0 cursor-pointer flex flex-col items-center mt-4 mr-4 text-white text-sm z-50">
+      <svg class="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+        <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
+      </svg>
+      <span class="text-sm">(Esc)</span>
+    </div>
+
+    <!-- Add margin if you want to see some of the overlay behind the modal-->
+    <div class="modal-content py-4 text-left px-6">
+      <!--Title-->
+      <div class="flex justify-between items-center pb-3">
+        <p class="text-2xl font-bold" ></p>
+        <div class="modal-close cursor-pointer z-50">
+          <svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+            <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
+          </svg>
         </div>
       </div>
+
+      <!--Body-->
+        <div class="grid grid-cols-2">
+          <div class="">
+            <img id="mod__cover" onerror="this.src='/images/mrscout.png';" src="/images/scout.png" />
+          </div>
+          <div class="">
+            <h1 id="mod__title">Lorem ipsum</h1>
+            <p id="mod__desc">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Id eveniet, in
+              nisi nihil accusamus et voluptatum, harum dolores incidunt sapiente
+              distinctio dignissimos ut? Facilis voluptates eligendi sapiente in
+              delectus voluptate?
+            </p>
+            <p id="mod__date_time_venue"></p>
+            
+            <%	if(user){ %>
+                <button id="regbtn" class="btn btn-success hide"></button>
+            <% } else { %>
+              <a href="/login">Please Log In to register for events</a>
+            <% } %>
+            <div class="spinner__container">
+              <div class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      <!--Footer-->
+      <div class="flex justify-end pt-2">
+        <button class="px-4 bg-transparent p-3 rounded-lg text-indigo-500 hover:bg-gray-100 hover:text-indigo-400 mr-2">Action</button>
+        <button class="modal-close px-4 bg-indigo-500 p-3 rounded-lg text-white hover:bg-indigo-400">Close</button>
+      </div>
+      
     </div>
   </div>
+</div>
+
+<script src="/js/modal.js"></script>

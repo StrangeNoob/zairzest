@@ -12,6 +12,7 @@
   font-family: Scout;
 }
 body {
+  background-image: url("/images/event-bg.png");
   background-repeat: no-repeat;
   background-size: cover;
   width: 100%;

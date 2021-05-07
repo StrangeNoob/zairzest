@@ -19,7 +19,10 @@
     />
     <link rel="stylesheet" type="text/css" href="/css/event.css" />
   </head>
-  <body background="/images/event-bg.png">
+  <body>
+      <%- include('../partials/preloader.ejs') %>
+      <%- include('../partials/modal.ejs') %>
+      <%- include('../partials/toast.ejs') %>
       <h1 class="lg:text-5xl md:text-3xl text-xl leading-tight lg:text-left text-center Scout m-auto heading">
         <span style="color:#FF7610">Zai</span><span style="color:#000">rz</span><span style="color:#1071FF">est</span>
         <span style="color:#1071FF">Ev</span><span style="color:#000">en</span><span style="color:#FF7610">ts</span> 
@@ -28,32 +31,34 @@
       <div
         class="grid grid-cols-1 2xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-2 xl:grid-cols-3 xl:gap-28 lg:gap-64 gap-32 grid-container justify-items-center"
       >
-        <div class="wrapper antialiased text-gray-900">
-          <div>
-            <a href="#"
-              ><img
-                src="/images/events.jpeg"
-                alt="dummy img"
-                class="rounded-xl dummy"
-            /></a>
 
-            <div class="bg-white p-6 rounded-lg shadow-lg event-container">
-              <h1>Click on the event to register</h1>
-            </div>
-            <img
-              src="/images/woodboard.png"
-              alt=" random imgee"
-              class="w-full object-cover object-center rounded-lg wood"
-            />
-            <div class="info">
-              <h4>
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nobis
-                unde maiores dolores qui corporis.
-              </h4>
+       <% for (var d in events) { %>
+        <% if (Object.prototype.hasOwnProperty.call(events, d)) { %>
+          <div class="wrapper antialiased text-gray-900">
+            <div class="modal-open pointer" data-title="<%= events[d].name %>" data-desc="<%= events[d].description %>" data-image="/images/events.jpeg" data-date_time="<%= events[d].date %>" data-max_participants="<%= events[d].max_participants %>">
+              <img
+                  src="/images/events.jpeg"
+                  alt="dummy img"
+                  class="rounded-xl dummy"
+              />
+
+              <div class="bg-white p-6 rounded-lg shadow-lg event-container">
+                <h1>Click on the event to register</h1>
+              </div>
+              <img
+                src="/images/woodboard.png"
+                alt=" random imgee"
+                class="w-full object-cover object-center rounded-lg wood"
+              />
+              <div class="info">
+                <h4>
+                  <%= events[d].description %>...
+                </h4>
+              </div>
             </div>
           </div>
-        </div>
-
+          <% } %>   
+       <% } %>
 
       </div>
     </div>

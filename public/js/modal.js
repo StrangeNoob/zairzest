@@ -1,27 +1,54 @@
 $(document).ready(function() {
-    window.mod = $(".mod");
-  
-    $(".evbtn").click(function(event) {
+       
+    const overlay = document.querySelector('.modal-overlay')
+    overlay.addEventListener('click', toggleModal)
+    
+    var closemodal = document.querySelectorAll('.modal-close')
+    for (var i = 0; i < closemodal.length; i++) {
+      closemodal[i].addEventListener('click', toggleModal)
+    }
+    
+    document.onkeydown = function(evt) {
+      evt = evt || window.event
+      var isEscape = false
+      if ("key" in evt) {
+    	isEscape = (evt.key === "Escape" || evt.key === "Esc")
+      } else {
+    	isEscape = (evt.keyCode === 27)
+      }
+      if (isEscape && document.body.classList.contains('modal-active')) {
+    	toggleModal()
+      }
+    };
+    
+    
+    function toggleModal () {
+      const body = document.querySelector('body')
+      const modal = document.querySelector('.modal')
+      modal.classList.toggle('opacity-0')
+      modal.classList.toggle('pointer-events-none')
+      body.classList.toggle('modal-active')
+    }
+    $(".modal-open").click(function(event) {
       window.currentItem = $(event.target).parent();
       // console.log("clicked", currentItem);
+      toggleModal();
+      var mod = document.querySelector(".modal");
       if (!$(mod).hasClass("mod--show")) {
         let eventID = $(currentItem).attr("data-id")
         mod.eventID = eventID;
-        let coverURL = `/assets/img/poster/${eventID}.jpg`;
+        let coverURL = $(currentItem).attr("data-image");
         let title = $(currentItem).attr("data-title");
         let desc = $(currentItem).attr('data-desc');
         let date_time = $(currentItem).attr('data-date_time');
-        let venue = $(currentItem).attr('data-venue');
-        let rule_link = $(currentItem).attr('data-rule_link');
-        let form_link = $(currentItem).attr('data-form_link');
+
         $("#mod__form_desc").hide();
-        
-  
-        $("#mod__cover").attr("src", "/assets/img/alt.jpeg");
+      
+        $("#mod__cover").attr("src", "/image/scout.png");
   
         // Check if the user is already registered for the event
         // and set the function of the button as required
-        fetch(`/chregister/${eventID}`).then(function(res) {
+        fetch(`/getregister/${eventID}`).then(function(res) {
           if (res.ok) {
           return res.text();
           } else {
@@ -62,9 +89,8 @@ $(document).ready(function() {
         $("#mod__cover").attr("src", coverURL);
         $("#mod__title").text(title);
         $("#mod__desc").text(desc);
-        $("#mod__date_time_venue").html("<strong>Slot :</strong> "+date_time+"  <strong>Venue :</strong>" + venue);
-        $('#mod__rule_link').attr("href",rule_link);
-        $("#mod__form_link").attr("href",form_link);
+        $("#mod__date_time_venue").html(`<strong>Time :</strong> ${date_time}`);
+  
         if(rule_link === '#'){
           $("#mod__rule_desc").hide();
         }else{
@@ -116,7 +142,7 @@ $(document).ready(function() {
       $("#regbtn").removeClass("btn-success").removeClass("btn-danger");
       $("#mod__title").text("Loading...");
       $("#mod__desc").text("");
-      $("#mod__date_time_venue").html("<strong>Slot :</strong> Loading...  <strong>Venue :</strong> Loading..." );
+      $("#mod__date_time_venue").html("<strong>Slot :</strong> Loading...  " );
     });
   
     $(".mod__close").click(function() {
@@ -129,7 +155,7 @@ $(document).ready(function() {
   
         $("#mod__title").text("Loading...");
         $("#mod__desc").text("");
-        $("#mod__date_time_venue").text("<strong>Slot :</strong> Loading...  <strong>Venue :</strong> Loading..." );
+        $("#mod__date_time_venue").text("<strong>Slot :</strong> Loading... " );
     });
   
     $("#regbtn").click(function() {

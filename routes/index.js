@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
 const api = require("./api");
+const eventJSON = require("../events.json"); 
 
 const redirectAuth = (req, res, next) => {
   if (req.isAuthenticated()) {
@@ -16,7 +17,9 @@ router.get("/", function (req, res, next) {
 });
 /* Get events page*/
 router.get("/events", function (req, res, next) {
-  res.render("pages/events", { loggedIn: false });
+  let user = req.isAuthenticated();
+  console.log(eventJSON.length);
+  res.render("pages/events", { user: user, events: eventJSON, } );
 });
 
 router.get("/auth", function (req, res, next) {
