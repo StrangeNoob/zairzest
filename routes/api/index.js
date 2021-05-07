@@ -279,10 +279,17 @@ router.post('/registerForEvent/:eventID', checkIfAuthenticated, async (req, res)
             });
         } else if (req.body.team_id) {
             // Team events: Join a team
-            const team = await Team.findById(req.body.team_id).exec();
-            const member_count = await EventRegistration.count({ team_id: team.id }).exec();
+            const team = await Team.findOneAndUpdate({
+                _id: req.body.team_id,
+                member_count: {
+                    $lt: event.max_participants
+                }
+            }, {
+                $inc: {
+                    member_count: 1
+                }
+            }).exec();
             if (team) {
-                if (member_count < event.max_participants) {
                     await (new EventRegistration({
                         event_id: event._id,
                         participant_id: req.user._id,
@@ -298,16 +305,10 @@ router.post('/registerForEvent/:eventID', checkIfAuthenticated, async (req, res)
                             extra_data: team.extra_data
                         }
                     });
-                } else {
-                    return res.status(400).send({
-                        status: 'fail',
-                        message: 'Team is full'
-                    });
-                }
             } else {
                 return res.status(400).send({
                     status: 'fail',
-                    message: 'Invalid Team ID'
+                    message: 'Team full or Invalid Team ID'
                 });
             }
         } else if (req.body.team_name) {
@@ -316,7 +317,8 @@ router.post('/registerForEvent/:eventID', checkIfAuthenticated, async (req, res)
                 _id: calculateSHA256(TEAM_ID_LENGTH, req.body.team_name, event._id), 
                 name: req.body.team_name, 
                 event_id: event._id,
-                team_extra_data: req.body.team_extra_data
+                team_extra_data: req.body.team_extra_data,
+                member_count: 1
             });
             await team.save();
             const regdata = new EventRegistration({
@@ -452,7 +454,8 @@ router.get('/getRegistrationData/:eventID', checkIfAuthenticated, async (req, re
                     team_id: team_data._id,
                     team_name: team_data.name,
                     members: member_info[0].members,
-                    extra_data: team_data.extra_data
+                    team_extra_data: team_data.team_extra_data,
+                    extra_data: registration_data.extra_data
                 }
             });
         } else {
