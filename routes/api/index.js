@@ -80,7 +80,8 @@ router.post("/signup", function (req, res) {
         username: req.body.email,
         name: req.body.name,
         regNo: req.body.regNo,
-        branch: req.body.branch
+        branch: req.body.branch,
+        phone: req.body.phone
     });
     User.register(newUser, req.body.password, (err, user) => {
         if (err) {
@@ -285,7 +286,8 @@ router.post('/registerForEvent/:eventID', checkIfAuthenticated, async (req, res)
                     await (new EventRegistration({
                         event_id: event._id,
                         participant_id: req.user._id,
-                        team_id: team._id
+                        team_id: team._id,
+                        extra_data: req.body.extra_data
                     })).save();
         
                     return res.status(200).send({
@@ -314,21 +316,24 @@ router.post('/registerForEvent/:eventID', checkIfAuthenticated, async (req, res)
                 _id: calculateSHA256(TEAM_ID_LENGTH, req.body.team_name, event._id), 
                 name: req.body.team_name, 
                 event_id: event._id,
-                extra_data: req.body.extra_data
+                team_extra_data: req.body.team_extra_data
             });
             await team.save();
-            await (new EventRegistration({
+            const regdata = new EventRegistration({
                 event_id: event._id,
                 participant_id: req.user._id,
-                team_id: team._id
-            })).save();
+                team_id: team._id,
+                extra_data: req.body.extra_data
+            });
+            await regdata.save();
 
             return res.status(200).send({
                 status: 'success',
                 data: {
                     team_id: team._id,
                     team_name: team.name,
-                    extra_data: team.extra_data
+                    extra_data: regdata.extra_data,
+                    team_extra_data: team.team_extra_data
                 }
             });
         } else {
@@ -409,7 +414,7 @@ router.get('/getRegistrationData/:eventID', checkIfAuthenticated, async (req, re
             const member_info = await EventRegistration.aggregate([
                 {
                   '$match': {
-                    'team_id': '6f3d4f'
+                    'team_id': team_data._id
                   }
                 }, {
                   '$lookup': {
@@ -446,7 +451,6 @@ router.get('/getRegistrationData/:eventID', checkIfAuthenticated, async (req, re
                 data: {
                     team_id: team_data._id,
                     team_name: team_data.name,
-                    meeting_link: team_data.meeting_link,
                     members: member_info[0].members,
                     extra_data: team_data.extra_data
                 }

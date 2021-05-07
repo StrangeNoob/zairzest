@@ -86,7 +86,8 @@ const eventSchema = new mongoose.Schema({
             phone: String
         }
     ],
-    extra_data: [String]
+    extra_data: [String],
+    team_extra_data: [String]
 });
 
 const Event = mongoose.model('Event', eventSchema);
@@ -99,7 +100,7 @@ const teamSchema = new mongoose.Schema({
         uppercase: true
     },
     event_id: mongoose.SchemaTypes.ObjectId,
-    extra_data: {
+    team_extra_data: {
         type: Map,
         of: String
     }
