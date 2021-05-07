@@ -23,11 +23,11 @@
       <%- include('../partials/preloader.ejs') %>
       <%- include('../partials/modal.ejs') %>
       <%- include('../partials/toast.ejs') %>
-      <h1 class="lg:text-5xl md:text-3xl text-xl leading-tight lg:text-left text-center Scout m-auto heading">
+      <h1 class="lg:text-5xl text-3xl leading-tight text-center Scout mx-auto mt-10">
         <span style="color:#FF7610">Zai</span><span style="color:#000">rz</span><span style="color:#1071FF">est</span>
         <span style="color:#1071FF">Ev</span><span style="color:#000">en</span><span style="color:#FF7610">ts</span> 
       </h1>
-      <div class="container mx-auto px-4 pt-6 sm:p-0 sm-m-0">
+      <div class="container mx-auto">
       <div
         class="grid grid-cols-1 2xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-2 xl:grid-cols-3 xl:gap-28 lg:gap-64 gap-32 grid-container justify-items-center"
       >
@@ -38,8 +38,8 @@
             <div class="modal-open pointer" data-title="<%= events[d].name %>" data-desc="<%= events[d].description %>" data-image="/images/events.jpeg" data-date_time="<%= events[d].date %>" data-max_participants="<%= events[d].max_participants %>">
               <img
                   src="/images/events.jpeg"
-                  alt="dummy img"
-                  class="rounded-xl dummy"
+                  alt=""
+                  class="rounded-xl mx-auto dummy"
               />
 
               <div class="bg-white p-6 rounded-lg shadow-lg event-container">
