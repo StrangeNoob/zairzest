@@ -112,9 +112,9 @@ $(document).ready(function() {
             if (message.data.registered == true) {
               // Make the button into a Unregister button
               if(max_participants != "1"){
-                var insertHTML = "";
-                insertHTML += `<strong>Team Id : ${message.data.team_id}</strong><br>`;
-                insertHTML += `<strong>Team Name : ${message.data.team_name}</strong><br>` ;
+                var insertHTML = "<h1 class='text-black-800 lg:text-xl text-lg'>Team Leader must share <b> Team Code/Id</b> with their respective Team members.Futher Information will be notified through Mail </h1>";
+                insertHTML += `<h1 class='text-black-800 lg:text-xl text-lg' ><strong>Team Id : ${message.data.team_id}</strong><br>`;
+                insertHTML += `<strong>Team Name : ${message.data.team_name}</strong><br><h1>` ;
                 insertHTML += `<ol><strong>Team Members :</strong>` ;
                 message.data.members.forEach(element => {
                   insertHTML += `<li>${element} <li>`;  
