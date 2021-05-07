@@ -67,7 +67,7 @@ const eventRegistrationSchema = new mongoose.Schema({
     }
 });
 
-eventRegistrationSchema.index({ participant_id: 1, event_id: 1 });
+eventRegistrationSchema.index({ participant_id: 1, event_id: 1 }, { unique: true });
 eventRegistrationSchema.index({ team_id: 1 });
 
 const EventRegistration = mongoose.model('EventRegistration', eventRegistrationSchema)

@@ -248,7 +248,7 @@ router.post("/profile",checkIfAuthenticated, (req, res)=>{
 
 
 // Event API
-
+// TODO: add extra_data whose keys are matched in events 
 // Register for an event
 router.post('/registerForEvent/:eventID', checkIfAuthenticated, async (req, res) => {
     let event;
@@ -290,19 +290,21 @@ router.post('/registerForEvent/:eventID', checkIfAuthenticated, async (req, res)
                 }
             }).exec();
             if (team) {
-                    await (new EventRegistration({
+                    const regdata = await (new EventRegistration({
                         event_id: event._id,
                         participant_id: req.user._id,
                         team_id: team._id,
                         extra_data: req.body.extra_data
                     })).save();
-        
+                    
+
                     return res.status(200).send({
                         status: 'success',
                         data: {
+                            registered: true,
                             team_id: team._id,
                             team_name: team.name,
-                            extra_data: team.extra_data,
+                            extra_data: regdata.extra_data,
                             team_extra_data: team.team_extra_data
                         }
                     });
@@ -333,6 +335,7 @@ router.post('/registerForEvent/:eventID', checkIfAuthenticated, async (req, res)
             return res.status(200).send({
                 status: 'success',
                 data: {
+                    registered: true,
                     team_id: team._id,
                     team_name: team.name,
                     extra_data: regdata.extra_data,
