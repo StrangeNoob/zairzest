@@ -38,7 +38,7 @@ router.use(passport.session());
 
 
 const checkIfAuthenticated = (req, res, next) => {
-  console.log(req.user,req.isAuthenticated());
+
   if (req.isAuthenticated()) {
     return next();
   }
@@ -459,6 +459,7 @@ router.get('/getRegistrationData/:eventID', checkIfAuthenticated, async (req, re
             res.status(200).send({
                 status: 'success',
                 data: {
+                    registered: true,
                     team_id: team_data._id,
                     team_name: team_data.name,
                     members: member_info[0].members,

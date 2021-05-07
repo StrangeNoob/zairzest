@@ -1,18 +1,173 @@
-[
-{"name":"Programemer","category":"Fun","description":"Are you a memer enrolled into B.tech? Show us your skills by integrating tech relevant contents into trendin' meme templates.","imageURL":"/image/events/programemer.png","date":"13/05/2021 20:00:00","max_participants":"1"},
-{"name":"IPL fan fight","category":"Fun","description":"Upset about the Suspension of IPL? we bring you a fan fight to portray your support for your favourite team.","imageURL":"/image/events/ipl_fanfight.png","date":"14/05/2021 11:15:00","max_participants":"1"},
-{"name":"Guess the song","category":"Fun","description":"Tired of repeated remixes and awful lyrics? Flex your knowledge of Bollywood's retro classics meanwhile enjoying them.","imageURL":"/image/events/guess_the_song.png","date":"14/05/2021 11:45:00","max_participants":"1"},
-{"name":"Software Workshop","category":"workshop","description":"Upscale your knowledge of Open Source by learning from Open Source community experts.","imageURL":"/image/events/software_workshop.png","date":"14/05/2021 18:30:00","max_participants":"1"},
-{"name":"Brainsourcing","category":"Tech","description":"Not all Heroes wear capes, some come up revolutionary ideas that help the mankind in taking a quantum leap ahead. You can be a hero too by open sourcing your ideas","imageURL":"/image/events/brainsourcing.png","date":"14/05/2021  19:45:00","max_participants":"1"},
-{"name":"Code it Out","category":"Tech","description":"Competitive Programmers' paradise comprising of tricky and comprehensive set of curated questions","imageURL":"/image/events/code_it_out.png","date":"14/05/2021  20:45:00","max_participants":"1"},
-{"name":"United gamers' League-day1","category":"Fun","description":"Given gaming is you field your expertise, United gamers' league is a well-suited platform to celebrate the e-sports cult.","imageURL":"/image/events/united_gl.png","date":"14/05/2021  22:30:00","max_participants":"5"},
-{"name":"General Quiz","category":"Tech","description":"All the quizzards out there gear up for some real tech quizzing to challange your competence.","imageURL":"/image/events/quiz.png","date":"15/05/2021  10:30:00","max_participants":"2"},
-{"name":"GNOME theatre","category":"Fun","description":"Do you also have an \"acting ka keeda\" within you? Then come up with tech analogues of famous bollywood dialogues.","imageURL":"/image/events/gnome_theatre.png","date":"15/05/2021  17:45:00","max_participants":"1"},
-{"name":"Hardware Workshop","category":"Workshop","description":"Do you find robotics interesting, kickstart your career in Robotics and Embedded tech. guided by industry experts.","imageURL":"/image/events/hardware_workshop.png","date":"15/05/2021 18:45:00","max_participants":"1"},
-{"name":"United gamers' League-day2","category":"Fun","description":"Given gaming is you field your expertise, United gamers' league brings you a platform to celebrate the e-sports cult.","imageURL":"/image/events/united_gl.png","date":"15/05/2021 22:30:00","max_participants":"5"},
-{"name":"Dig The Web","category":"Tech","description":"Surfing the web is no more a hobby is an essential skill and we shall provide you with a certification to endorse it!!","imageURL":"/image/events/dig_the_web.png","date":"16/05/2021  22:00:00","max_participants":"2"},
-{"name":"Designing workshop","category":"Workshop","description":"Learn how to weave your imagination with creativity and efficacy and transform them into amazing illustrations.","imageURL":"/image/events/design_workshop.png","date":"16/05/2021  11:45:00","max_participants":"1"},
-{"name":"Questions Only Conversation","category":"Fun","description":"Euripedes said, \"Question everything. Learn something. Answer nothing\". And hence the sole rule of the game, respond to questions with questions!","imageURL":"/image/events/qs_convo.png","date":"16/05/2021  15:00:00","max_participants":"1"},
-{"name":"CP workshop","category":"Workshop","description":"Competitive Programmers' wishing to surge their analytical and problem solving efficiency we have you we've got you covered!!","imageURL":"/image/events/cp_workshop.png","date":"16/05/2021  18:00:00","max_participants":"1"},
-{"name":"Hackanton","category":"Tech event","description":"","imageURL":"/image/events/hackanthon.png","date":"08/05/2021 19:00:00","max_participants":"4"}
-]
+[{
+    "_id": {
+      "$oid": "60950d498247006f265ac3fa"
+    },
+    "name": "Programemer",
+    "category": "Fun",
+    "description": "Are you a memer enrolled into B.tech? Show us your skills by integrating tech relevant contents into trendin' meme templates.",
+    "imageURL": "/image/events/programemer.png",
+    "date": "13/05/2021 20:00:00",
+    "max_participants": "1",
+    "isListed": false
+  },{
+    "_id": {
+      "$oid": "60950d498247006f265ac3fb"
+    },
+    "name": "IPL fan fight",
+    "category": "Fun",
+    "description": "Upset about the Suspension of IPL? we bring you a fan fight to portray your support for your favourite team.",
+    "imageURL": "/image/events/ipl_fanfight.png",
+    "date": "14/05/2021 11:15:00",
+    "max_participants": "1",
+    "isListed": false
+  },{
+    "_id": {
+      "$oid": "60950d498247006f265ac3fc"
+    },
+    "name": "Guess the song",
+    "category": "Fun",
+    "description": "Tired of repeated remixes and awful lyrics? Flex your knowledge of Bollywood's retro classics meanwhile enjoying them.",
+    "imageURL": "/image/events/guess_the_song.png",
+    "date": "14/05/2021 11:45:00",
+    "max_participants": "1",
+    "isListed": false
+  },{
+    "_id": {
+      "$oid": "60950d498247006f265ac3fd"
+    },
+    "name": "Software Workshop",
+    "category": "workshop",
+    "description": "Upscale your knowledge of Open Source by learning from Open Source community experts.",
+    "imageURL": "/image/events/software_workshop.png",
+    "date": "14/05/2021 18:30:00",
+    "max_participants": "1",
+    "isListed": false
+  },{
+    "_id": {
+      "$oid": "60950d498247006f265ac3fe"
+    },
+    "name": "Brainsourcing",
+    "category": "Tech",
+    "description": "Not all Heroes wear capes, some come up revolutionary ideas that help the mankind in taking a quantum leap ahead. You can be a hero too by open sourcing your ideas",
+    "imageURL": "/image/events/brainsourcing.png",
+    "date": "14/05/2021  19:45:00",
+    "max_participants": "1",
+    "isListed": false
+  },{
+    "_id": {
+      "$oid": "60950d498247006f265ac3ff"
+    },
+    "name": "Code it Out",
+    "category": "Tech",
+    "description": "Competitive Programmers' paradise comprising of tricky and comprehensive set of curated questions",
+    "imageURL": "/image/events/code_it_out.png",
+    "date": "14/05/2021  20:45:00",
+    "max_participants": "1",
+    "isListed": false
+  },{
+    "_id": {
+      "$oid": "60950d498247006f265ac400"
+    },
+    "name": "United gamers' League-day1",
+    "category": "Fun",
+    "description": "Given gaming is you field your expertise, United gamers' league is a well-suited platform to celebrate the e-sports cult.",
+    "imageURL": "/image/events/united_gl.png",
+    "date": "14/05/2021  22:30:00",
+    "max_participants": "5",
+    "isListed": false
+  },{
+    "_id": {
+      "$oid": "60950d498247006f265ac401"
+    },
+    "name": "General Quiz",
+    "category": "Tech",
+    "description": "All the quizzards out there gear up for some real tech quizzing to challange your competence.",
+    "imageURL": "/image/events/quiz.png",
+    "date": "15/05/2021  10:30:00",
+    "max_participants": "2",
+    "isListed": false
+  },{
+    "_id": {
+      "$oid": "60950d498247006f265ac402"
+    },
+    "name": "GNOME theatre",
+    "category": "Fun",
+    "description": "Do you also have an \"acting ka keeda\" within you? Then come up with tech analogues of famous bollywood dialogues.",
+    "imageURL": "/image/events/gnome_theatre.png",
+    "date": "15/05/2021  17:45:00",
+    "max_participants": "1",
+    "isListed": false
+  },{
+    "_id": {
+      "$oid": "60950d498247006f265ac403"
+    },
+    "name": "Hardware Workshop",
+    "category": "Workshop",
+    "description": "Do you find robotics interesting, kickstart your career in Robotics and Embedded tech. guided by industry experts.",
+    "imageURL": "/image/events/hardware_workshop.png",
+    "date": "15/05/2021 18:45:00",
+    "max_participants": "1",
+    "isListed": false
+  },{
+    "_id": {
+      "$oid": "60950d498247006f265ac404"
+    },
+    "name": "United gamers' League-day2",
+    "category": "Fun",
+    "description": "Given gaming is you field your expertise, United gamers' league brings you a platform to celebrate the e-sports cult.",
+    "imageURL": "/image/events/united_gl.png",
+    "date": "15/05/2021 22:30:00",
+    "max_participants": "5",
+    "isListed": false
+  },{
+    "_id": {
+      "$oid": "60950d498247006f265ac405"
+    },
+    "name": "Dig The Web",
+    "category": "Tech",
+    "description": "Surfing the web is no more a hobby is an essential skill and we shall provide you with a certification to endorse it!!",
+    "imageURL": "/image/events/dig_the_web.png",
+    "date": "16/05/2021  22:00:00",
+    "max_participants": "2",
+    "isListed": false
+  },{
+    "_id": {
+      "$oid": "60950d498247006f265ac406"
+    },
+    "name": "Designing workshop",
+    "category": "Workshop",
+    "description": "Learn how to weave your imagination with creativity and efficacy and transform them into amazing illustrations.",
+    "imageURL": "/image/events/design_workshop.png",
+    "date": "16/05/2021  11:45:00",
+    "max_participants": "1",
+    "isListed": false
+  },{
+    "_id": {
+      "$oid": "60950d498247006f265ac407"
+    },
+    "name": "Questions Only Conversation",
+    "category": "Fun",
+    "description": "Euripedes said, \"Question everything. Learn something. Answer nothing\". And hence the sole rule of the game, respond to questions with questions!",
+    "imageURL": "/image/events/qs_convo.png",
+    "date": "16/05/2021  15:00:00",
+    "max_participants": "1",
+    "isListed": false
+  },{
+    "_id":  "60950d498247006f265ac408",
+    "name": "CP workshop",
+    "category": "Workshop",
+    "description": "Competitive Programmers' wishing to surge their analytical and problem solving efficiency we have you we've got you covered!!",
+    "imageURL": "/image/events/cp_workshop.png",
+    "date": "16/05/2021  18:00:00",
+    "max_participants": "1",
+    "isListed": false
+  },{
+    "_id":  "60950d498247006f265ac409",
+    "name": "Hackanton",
+    "category": "Tech event",
+    "description": "",
+    "imageURL": "/image/events/hackanthon.png",
+    "date": "08/05/2021 19:00:00",
+    "max_participants": "4",
+    "isListed": false
+  }]

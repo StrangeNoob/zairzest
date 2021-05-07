@@ -27,20 +27,33 @@ $(document).ready(function() {
       const modal = document.querySelector('.modal')
       modal.classList.toggle('opacity-0')
       modal.classList.toggle('pointer-events-none')
-      body.classList.toggle('modal-active')
+      body.classList.toggle('modal-active');
+      modal.classList.toggle("mod--show");
+      if(!($("body").hasClass("modal-active"))){
+        $("#teamreg-btn").hide();
+        $("#joinreg-btn").hide();
+        $("#unreg-btn").hide();
+        $("#singlereg-btn").hide();
+        $("#mod__title").text("Loading...");
+        $("#mod__desc").text("");
+        $("#mod__date_time_venue").html("<strong>Slot :</strong> Loading... " );
+        $("#join-team-form").hide();
+        $("#create-team-form").hide();
+      }
     }
     $(".modal-open").click(function(event) {
       window.currentItem = $(event.target).parent();
       // console.log("clicked", currentItem);
       toggleModal();
       var mod = document.querySelector(".modal");
-      if (!$(mod).hasClass("mod--show")) {
+      if ($("body").hasClass("modal-active")) {
         let eventID = $(currentItem).attr("data-id")
         mod.eventID = eventID;
         let coverURL = $(currentItem).attr("data-image");
         let title = $(currentItem).attr("data-title");
         let desc = $(currentItem).attr('data-desc');
         let date_time = $(currentItem).attr('data-date_time');
+        let max_participants = $(currentItem).attr('data-max_participants');
 
         $("#mod__form_desc").hide();
       
@@ -48,215 +61,140 @@ $(document).ready(function() {
   
         // Check if the user is already registered for the event
         // and set the function of the button as required
-        fetch(`/getregister/${eventID}`).then(function(res) {
+        fetch(`/getRegistrationData/${eventID}`).then(function(res) {
           if (res.ok) {
-          return res.text();
+          return res.json();
           } else {
-            return "E";
+            return { registered: false };
           }
         }).then(function(message) {
-          let buttonText;
-          if (message == "T") {
-  
+          console.log(message);
+          if (message.data.registered == true) {
             // Make the button into a Unregister button
-            buttonText = "Unregister";
-            $("#regbtn")
-              .removeClass("btn-success")
-              .addClass("btn-danger")
-              .text(buttonText)
-              .removeClass("hide");
-              if(form_link === "#"){
-                $("#mod__form_desc").hide();
-              }else{
-                $("#mod__form_desc").show();
-              }
-           
+            $("#unreg-btn").show();
           } else {
-  
+            console.log(max_participants);
             // Make the button into a Register button
-            buttonText = "Register";
-            $("#regbtn")
-              .removeClass("btn-danger")
-              .addClass("btn-success")
-              .text(buttonText)
-              .removeClass("hide");
-              $("#mod__form_desc").hide();
+            if(max_participants == "1"){
+              $("#singlereg-btn").show();
+            }else{
+              $("#teamreg-btn").show();
+              $("#joinreg-btn").show();
+            }
           }
         });
-  
   
         // Add a cover image, title and description to the modal
         $("#mod__cover").attr("src", coverURL);
         $("#mod__title").text(title);
         $("#mod__desc").text(desc);
         $("#mod__date_time_venue").html(`<strong>Date & Time :</strong> ${date_time} IST`);
-  
-        if(rule_link === '#'){
-          $("#mod__rule_desc").hide();
-        }else{
-          $("#mod__rule_desc").show();
-          $("#mod__rule_link").attr("target","_blank");
-        } 
-        if(form_link === '#'){
-          $("#mod__form_desc").hide();
-        }else{
-          $("#mod__form_link").attr("target","_blank");
+
+        $("#teamreg-btn").click(function(){
+          $("#teamreg-btn").hide();
+          $("#joinreg-btn").hide();
+          $("#create-team-form").show();
+        });
+
+        $("#joinreg-btn").click(function(){
+          $("#teamreg-btn").hide();
+          $("#joinreg-btn").hide();
+          $("#join-team-form").show();
+        });
+
+        function validateMeetURL(meetURL) {
+          const re = /^(https?:\/\/)?meet\.google\.com\/[a-z]{3}-[a-z]{4}-[a-z]{3}$/;
+          return re.test(String(meetURL).toLowerCase());
         }
-        $('#downloadbtn').click(function(){
-          if(rule_link === '#'){
-            Toast.fire({
-              icon: "info",
-              title: "Sorry, Rules are not available yet."
-            });
+
+        $("#create-team-btn").click(function(){
+
+          var meetURL = $("#create-meeting-url").val(); 
+          var teamName = $("create-team-name").val();          
+          if(teamName === ""){
+            showToast(400,"Team Name Should not be empty");
+          }else if(validateMeetURL(meetURL)){
+            showToast(400,"Team Meet URL is not in correct format");
+          }else{
+            const data = {
+              eventID:eventID,
+              team_name: teamName,
+              extra_data:{
+                "meetURL": meetURL,
+              }
+            };
+  
+            $.ajax({
+              type: "POST",
+              url: `/registerForEvent/${eventID}`,
+              data: data,
+              dataType: "json",
+            })
+              .done(function (data) {
+                if(data.statusCode == 200){
+                  showToast(200, "Team Created Successfull");
+                  $("#join-team-form").hide();
+                  $("#create-team-form").hide();
+                  $("#teamreg-btn").hide();
+                  $("#joinreg-btn").hide();
+                  $("#unreg-btn").show();
+                }else{
+                  showToast(400, data.message);
+                }
+              })
+              .fail(function (err) {
+                showToast(400, err.message);
+              });
           }
         });
-        $('#formbtn').click(function(){
-          if(rule_link === '#'){
-            Toast.fire({
-              icon: "info",
-              title: "Sorry, Forms are not available yet."
-            });
+        $("#join-team-btn").click(function(){
+
+          var teamName = $("join-team-name").val();          
+          if(teamName === ""){
+            showToast(400,"Team Name Should not be empty");
+          }else{
+            const data = {
+              eventID:eventID,
+              team_name: teamName,
+            };
+  
+            $.ajax({
+              type: "POST",
+              url: `/registerForEvent/${eventID}`,
+              data: data,
+              dataType: "json",
+            })
+              .done(function (data) {
+                if(data.statusCode == 200){
+                  showToast(200, "Team Joined Successfull");
+                  $("#join-team-form").hide();
+                  $("#create-team-form").hide();
+                  $("#teamreg-btn").hide();
+                  $("#joinreg-btn").hide();
+                  $("#unreg-btn").show();
+                }else{
+                  showToast(400, data.message);
+                }
+              })
+              .fail(function (err) {
+                showToast(400, err.message);
+              });
           }
         });
-      } else {
+
+
+
+
+        } else {
         // When the modal closes, remove both classes and hide the button
         $("#regbtn").removeClass("btn-success").removeClass("btn-danger").addClass("hide");
   
         // Empty the title and description
         $("#mod__title").text("Loading...");
         $("#mod__desc").text("");
-        $("#mod__date_time_venue").html("<strong>Slot :</strong> Loading...  <strong>Venue :</strong> Loading..." );
-      }
-  
-      // Show the modal
-      $(mod).toggleClass("mod--show");
-      $("body").toggleClass("hide-overflow");
-    });
-  
-    $(".overlay").click(function() {
-      $(mod).toggleClass("mod--show");
-      $("body").toggleClass("hide-overflow");
-      $("#regbtn").addClass("hide");
-  
-  
-      $("#regbtn").removeClass("btn-success").removeClass("btn-danger");
-      $("#mod__title").text("Loading...");
-      $("#mod__desc").text("");
-      $("#mod__date_time_venue").html("<strong>Slot :</strong> Loading...  " );
-    });
-  
-    $(".mod__close").click(function() {
-      $(mod).toggleClass("mod--show");
-      $("body").toggleClass("hide-overflow");
-      $("#regbtn").addClass("hide");
-  
-  
-      $("#regbtn").removeClass("btn-success").removeClass("btn-danger").addClass("hide");
-  
-        $("#mod__title").text("Loading...");
-        $("#mod__desc").text("");
-        $("#mod__date_time_venue").text("<strong>Slot :</strong> Loading... " );
-    });
-  
-    $("#regbtn").click(function() {
-  
-      // Disable the button after it is clicked
-      // $("#regbtn").attr("disabled", true);
-      $("#regbtn")
-        .addClass("hide")
-        .removeClass("btn-success")
-        .removeClass("btn-danger");
-      $("#mod__form_desc").hide();
-      if ($("#regbtn").text() == "Register") {
-  
-        // If the button says Register
-        // make a GET request to the register route
-        fetch(`/register/${mod.eventID}`).then(function(res) {
-          if (res.ok) {
-            return res.text();
-            } else {
-              return "E";
-            }
-        })
-        .then(function(data) {
-  
-          if (data == "T") { // If Registered successfully
-  
-            let form_link = $(currentItem).attr('data-form_link');
-            // Change text to Unregister
-            $("#regbtn").text("Unregister");
-            $("#regbtn").addClass("btn-danger");
-            if(form_link === "#"){
-              $("#mod__form_desc").hide();
-            }else{
-              $("#mod__form_desc").show();
-            }
-            
-          } else {
-            // Change text back to Register
-            $("#regbtn").text("Register");
-            $("#regbtn").addClass("btn-success");
-            $("#mod__form_desc").hide();
-          }
-  
-          if (data == "E") {
-            // Close the modal
-            $(mod).toggleClass("mod--show");
-            $("body").toggleClass("hide-overflow");
-            // Notify errors
-            Toast.fire({
-              icon: "info",
-              title: "Sorry, we couldn't do that. Please reload the page."
-            });
-  
-          }
-  
-          // Enable the button
-          $("#regbtn").attr("disabled", false);
-          $("#regbtn").removeClass("hide");
-  
-        })
-      } else if ($("#regbtn").text() == "Unregister") {
-  
-        // If the button says Unregister
-        // make a GET request to the unregister route
-        fetch(`/unregister/${mod.eventID}`).then(function(res) {
-  
-          if (res.ok) {
-            return res.text();
-            } else {
-              return "E";
-            }
-        }).then(function(data) {
-  
-          if (data == "T") { // If Unregistered successfully
-  
-            // Change text to Register
-            $("#regbtn").text("Register");
-            $("#regbtn").addClass("btn-success");
-            $("#mod__form_desc").hide();
-          } else {
-            // Change text back to Unregister
-            $("#regbtn").text("Unregister");
-            $("#regbtn").addClass("btn-danger");
-            $("#mod__form_desc").hide();
-          }
-  
-          if (data == "E") {
-            // Close the modal
-            $(mod).toggleClass("mod--show");
-            $("body").toggleClass("hide-overflow");
-            // Notify errors
-            Toast.fire({
-              icon: "info",
-              title: "Sorry, we couldn't do that. Please reload the page."
-            });
-          }
-  
-          // Enable the button
-          $("#regbtn").attr("disabled", false);
-          $("#regbtn").removeClass("hide");
-        })
+        $("#mod__date_time_venue").html("<strong>Slot :</strong> Loading... " );
       }
     });
+    
+
   });
