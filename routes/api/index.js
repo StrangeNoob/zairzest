@@ -375,9 +375,17 @@ router.post('/deregisterForEvent/:eventID', checkIfAuthenticated, async (req, re
 
     try {
         if (registration_data?.team_id) {
-            const lastMemberQuit = !(await EventRegistration.exists({ team_id: registration_data.team_id }));
-            if (lastMemberQuit) {
-                await Team.findByIdAndDelete(registration_data.team_id).exec()
+            const team = await Team.findByIdAndUpdate(
+				registration_data.team_id,
+				{
+					$inc: {
+						member_count: -1,
+					},
+				}
+			).exec();
+
+            if(team.member_count == 0){
+                team.remove();
             }
         }
     } catch (e) {
