@@ -95,7 +95,7 @@ $(document).ready(function() {
 
         $("#mod__form_desc").hide();
       
-        $("#mod__cover").attr("src", "/image/scout.png");
+        $("#mod__cover").attr("src", "/image/eventcomingsoon.jpeg");
   
         // Check if the user is already registered for the event
         // and set the function of the button as required
@@ -119,7 +119,7 @@ $(document).ready(function() {
                   insertHTML += `<li>${element} <li>`;  
                 });
                 insertHTML += `</ol>`;
-                console.log(!message.data.team_extra_data && message.data.extra_data.length != 0);
+                // console.log(message.data.team_extra_data && message.data.extra_data.length != 0);
                 if(message.data.team_extra_data && message.data.team_extra_data.length != 0){
                   insertHTML += `<ol><strong>Extra Details : </strong>`;
                   Object.keys(message.data.team_extra_data).forEach(function(key,index) {
@@ -179,7 +179,7 @@ $(document).ready(function() {
             const data = {
               eventID:eventID,
               team_name: teamName,
-              extra_data:{
+              team_extra_data:{
                 "meetURL": meetURL,
               }
             };
