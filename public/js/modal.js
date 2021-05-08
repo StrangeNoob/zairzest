@@ -99,7 +99,8 @@ $(document).ready(function() {
         // Check if the user is already registered for the event
         // and set the function of the button as required
 
-        if(isListed == true){
+        if(isListed == "true"){
+          $("#loader").show();
           fetch(`/getRegistrationData/${eventID}`).then(function(res) {
             if (res.ok) {
             return res.json();
@@ -108,6 +109,7 @@ $(document).ready(function() {
             }
           }).then(function(message) {
             console.log(message);
+            $("#loader").hide();
             if (message.data.registered == true) {
               // Make the button into a Unregister button
               if(max_participants != "1"){
@@ -139,6 +141,9 @@ $(document).ready(function() {
                   $("#teamreg-btn").show();
                   $("#joinreg-btn").show();
                 }
+              }else{
+                var insertHTML = "<h1 class='text-black-800 lg:text-xl text-lg mx-auto'>Registration Time is now <b> Over.</b></h1>";
+                $(`#mod_team-details`).html(insertHTML);
               }
             }
           });
