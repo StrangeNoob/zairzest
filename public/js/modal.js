@@ -1,4 +1,3 @@
-
 $(document).ready(function() {
 
   function validate(id,res) {
@@ -101,6 +100,7 @@ $(document).ready(function() {
         // and set the function of the button as required
 
         if(isListed == "true"){
+          $("#loader").show();
           fetch(`/getRegistrationData/${eventID}`).then(function(res) {
             if (res.ok) {
             return res.json();
@@ -109,6 +109,7 @@ $(document).ready(function() {
             }
           }).then(function(message) {
             console.log(message);
+            $("#loader").hide();
             if (message.data.registered == true) {
               // Make the button into a Unregister button
               if(max_participants != "1"){
@@ -133,12 +134,16 @@ $(document).ready(function() {
               $("#unreg-btn").show();
             } else {
               console.log(max_participants);
-              // Make the button into a Register button
-              if(max_participants == "1"){
-                $("#singlereg-btn").show();
+              if(moment(Date.now()).isAfter(moment(date_time))){
+                if(max_participants == "1"){
+                  $("#singlereg-btn").show();
+                }else{
+                  $("#teamreg-btn").show();
+                  $("#joinreg-btn").show();
+                }
               }else{
-                $("#teamreg-btn").show();
-                $("#joinreg-btn").show();
+                var insertHTML = "<h1 class='text-black-800 lg:text-xl text-lg mx-auto'>Registration Time is now <b> Over.</b></h1>";
+                $(`#mod_team-details`).html(insertHTML);
               }
             }
           });
@@ -170,41 +175,49 @@ $(document).ready(function() {
 
         $("#create-team-btn").click(function(){
 
-          var meetURL = $("#create-meeting-url").val(); 
-          var teamName = $("#create-team-name").val();          
-          if(teamName === ""){
-            showToast(400,"Team Name Should not be empty");
-          }else if(!validateMeetURL(meetURL)){
-            showToast(400,"Team Meet URL is not in correct format");
-          }else{
-            $(`#create-team-btn`).addClass("onclic", 50);
-            const data = {
-              eventID:eventID,
-              team_name: teamName,
-              team_extra_data:{
-                "meetURL": meetURL,
-              }
-            };
-            
-            $.ajax({
-              type: "POST",
-              url: `/registerForEvent/${eventID}`,
-              data: data,
-              dataType: "json",
-            })
-              .done(function (data) {
-                validate("create-team-btn",data);
-                
+          if(!moment(Date.now()).isAfter(moment(date_time))){
+            var meetURL = $("#create-meeting-url").val(); 
+            var teamName = $("#create-team-name").val();          
+            if(teamName === ""){
+              showToast(400,"Team Name Should not be empty");
+            }else if(!validateMeetURL(meetURL)){
+              showToast(400,"Team Meet URL is not in correct format");
+            }else{
+              $(`#create-team-btn`).addClass("onclic", 50);
+              const data = {
+                eventID:eventID,
+                team_name: teamName,
+                team_extra_data:{
+                  "meetURL": meetURL,
+                }
+              };
+              
+              $.ajax({
+                type: "POST",
+                url: `/registerForEvent/${eventID}`,
+                data: data,
+                dataType: "json",
               })
-              .fail(function (err) {
-                validate("create-team-btn",err);
-              });
+                .done(function (data) {
+                  validate("create-team-btn",data);
+                  
+                })
+                .fail(function (err) {
+                  validate("create-team-btn",err);
+                });
+            }
+          }else{
+            showToast(400,"Registration Time is Over.");
+
           }
         });
         $("#join-team-btn").click(function(){
 
           var team_id = $("#join-team-code").val();          
-          if(team_id === ""){
+          if(moment(Date.now()).isAfter(moment(date_time))){
+              showToast(400,"Registration Time is Over.");
+          }
+          else if(team_id === ""){
             showToast(400,"Team Name Should not be empty");
           }else{
             $(`#create-team-btn`).addClass("onclic", 50);
@@ -230,7 +243,6 @@ $(document).ready(function() {
 
      
             $(`#unreg-btn`).addClass("onclic", 50);
-
             $.ajax({
               type: "POST",
               url: `/deregisterForEvent/${eventID}`,
