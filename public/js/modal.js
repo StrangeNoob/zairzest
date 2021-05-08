@@ -1,4 +1,3 @@
-
 $(document).ready(function() {
 
   function validate(id,res) {
@@ -100,7 +99,7 @@ $(document).ready(function() {
         // Check if the user is already registered for the event
         // and set the function of the button as required
 
-        if(isListed == "true"){
+        if(isListed == true || moment(Date.now()).isAfter(moment(date_time))){
           fetch(`/getRegistrationData/${eventID}`).then(function(res) {
             if (res.ok) {
             return res.json();
@@ -133,12 +132,13 @@ $(document).ready(function() {
               $("#unreg-btn").show();
             } else {
               console.log(max_participants);
-              // Make the button into a Register button
-              if(max_participants == "1"){
-                $("#singlereg-btn").show();
-              }else{
-                $("#teamreg-btn").show();
-                $("#joinreg-btn").show();
+              if(moment(Date.now()).isAfter(moment(date_time))){
+                if(max_participants == "1"){
+                  $("#singlereg-btn").show();
+                }else{
+                  $("#teamreg-btn").show();
+                  $("#joinreg-btn").show();
+                }
               }
             }
           });
