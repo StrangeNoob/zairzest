@@ -6,15 +6,8 @@
   
   <div class="modal-container bg-green-50 w-2/3 mx-auto rounded rounded-lg shadow-lg z-50 overflow-y-auto">
     
-    <div class="modal-close absolute top-0 right-0 cursor-pointer flex flex-col items-center mt-4 mr-4 text-white text-sm z-50">
-      <svg class="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
-        <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
-      </svg>
-      <span class="text-sm">(Esc)</span>
-    </div>
-
     <!-- Add margin if you want to see some of the overlay behind the modal-->
-    <div class="modal-content py-4 text-left px-6">
+    <div class="modal-content py-4 text-left px-6" >
       <!--Title-->
       <div class="flex justify-between items-center pb-3">
         <p class="text-2xl font-bold" ></p>
@@ -27,7 +20,7 @@
 
       <!--Body-->
         <div class="grid lg:grid-cols-2 grid-cols-1">
-          <div class="">
+          <div class="pb-8">
             <img id="mod__cover" class="rounded" onerror="this.src='/images/eventcomingsoon.jpeg';" src="/images/eventcomingsoon.jpeg" />
           </div>
           <div class="flex flex-row justify-center px-8">
@@ -50,7 +43,13 @@
                   <button id="unreg-btn" class="hidden px-4 bg-transparent p-3 rounded-lg text-indigo-500 hover:bg-gray-100 hover:text-indigo-400 mr-2">Unregister</button>
                 </div>
             <% } else { %>
-              <a href="/auth#signin" class="text-red-600 text-decoration-none"><button id="unreg-btn" class=" hidden px-4 bg-transparent p-3 rounded-lg text-indigo-500 hover:bg-gray-100 hover:text-indigo-400 mr-2">Please Log In to register for events</button></a>
+              <script>
+                function gotoLogin(){
+                  let page = window.location.href.split("/")[window.location.href.split("/").length - 1];
+                  window.location.href=`/auth#signin?next=/${page}`;
+                }
+              </script>
+              <button id="login-btn" class=" mt-5 tracking-wide font-semibold register-btn text-gray-100 hover:text-white w-full py-4 rounded-lg transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none" onclick="gotoLogin()">Please Log In to register for events</button>  
             <% } %>
             <div class="flex flex-row justify-center">
             <div id="create-team-form" class="hidden mt-8 form max-w-md w-full"> 
@@ -94,11 +93,13 @@
           </div>
           </div>
         </div>
-
+      
 
       
     </div>
   </div>
+  </div>
+  </div>
 </div>
-
+<script src="/js/utils/moment.js"></script>
 <script src="/js/modal.js"></script>

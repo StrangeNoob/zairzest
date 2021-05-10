@@ -264,7 +264,7 @@ router.post('/registerForEvent/:eventID', checkIfAuthenticated, async (req, res)
 
     if (req.body.extra_data) {
 		let unknownFields = Object.keys(req.body.extra_data).filter(
-			(x) => !event.extra_data.has(x)
+			(x) => !event.extra_data.includes(x)
 		);
 		if (unknownFields.length > 0) {
 			return res
@@ -275,7 +275,7 @@ router.post('/registerForEvent/:eventID', checkIfAuthenticated, async (req, res)
 
 	if (req.body.team_extra_data) {
 		let unknownFields = Object.keys(req.body.team_extra_data).filter(
-			(x) => !event.team_extra_data.has(x)
+			(x) => !event.team_extra_data.includes(x)
 		);
 		if (unknownFields.length > 0) {
 			return res
@@ -301,7 +301,7 @@ router.post('/registerForEvent/:eventID', checkIfAuthenticated, async (req, res)
                     extra_data: req.body.extra_data
                 }
             });
-        } else if (req.body.team_id) {
+        } else if (req.body.team_id) {        
             // Team events: Join a team
             const team = await Team.findOneAndUpdate({
                 _id: req.body.team_id,
@@ -319,20 +319,35 @@ router.post('/registerForEvent/:eventID', checkIfAuthenticated, async (req, res)
                         participant_id: req.user._id,
                         team_id: team._id,
                         extra_data: req.body.extra_data
-                    })).save();
-                    
-
-                    return res.status(200).send({
-                        status: 'success',
-                        data: {
-                            registered: true,
-                            team_id: team._id,
-                            team_name: team.name,
-                            extra_data: regdata.extra_data,
-                            team_extra_data: team.team_extra_data
-                        }
+                    })).save().then((regdata)=>{
+                        return res.status(200).send({
+                            status: 'success',
+                            data: {
+                                registered: true,
+                                team_id: team._id,
+                                team_name: team.name,
+                                extra_data: regdata.extra_data,
+                                team_extra_data: team.team_extra_data
+                            }
+                        });
+                    }).catch(async (err)=> {
+                        await Team.findByIdAndUpdate(
+                            req.body.team_id,
+                            {
+                                $inc: {
+                                    member_count: -1,
+                                },
+                            }
+                        ).exec();
+                        return res.status(400).send({
+                            status: 'fail',
+                            message: 'You are already registered'
+                        });
                     });
+                    
+                    
             } else {
+
                 return res.status(400).send({
                     status: 'fail',
                     message: 'Team full or Invalid Team ID'
@@ -355,7 +370,6 @@ router.post('/registerForEvent/:eventID', checkIfAuthenticated, async (req, res)
                 extra_data: req.body.extra_data
             });
             await regdata.save();
-
             return res.status(200).send({
                 status: 'success',
                 data: {
@@ -405,7 +419,7 @@ router.post('/deregisterForEvent/:eventID', checkIfAuthenticated, async (req, re
         if (registration_data?.team_id) {
             const team = await Team.findByIdAndUpdate(
 				registration_data.team_id,
-				{
+				{ 
 					$inc: {
 						member_count: -1,
 					},
@@ -413,7 +427,6 @@ router.post('/deregisterForEvent/:eventID', checkIfAuthenticated, async (req, re
 	    				new: true
 	    			}
 			).exec();
-
             if(team.member_count == 0){
                 team.remove();
             }

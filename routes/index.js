@@ -49,15 +49,33 @@ router.get("/profile", redirectAuth, function (req, res, next) {
 });
 
 router.get("/funevents", function (req, res, next) {
-  res.render("pages/comingsoon");
+  let user = req.isAuthenticated();
+  Event.find({category:"Fun"},(err,data)=>{
+    if(err){
+     return next(err);
+    }
+    return res.render("pages/events", { user: user, events: data, });
+  });
 });
 
 router.get("/workshops", function (req, res, next) {
-  res.render("pages/comingsoon");
+  let user = req.isAuthenticated();
+  Event.find({category:"Workshop"},(err,data)=>{
+    if(err){
+     return next(err);
+    }
+    return res.render("pages/events", { user: user, events: data, });
+  });
 });
 
 router.get("/techevents", function (req, res, next) {
-  res.render("pages/comingsoon");
+  let user = req.isAuthenticated();
+  Event.find({category:"Tech"},(err,data)=>{
+    if(err){
+     return next(err);
+    }
+    return res.render("pages/events", { user: user, events: data, });
+  });
 });
 
 
