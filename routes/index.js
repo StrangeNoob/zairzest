@@ -74,6 +74,7 @@ router.get("/techevents", function (req, res, next) {
     if(err){
      return next(err);
     }
+    console.log(data);
     return res.render("pages/events", { user: user, events: data, });
   });
 });
