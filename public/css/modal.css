@@ -74,6 +74,10 @@
   margin: 0 1rem;
 }
 
+#mod__date_time_venue {
+  background-color: rgba(118, 238, 0, 0.3);
+}
+
 .mod__close {
   position: absolute;
   padding: 0;
@@ -171,6 +175,16 @@
   color: white;
 }
 
+#teamreg-btn:hover {
+  background-color: rgba(118, 238, 0, 0.3);
+  color: #0b1700;
+}
+
+#joinreg-btn:hover {
+  background-color: rgba(118, 238, 0, 0.3);
+  color: #0b1700;
+}
+
 .spinner__container {
   display: flex;
   justify-content: center;
@@ -178,13 +192,10 @@
   position: absolute;
 }
 
-
-
 .hide {
   position: absolute;
   visibility: hidden;
 }
-
 
 .mod__text a {
   margin-top: 20px;
@@ -193,7 +204,7 @@
 
 .spinner {
   -webkit-animation: rotator 1.4s linear infinite;
-          animation: rotator 1.4s linear infinite;
+  animation: rotator 1.4s linear infinite;
 }
 
 @-webkit-keyframes rotator {
@@ -217,43 +228,44 @@
   stroke-dasharray: 187;
   stroke-dashoffset: 0;
   transform-origin: center;
-  -webkit-animation: dash 1.4s ease-in-out infinite, colors 5.6s ease-in-out infinite;
-          animation: dash 1.4s ease-in-out infinite, colors 5.6s ease-in-out infinite;
+  -webkit-animation: dash 1.4s ease-in-out infinite,
+    colors 5.6s ease-in-out infinite;
+  animation: dash 1.4s ease-in-out infinite, colors 5.6s ease-in-out infinite;
 }
 
 @-webkit-keyframes colors {
   0% {
-    stroke: #4285F4;
+    stroke: #4285f4;
   }
   25% {
-    stroke: #DE3E35;
+    stroke: #de3e35;
   }
   50% {
-    stroke: #F7C223;
+    stroke: #f7c223;
   }
   75% {
-    stroke: #1B9A59;
+    stroke: #1b9a59;
   }
   100% {
-    stroke: #4285F4;
+    stroke: #4285f4;
   }
 }
 
 @keyframes colors {
   0% {
-    stroke: #4285F4;
+    stroke: #4285f4;
   }
   25% {
-    stroke: #DE3E35;
+    stroke: #de3e35;
   }
   50% {
-    stroke: #F7C223;
+    stroke: #f7c223;
   }
   75% {
-    stroke: #1B9A59;
+    stroke: #1b9a59;
   }
   100% {
-    stroke: #4285F4;
+    stroke: #4285f4;
   }
 }
 @-webkit-keyframes dash {
@@ -332,6 +344,7 @@
   font-size: 20px;
   vertical-align: middle;
 }
+
 .loader {
   border: 16px solid #f3f3f3; /* Light grey */
   border-top: 16px solid #8ff057; /* Green */
@@ -342,6 +355,10 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
