@@ -27,51 +27,41 @@
     <section>
       <%- include('../partials/toast.ejs') %>
       <%- include('../partials/preloader.ejs') %>
+      <%- include('../partials/modal.ejs') %>
 
       <div class="container flex flex-col items-center justify-center rounded-lg" style="height:900px">
         <div class="flex flex-col justify-between items-center h-full w-full">
           <!-- parent div --> 
-          <div class="flex flex-col w-full max-w-lg p-5 bg-green-600 bg-opacity-10 rounded rounded-xl">
+          <div class="flex flex-col w-full p-5 bg-green-600 bg-opacity-10 rounded rounded-xl">
             <div class="flex flex-row justify-between">
               <div class="font-bold text-2xl overflow-ellipsis">
                 John Doe
               </div>
-              <button class="font-bold px-4 py-1 rounded rounded-full text-white" style="background-color: #37BC61">Edit</button>
+              <div class="flex flex-row space-x-2">
+                <button class="font-bold px-4 py-1 rounded rounded-full text-white" style="background-color: #37BC61">Edit</button>
+                <!-- sign out button --> 
+                <button class="font-bold px-4 py-1 rounded rounded-full text-white" style="background-color: #37BC61">LOGOUT</button>
+              </div>
             </div>
             <div class="text-sm">1901102382</div>
             <div class="flex flex-col px-4 py-2 mt-4 rouned rounded-lg bg-white">
-              <!-- Full name --> 
-              <div class="flex flex-col w-full mt-2">
-                <div class="text-xs font-bold">Full Name</div>
-                <div class="flex flex-row justify-between items-center w-full">
-                  <div class="truncate">John Doee</div>
-                </div>
-              </div>
               <!-- email --> 
-              <div class="flex flex-col mt-4">
+              <div class="flex flex-col mt-2">
                 <div class="text-xs font-bold">Email</div>
                 <div class="flex flex-row justify-between items-center w-full">
                   <div class="truncate">johndoe@email.com</div>
                 </div>
               </div>
               <!-- branch --> 
-              <div class="flex flex-col mt-4">
+              <div class="flex flex-col mt-4 mb-2">
                 <div class="text-xs font-bold">Branch</div>
                 <div class="flex flex-row justify-between items-center w-full">
                   <div class="text-sm flex-grow-1 truncate">Computer Science and Engineering</div>
                 </div>
               </div>
-              <div class="mt-2 w-full flex flex-row justify-center items-center">
-                <!-- change password --> 
-                <button class="font-bold text-white w-full mt-4 mb-2 my-4 px-2 py-2 rounded rounded-md" style="background-color: #37BC61">Change Password</button>
-              </div>
 
             </div>
 
-            <!-- sign out button --> 
-            <div class="flex flex-row justify-center items-center mt-4 bg-white rounded rounded-md" style="background-color: #37BC61">
-              <button class="font-bold text-white p-2 max-w-sm">LOGOUT</button>
-            </div>
           </div>
           
           <div class="event-parent-container items-center flex flex-col justify-between">
