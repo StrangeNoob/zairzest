@@ -169,12 +169,16 @@ $(document).ready(function () {
               }
             }
           });
+      } else {
+          var insertHTML =
+                  "<h1 class='text-black-800 lg:text-xl text-lg mx-auto'>Event Registration to begin soon.</h1>";
+                $(`#mod_team-details`).html(insertHTML);
       }
 
       // Add a cover image, title and description to the modal
       $("#mod__cover").attr("src", coverURL);
       $("#mod__title").text(title);
-      $("#mod__desc").text(desc);
+      $("#mod__desc").html(desc);
       $("#mod__date_time_venue").html(
         `<strong>Date & Time :</strong> ${date_time} IST`
       );
