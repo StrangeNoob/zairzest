@@ -48,7 +48,7 @@ router.get("/profile", redirectAuth, function (req, res, next) {
   res.render("pages/profile", { user });
 });
 
-router.get("/me", function (req, res, next) {
+router.get("/me",redirectAuth,function (req, res, next) {
   EventRegistration.aggregate(
 		[
 			{ $match: { participant_id: req.user._id } },
