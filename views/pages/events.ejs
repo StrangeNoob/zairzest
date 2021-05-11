@@ -17,9 +17,34 @@
       href="https://fonts.googleapis.com/css2?family=Skranji:wght@700&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <link rel="stylesheet" href="/css/nav.css">
     <link rel="stylesheet" type="text/css" href="/css/event.css" />
+
   </head>
   <body>
+
+    <nav class="navbar">
+      <div class="content">
+          <div class="logo">
+            <img class="logo-img" src="/images/zairzest.png">
+          </div>
+        <ul class="menu-list">
+          <div class="icon cancel-btn">
+            <i class="fas fa-times"></i>
+          </div>
+          <li><a href="events">Tech Events</a></li>
+          <li><a href="events">Workshop</a></li>
+          <li><a href="events">Fun Events</a></li>
+          <li><a href="profile">Login/Profile</a></li>
+          <li><a href="https://zairza.in/">Zairza</a></li>
+        </ul>
+        <div class="icon menu-btn">
+          <i class="fas fa-bars"></i>
+        </div>
+      </div>
+    </nav>
+    
       <%- include('../partials/toast.ejs') %>
       <%- include('../partials/preloader.ejs') %>
       <%- include('../partials/modal.ejs') %>
@@ -52,5 +77,6 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="/js/events.js"></script>
+    <script src="/js/nav.js"></script>
   </body>
 </html>

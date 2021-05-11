@@ -15,10 +15,33 @@
       href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <link rel="stylesheet" href="/css/nav.css">
     <link rel="stylesheet" href="/css/profile.css" />
   </head>
   <body>
     
+    <nav class="navbar">
+      <div class="content">
+          <div class="logo">
+            <img class="logo-img" src="/images/zairzest.png">
+          </div>
+        <ul class="menu-list">
+          <div class="icon cancel-btn">
+            <i class="fas fa-times"></i>
+          </div>
+          <li><a href="events">Tech Events</a></li>
+          <li><a href="events">Workshop</a></li>
+          <li><a href="events">Fun Events</a></li>
+          <li><a href="profile">Login/Profile</a></li>
+          <li><a href="https://zairza.in/">Zairza</a></li>
+        </ul>
+        <div class="icon menu-btn">
+          <i class="fas fa-bars"></i>
+        </div>
+      </div>
+    </nav>
+
     <section>
       <%- include('../partials/toast.ejs') %>
       <%- include('../partials/preloader.ejs') %>
@@ -151,4 +174,5 @@
     </section>
   </body>
   <script src="/js/profile.js"></script>
+  <script src="/js/nav.js"></script>
 </html>

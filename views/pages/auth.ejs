@@ -24,8 +24,32 @@
       href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css"
     /> -->
     <link rel="stylesheet" href="/css/auth.css" />
+    <link rel="stylesheet" href="nav.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
   </head>
   <body>
+
+    <nav class="navbar">
+      <div class="content">
+          <div class="logo">
+            <img class="logo-img" src="/images/zairzest.png">
+          </div>
+        <ul class="menu-list">
+          <div class="icon cancel-btn">
+            <i class="fas fa-times"></i>
+          </div>
+          <li><a href="events">Tech Events</a></li>
+          <li><a href="events">Workshop</a></li>
+          <li><a href="events">Fun Events</a></li>
+          <li><a href="profile">Login/Profile</a></li>
+          <li><a href="https://zairza.in/">Zairza</a></li>
+        </ul>
+        <div class="icon menu-btn">
+          <i class="fas fa-bars"></i>
+        </div>
+      </div>
+    </nav>
+
     <section>
       <%- include('../partials/toast.ejs') %>
       <%- include('../partials/preloader.ejs') %>
@@ -248,4 +272,5 @@
   </body>
   <script src="/js/auth.js"></script>
   <script src="/js/localAuth.js"></script>
+  <script src="/js/nav.js"></script>
 </html>
