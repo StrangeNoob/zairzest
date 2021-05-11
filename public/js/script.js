@@ -9,7 +9,7 @@ function toggleMenu() {
   }
 }
 function sendEmail() {
-  window.location = "mailto:cet.sac.zairza@gmail.com";
+  window.location = "mailto:zairzest.zairza@gmail.com";
 }
 const isHidden = [true, true, true];
 const sections = [0, 1, 1, 2, 3, 3, 4, 4, 5, 6];
