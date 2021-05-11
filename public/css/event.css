@@ -8,7 +8,7 @@
   font-family: Scout;
   src: url("../fonts/beyond_the_mountains.ttf");
 }
-.Scout{
+.Scout {
   font-family: Scout;
 }
 body {
@@ -20,14 +20,10 @@ body {
   background-attachment: fixed;
 }
 .container {
-  padding: 6rem;
+  padding: 2rem;
 }
 
-a:hover {
-  -webkit-box-shadow: 1px 1px 1px 2px rgb(64, 64, 80); /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
-  -moz-box-shadow: 1px 1px 1px 2px rgb(64, 64, 80); /* Firefox 3.5 - 3.6 */
-  box-shadow: 1px 1px 2px 1px rgb(64, 64, 80); /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
-}
+
 
 .icon {
   z-index: 5;
@@ -47,22 +43,23 @@ a:hover {
   line-height: 1.5rem;
 }
 
-.heading {
-  text-align: center;
-  font-size: 5rem;
-  margin-top: 5rem;
-  margin-bottom: -4rem;
-  color: rgba(4, 120, 87, 0.8);
-  text-transform: uppercase;
-  font-weight: 700;
-}
-
-.container {
-  margin-bottom: 10rem;
-}
-
 .event {
   margin: 1rem;
+}
+
+.event-parent-container {
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  border-radius: 40px;
+}
+
+.event-parent-container::-webkit-scrollbar {
+  display: none;
+}
+
+.wrapper {
+  transform: scale(0.8);
 }
 
 .event-container {
@@ -102,9 +99,6 @@ a:hover {
   .heading {
     float: left;
     display: block;
-    background: url(../images/pngwing.png);
-    background-repeat: no-repeat;
-    background-size: contain;
     font-size: 3rem;
     font-weight: 600;
     color: #faffd4;
