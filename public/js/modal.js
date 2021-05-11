@@ -97,6 +97,9 @@ $(document).ready(function () {
       let date_time = $(currentItem).attr("data-date_time");
       let max_participants = $(currentItem).attr("data-max_participants");
       let isListed = $(currentItem).attr("data-isListed");
+      let extra_data = $(currentItem).attr("data-extra_data");
+      let team_extra_data = $(currentItem).attr("data-team_extra_data");
+
 
       $("#mod__form_desc").hide();
 
@@ -149,7 +152,7 @@ $(document).ready(function () {
               $("#unreg-btn").show();
             } else {
               console.log(max_participants);
-              if (moment(Date.now()).isAfter(moment(date_time))) {
+              if (moment(Date.now()) < (moment(date_time, "DD-MM-YYYY hh:mm:ss"))) {
                 if (max_participants == "1") {
                   $("#singlereg-btn").show();
                 } else {
@@ -172,41 +175,110 @@ $(document).ready(function () {
       $("#mod__date_time_venue").html(
         `<strong>Date & Time :</strong> ${date_time} IST`
       );
-      $("#spinner").hide();
 
       $("#teamreg-btn").click(function () {
         $("#teamreg-btn").hide();
         $("#joinreg-btn").hide();
+        var insertHTML = `<div class="flex flex-col items-center">`;
+        insertHTML += `<input
+                              class="w-full px-8 py-4 rounded-lg font-medium bg-white border-none placeholder-gray-500 text-sm focus:outline-none bg-white focus:bg-white"
+                              type="text"
+                              id="create-team-name"
+                              placeholder="Enter Team name"
+                              required
+                            />`;
+        console.log(extra_data);
+        console.log(team_extra_data);
+        if(extra_data != ""){
+          extra_data.split(',').forEach((element) => {
+            insertHTML += `<input
+                            class="w-full px-8 py-4 rounded-lg mt-4 font-medium bg-white border-none placeholder-gray-500 text-sm focus:outline-none bg-white focus:bg-white"
+                            type="text"
+                            id="create-${element}"
+                            placeholder="Enter your ${element}"
+                            required
+                          />`;
+          });
+        }
+        if(team_extra_data != ""){
+          team_extra_data.split(',').forEach((element) => {
+            insertHTML += `<input
+                            class="w-full px-8 py-4 mt-4 rounded-lg font-medium bg-white border-none placeholder-gray-500 text-sm focus:outline-none bg-white focus:bg-white"
+                            type="text"
+                            id="create-${element}"
+                            placeholder="Enter Team's ${element}"
+                            required
+                          />`;
+          });
+        }
+        insertHTML += `<button
+                            id="create-team-btn"
+                            class="mt-5 tracking-wide font-semibold register-btn text-gray-100 hover:text-white w-full py-4 rounded-lg transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
+                            > Create Team</button>
+                      </div>`;
+        $("#create-team-form").html(insertHTML);
         $("#create-team-form").show();
       });
 
       $("#joinreg-btn").click(function () {
         $("#teamreg-btn").hide();
         $("#joinreg-btn").hide();
+        var insertHTML = `<div class="flex flex-col items-center">`;
+        insertHTML += `<input
+                              class="w-full px-8 py-4 rounded-lg font-medium bg-white border-none placeholder-gray-500 text-sm focus:outline-none bg-white focus:bg-white"
+                              type="text"
+                              id="join-team-code"
+                              placeholder="Enter Team name"
+                              required
+                            />`;
+        if(extra_data != ""){
+          extra_data.split(',').forEach((element) => {
+            insertHTML += `<input
+                            class="w-full px-8 py-4 rounded-lg mt-4 font-medium bg-white border-none placeholder-gray-500 text-sm focus:outline-none bg-white focus:bg-white"
+                            type="text"
+                            id="join-${element}"
+                            placeholder="Enter ${element}"
+                            required
+                          />`;
+          });
+        }
+        insertHTML += `<button
+                        id="join-team-btn"
+                        class="mt-5 tracking-wide font-semibold register-btn text-gray-100 hover:text-white w-full py-4 rounded-lg transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
+                        > Join Team</button>`;
+        $("#join-team-form").html(insertHTML);
         $("#join-team-form").show();
       });
 
-      function validateMeetURL(meetURL) {
-        const re = /^(https?:\/\/)?meet\.google\.com\/[a-z]{3}-[a-z]{4}-[a-z]{3}$/;
-        return re.test(String(meetURL).toLowerCase());
-      }
 
       $("#create-team-btn").click(function () {
-        if (!moment(Date.now()).isAfter(moment(date_time))) {
-          var meetURL = $("#create-meeting-url").val();
+        if (moment(Date.now()) < (moment(date_time, "DD-MM-YYYY hh:mm:ss"))){
           var teamName = $("#create-team-name").val();
-          if (teamName === "") {
+          var post_extra_data={};
+          var post_team_extra_data={};
+          if(extra_data != ""){
+            extra_data.split(',').forEach((element)=>{
+              post_extra_data['element']=$(`#create-${element}`).val()
+            });
+          }
+          if(team_extra_data != ""){
+            team_extra_data.split(',').forEach((element) => {
+              post_team_extra_data['element']=$(`#create-${element}`).val()
+            });
+          }
+          else if (teamName === "") {
             showToast(400, "Team Name Should not be empty");
-          } else if (!validateMeetURL(meetURL)) {
-            showToast(400, "Team Meet URL is not in correct format");
-          } else {
+          } else if(jQuery.isEmpty(post_extra_data) && extra_data != ""){
+            showToast(400,"All data are required Please it up");
+          } else if(jQuery.isEmpty(post_team_extra_data) && team_extra_data != ""){
+            showToast(400,"All data are required Please it up");
+          }else {
             $(`#create-team-btn`).addClass("onclic", 50);
             const data = {
               eventID: eventID,
               team_name: teamName,
-              team_extra_data: {
-                meetURL: meetURL,
-              },
+              team_extra_data:post_extra_data,
+              extra_data: extra_data,
             };
 
             $.ajax({
@@ -226,17 +298,27 @@ $(document).ready(function () {
           showToast(400, "Registration Time is Over.");
         }
       });
+      
+      // function
+
       $("#join-team-btn").click(function () {
         var team_id = $("#join-team-code").val();
-        if (moment(Date.now()).isAfter(moment(date_time))) {
+        var post_extra_data={};
+        extra_data.forEach((element)=>{
+            post_extra_data['element']=$(`#create-${element}`).val()
+        });
+        if (moment(Date.now()) < (moment(date_time, "DD-MM-YYYY hh:mm:ss"))){
           showToast(400, "Registration Time is Over.");
         } else if (team_id === "") {
           showToast(400, "Team Name Should not be empty");
+        } else if(jQuery.isEmpty(post_extra_data) && extra_data != ""){
+          showToast(400,"All data are required Please it up");
         } else {
-          $(`#create-team-btn`).addClass("onclic", 50);
+          $(`#join-team-btn`).addClass("onclic", 50);
           const data = {
             eventID: eventID,
             team_id: team_id,
+            extra_data: post_extra_data,
           };
           $.ajax({
             type: "POST",
@@ -250,7 +332,7 @@ $(document).ready(function () {
             .fail(function (err) {
               validate("join-team-btn", err);
             });
-        }
+        } 
       });
       $("#unreg-btn").click(function () {
         $(`#unreg-btn`).addClass("onclic", 50);
