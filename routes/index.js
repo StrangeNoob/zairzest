@@ -48,7 +48,7 @@ router.get("/profile", redirectAuth, function (req, res, next) {
   res.render("pages/profile", { user });
 });
 
-router.get("/me",redirectAuth,function (req, res, next) {
+router.get("/me" ,redirectAuth , function (req, res, next) {
   EventRegistration.aggregate(
 		[
 			{ $match: { participant_id: req.user._id } },
@@ -60,13 +60,25 @@ router.get("/me",redirectAuth,function (req, res, next) {
 					as: "events",
 				},
 			},
+			{
+				$group: {
+					_id: "participant_id",
+					events: {
+						$push: {
+							$arrayElemAt: ["$events", 0],
+						},
+					},
+				},
+			}
 		],
 		(err, data) => {
 			if (err) {
 				return next(err);
 			}
-      console.log(data.events);
-			return res.render("pages/me", { user: req.user, events: data.events });
+			return res.render("pages/me", {
+				user: req.user,
+				events: data[0].events,
+			});
 		}
   );
 });
