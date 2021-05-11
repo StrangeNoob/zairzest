@@ -2,7 +2,7 @@ $(document).ready(function () {
   function validate(id, res) {
     setTimeout(function () {
       $(`#${id}`).removeClass("onclic");
-      console.log(res);
+      // console.log(res);
       if (res.status == "success") {
         $(`#${id}`).addClass("validate-success", 450, callback(id, res));
       } else {
@@ -18,6 +18,7 @@ $(document).ready(function () {
       } else {
         $("#join-team-form").hide();
         $("#create-team-form").hide();
+        $("#create-singlereg-form").hide();
         $("#teamreg-btn").hide();
         $("#joinreg-btn").hide();
         $("#unreg-btn").show();
@@ -27,6 +28,8 @@ $(document).ready(function () {
           ? "Team Created Successfully"
           : id == "join-team-btn"
           ? "Team Joined Successfully"
+          : id =="singlereg-btn"
+          ? "Register Successfully"
           : "Unregistred Successfully";
       showToast(200, msg);
       $(`#${id}`).removeClass("validate-success");
@@ -84,7 +87,7 @@ $(document).ready(function () {
   }
   $(".modal-open").click(function (event) {
     window.currentItem = $(event.target).parent();
-    // console.log("clicked", currentItem);
+    console.log("clicked", currentItem);
     toggleModal();
     var mod = document.querySelector(".modal");
     if ($("body").hasClass("modal-active")) {
@@ -119,7 +122,7 @@ $(document).ready(function () {
             }
           })
           .then(function (message) {
-            console.log(message);
+            // console.log(message);
             $("#loader").hide();
             if (message.data.registered == true) {
               // Make the button into a Unregister button
@@ -133,7 +136,7 @@ $(document).ready(function () {
                   insertHTML += `<li>${element} <li>`;
                 });
                 insertHTML += `</ol>`;
-                // console.log(message.data.team_extra_data && message.data.extra_data.length != 0);
+                console.log(message.data.team_extra_data && message.data.extra_data.length != 0);
                 if (
                   message.data.team_extra_data &&
                   message.data.team_extra_data.length != 0
@@ -151,7 +154,7 @@ $(document).ready(function () {
               }
               $("#unreg-btn").show();
             } else {
-              console.log(max_participants);
+              // console.log(max_participants);
               if (moment(Date.now()) < (moment(date_time, "DD-MM-YYYY hh:mm:ss"))) {
                 if (max_participants == 1) {
                   showSingleRegForm();
@@ -177,13 +180,13 @@ $(document).ready(function () {
       );
       
       function showSingleRegForm(){
-        console.log("hey");
+        // console.log("hey");
         var insertHTML = `<div class="flex flex-col items-center">`;
         if(extra_data != ""){
-          console.log("havda-228");
+          // console.log("havda-228");
           extra_data.split(',').forEach((element) => {
             ele=element.replaceAll(" ","-");
-            console.log(ele);
+            // console.log(ele);
             insertHTML += `<input
                             class="w-full px-8 py-4 rounded-lg mt-4 font-medium bg-white border-none placeholder-gray-500 text-sm focus:outline-none bg-white focus:bg-white"
                             type="text"
@@ -197,11 +200,12 @@ $(document).ready(function () {
                               Register
                         </button>
                         </div>`;
-        console.log(insertHTML);
+        // console.log(insertHTML);
         $("#create-singlereg-form").html(insertHTML);
         $("#singlereg-btn").click(function () {
+          let post_extra_data = {};
           if(extra_data != ""){
-            console.log("havda-228");
+            // console.log("havda-228");
             extra_data.split(',').forEach((element)=>{
               ele=element.replaceAll(" ","-");
               if($(`#create-${ele}`).val() != ""){
@@ -213,8 +217,8 @@ $(document).ready(function () {
             });
           }
           if(moment(Date.now()) < (moment(date_time, "DD-MM-YYYY hh:mm:ss"))){
-            $(`#singlereg-btn"`).addClass("onclic", 50);
-              const data = {
+            $("#singlereg-btn").addClass("onclic");
+            const data = {
                 eventID: eventID,
                 extra_data: post_extra_data,
               };
@@ -249,12 +253,12 @@ $(document).ready(function () {
                               placeholder="Enter Team name"
                               required
                             />`;
-        console.log(extra_data);
-        console.log(team_extra_data);
+        // console.log(extra_data);
+        // console.log(team_extra_data);
         if(extra_data != ""){
           extra_data.split(',').forEach((element) => {
             ele=element.replaceAll(" ","-");
-            console.log(ele);
+            // console.log(ele);
             insertHTML += `<input
                             class="w-full px-8 py-4 rounded-lg mt-4 font-medium bg-white border-none placeholder-gray-500 text-sm focus:outline-none bg-white focus:bg-white"
                             type="text"
@@ -267,7 +271,7 @@ $(document).ready(function () {
         if(team_extra_data != ""){
           team_extra_data.split(',').forEach((element) => {
             ele=element.replaceAll(" ","-");
-            console.log(ele);
+            // console.log(ele);
             insertHTML += `<input
                             class="w-full px-8 py-4 mt-4 rounded-lg font-medium bg-white border-none placeholder-gray-500 text-sm focus:outline-none bg-white focus:bg-white"
                             type="text"
@@ -285,14 +289,14 @@ $(document).ready(function () {
         $("#create-team-form").html(insertHTML);
         $("#create-team-form").show();
         $("#create-team-btn").click(function () {
-          console.log("-226");
+          // console.log("-226");
           if (moment(Date.now()) < (moment(date_time, "DD-MM-YYYY hh:mm:ss"))){
-            console.log("havda-228");
+            // console.log("havda-228");
             var teamName = $("#create-team-name").val();
             var post_extra_data={};
             var post_team_extra_data={};
             if(extra_data != ""){
-              console.log("havda-228");
+              // console.log("havda-228");
               extra_data.split(',').forEach((element)=>{
                 ele=element.replaceAll(" ","-");
                 if($(`#create-${ele}`).val() != ""){
@@ -414,7 +418,7 @@ $(document).ready(function () {
 
 
       // $("#create-team-btn").click(function () {
-      //   console.log("havda");
+        console.log("havda");
       //   if (moment(Date.now()) < (moment(date_time, "DD-MM-YYYY hh:mm:ss"))){
       //     var teamName = $("#create-team-name").val();
       //     var post_extra_data={};
@@ -508,7 +512,7 @@ $(document).ready(function () {
           dataType: "json",
         })
           .done(function (data) {
-            console.log(data);
+            // console.log(data);
             validate("unreg-btn", data);
           })
           .fail(function (err) {
