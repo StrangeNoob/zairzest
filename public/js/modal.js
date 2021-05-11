@@ -164,14 +164,14 @@ $(document).ready(function () {
                 }
               } else {
                 var insertHTML =
-                  "<h1 class='text-black-800 lg:text-xl text-lg mx-auto'>Registration Time is now <b> Over.</b></h1>";
+                  "<h1 class='text-red-500 lg:text-xl text-lg mx-auto font-bold'>Registration is closed.</h1>";
                 $(`#mod_team-details`).html(insertHTML);
               }
             }
           });
       } else {
           var insertHTML =
-                  "<h1 class='text-black-800 lg:text-xl text-lg mx-auto'>Event Registration to begin soon.</h1>";
+                  "<h1 class='text-red-500 lg:text-xl text-lg mx-auto font-bold'>Event registration will begin soon.</h1>";
                 $(`#mod_team-details`).html(insertHTML);
       }
 
