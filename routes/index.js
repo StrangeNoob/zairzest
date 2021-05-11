@@ -77,7 +77,7 @@ router.get("/me" ,redirectAuth , function (req, res, next) {
 			}
 			return res.render("pages/me", {
 				user: req.user,
-				events: data[0].events,
+				events: data[0]?.events,
 			});
 		}
   );
