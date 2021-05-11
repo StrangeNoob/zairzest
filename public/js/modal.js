@@ -221,7 +221,7 @@ $(document).ready(function () {
             });
           }
           if(moment(Date.now()) < (moment(date_time, "DD-MM-YYYY hh:mm:ss"))){
-            $("#singlereg-btn").addClass("onclic");
+            $("#singlereg-btn").addClass("onclic",50);
             const data = {
                 eventID: eventID,
                 extra_data: post_extra_data,
