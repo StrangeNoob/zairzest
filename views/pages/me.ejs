@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#FF7610" />
+    <link rel="icon" type="image/png" href="/images/Visual.webp" />
+    <title>My Profile | ZairZest</title>
+    <link
+      href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link 
+      rel="stylesheet" 
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link
+      href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/profile.css" />
+    <link rel="stylesheet" href="/css/event.css" />
+  </head>
+  <body>
+    
+    <section>
+      <%- include('../partials/toast.ejs') %>
+      <%- include('../partials/preloader.ejs') %>
+
+      <div class="container flex flex-col items-center justify-center rounded-lg" style="height:900px">
+        <div class="flex flex-col justify-between items-center h-full w-full">
+          <!-- parent div --> 
+          <div class="flex flex-col w-full max-w-lg p-5 bg-green-600 bg-opacity-10 rounded rounded-xl">
+            <div class="flex flex-row justify-between">
+              <div class="font-bold text-2xl overflow-ellipsis">
+                John Doe
+              </div>
+              <button class="font-bold px-4 py-1 rounded rounded-full text-white" style="background-color: #37BC61">Edit</button>
+            </div>
+            <div class="text-sm">1901102382</div>
+            <div class="flex flex-col px-4 py-2 mt-4 rouned rounded-lg bg-white">
+              <!-- Full name --> 
+              <div class="flex flex-col w-full mt-2">
+                <div class="text-xs font-bold">Full Name</div>
+                <div class="flex flex-row justify-between items-center w-full">
+                  <div class="truncate">John Doee</div>
+                </div>
+              </div>
+              <!-- email --> 
+              <div class="flex flex-col mt-4">
+                <div class="text-xs font-bold">Email</div>
+                <div class="flex flex-row justify-between items-center w-full">
+                  <div class="truncate">johndoe@email.com</div>
+                </div>
+              </div>
+              <!-- branch --> 
+              <div class="flex flex-col mt-4">
+                <div class="text-xs font-bold">Branch</div>
+                <div class="flex flex-row justify-between items-center w-full">
+                  <div class="text-sm flex-grow-1 truncate">Computer Science and Engineering</div>
+                </div>
+              </div>
+              <div class="mt-2 w-full flex flex-row justify-center items-center">
+                <!-- change password --> 
+                <button class="font-bold text-white w-full mt-4 mb-2 my-4 px-2 py-2 rounded rounded-md" style="background-color: #37BC61">Change Password</button>
+              </div>
+
+            </div>
+
+            <!-- sign out button --> 
+            <div class="flex flex-row justify-center items-center mt-4 bg-white rounded rounded-md" style="background-color: #37BC61">
+              <button class="font-bold text-white p-2 max-w-sm">LOGOUT</button>
+            </div>
+          </div>
+          
+          <div class="event-parent-container items-center flex flex-col justify-between">
+            <div
+              class="grid grid-cols-1 2xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-2 xl:grid-cols-3 xl:gap-0 lg:gap-4 gap-2 grid-container justify-items-center"
+            >
+      
+             <% for (var d in events) { %>
+              <% if (Object.prototype.hasOwnProperty.call(events, d)) { %>
+                <div class="wrapper antialiased text-gray-900">
+                  <div class="modal-open pointer" data-id="<%= events[d]._id %>" data-title="<%= events[d].name %>" data-desc="<%= events[d].description %>" data-image="<%= events[d].imageURL %>" data-date_time="<%= events[d].date %>" data-max_participants="<%= events[d].max_participants %>" data-isListed="<%= events[d].isListed %>" >
+                    <img
+                        alt=""
+                        class="rounded-xl mx-auto dummy"
+                        onerror="this.src='/images/eventcomingsoon.jpeg';" 
+                        src="<%= events[d].imageURL %>"
+                    />
+                  </div>
+                </div>
+                <% } %>   
+             <% } %>
+      
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="/js/events.js"></script>
+  </body>
+  
+</html>

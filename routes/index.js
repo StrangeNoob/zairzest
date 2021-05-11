@@ -48,6 +48,16 @@ router.get("/profile", redirectAuth, function (req, res, next) {
   res.render("pages/profile", { user });
 });
 
+router.get("/me", function (req, res, next) {
+  let user = req.isAuthenticated();
+  Event.find({category:"Tech"},(err,data)=>{
+    if(err){
+     return next(err);
+    }
+    return res.render("pages/me", { user: user, events: data, });
+  });
+});
+
 router.get("/funevents", function (req, res, next) {
   let user = req.isAuthenticated();
   Event.find({category:"Fun"},(err,data)=>{
