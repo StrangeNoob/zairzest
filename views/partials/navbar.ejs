@@ -143,6 +143,13 @@
         }
     }
         link = window.location.pathname;
+        if(link === "/funevents"){
+          $("title").text("Fun Events | Zairzest");
+        } else if(link === "/workshops") {
+          $("title").text('Workshops | Zairzest');
+        } else if(link === "/techevents") {
+          $("title").text('Tech Events | Zairzest');
+        }
         $("#mob-menu").children().each(function () {
             if ($(this).attr("href").indexOf(link) !== -1) {
                 $(this).children().addClass("bg-focus");
