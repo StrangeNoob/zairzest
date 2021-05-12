@@ -1,13 +1,13 @@
 <link rel="stylesheet" href="/css/modal.css?v=1" />
 <!-- This example requires Tailwind CSS v2.0+ -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-<div class="modal opacity-0 z-101 pointer-events-none fixed overflow-y-scroll w-full h-full top-0 left-0 flex items-center justify-center">
+<div class="modal opacity-0 z-101 pointer-events-none fixed  overflow-y-scroll w-full h-full top-0 left-0 flex items-center justify-center">
   <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
   
-  <div class="modal-container bg-green-50 lg:w-2/3 w-screen mx-auto rounded rounded-lg shadow-lg z-50">
+  <div class="modal-container bg-green-50 lg:w-2/3 w-screen  mx-auto rounded rounded-lg shadow-lg z-50">
     
     <!-- Add margin if you want to see some of the overlay behind the modal-->
-    <div class="modal-content py-4 text-left px-6" >
+    <div class="modal-content py-4 text-left px-6 md:mt-0" >
       <!--Title-->
       <div class="flex justify-between items-center pb-3">
         <p class="text-2xl font-bold" ></p>
@@ -20,10 +20,10 @@
 
       <!--Body-->
         <div class="grid sm:grid-cols-2 grid-cols-1">
-          <div class="pb-8">
+          <div class="pb-8 lg:h-4/5 md:2/5">
             <img id="mod__cover" class="rounded" onerror="this.src='/images/eventcomingsoon.jpeg';" src="/images/eventcomingsoon.jpeg" />
           </div>
-          <div class="flex flex-row max-h-96 justify-center px-8">
+          <div class="flex flex-row justify-center px-8 h-4/5 md:2/5">
           <div class="">
             <h1 id="mod__title" class="font-bold text-xl md:text-3xl text-center">Loading... </h1>
             <p id="mod__desc" class="mt-2">Loading...
@@ -57,27 +57,14 @@
             </div>
             <div id="join-team-form" class="hidden form w-full mt-8">
               <div class="flex flex-col mx-auto max-w-md">
-                      <input
-                        class="w-full px-8 py-4 rounded-lg font-medium bg-white border-none placeholder-gray-500 text-sm focus:outline-none focus:bg-white"
-                        type="text"
-                        id="join-team-code"
-                        placeholder="Enter a Team Code"
-                        required
-                      />
-                      <button
-                      id="join-team-btn"
-                      class="mt-5 tracking-wide font-semibold register-btn text-gray-100 hover:text-white w-full py-4 rounded-lg transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
-                      > Join Team</button>
+                      
+              </div>
             </div>
-            </div>
-          </div>
           </div>
           </div>
         </div>
     </div>
   </div>
-  </div>
-  </div>
-</div>
+</div>      
 <script src="/js/utils/moment.js"></script>
 <script src="/js/modal.js"></script>
