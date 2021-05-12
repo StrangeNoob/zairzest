@@ -89,6 +89,7 @@ $(document).ready(function () {
       $(`#mod_team-details`).text("");
       $("#join-team-form").hide();
       $("#create-team-form").hide();
+      $(".modal-content").removeClass("valo-game");
     }
   }
   $(".modal-open").click(function (event) {
@@ -256,6 +257,7 @@ $(document).ready(function () {
       $("#teamreg-btn").click(function () {
         $("#teamreg-btn").hide();
         $("#joinreg-btn").hide();
+        let count =1;
         var insertHTML = `<div class="flex flex-col items-center">`;
         insertHTML += `<input
                               class="w-full px-8 py-4 rounded-lg font-medium bg-white border-none placeholder-gray-500 text-sm focus:outline-none bg-white focus:bg-white"
@@ -277,6 +279,7 @@ $(document).ready(function () {
                             placeholder="Enter your ${element}"
                             required
                           />`;
+            count++;
           });
         }
         if(team_extra_data != ""){
@@ -290,6 +293,7 @@ $(document).ready(function () {
                             placeholder="Enter Team's ${element}"
                             required
                           />`;
+            count++;
           });
         }
         insertHTML += `<button
@@ -297,6 +301,10 @@ $(document).ready(function () {
                             class="mt-5 tracking-wide font-semibold register-btn text-gray-100 hover:text-white w-full py-4 rounded-lg transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
                             > Create Team</button>
                       </div>`;
+          count++;
+        if(count > 6){
+          $(".modal-content").addClass("valo-game");
+        }  
         $("#create-team-form").html(insertHTML);
         $("#create-team-form").show();
         $("#create-team-btn").click(function () {
@@ -434,7 +442,7 @@ $(document).ready(function () {
       });
 
       $("#unreg-btn").click(function () {
-        clickDisable("unreg-btn",false);
+        clickDisable("unreg-btn",true);
         $(`#unreg-btn`).addClass("onclic", 50);
         $.ajax({
           type: "POST",

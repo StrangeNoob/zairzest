@@ -19,32 +19,6 @@
   z-index: 1283123619283610;
 }
 
-.mod__contents {
-  background: white;
-  display: flex;
-  justify-content: space-between;
-  /* width: 32rem; */
-  width: 1000px;
-  position: fixed;
-  /* left: 50%; */
-  /* margin-left: -16rem; */
-  margin: 0 auto;
-  /* top: 6rem;
-  left: 20rem; */
-  /* min-height: 32rem; */
-  height: 80vh;
-  overflow: hidden;
-
-  /* centering */
-  position: fixed;
-  /* width: 500px;
-  height: 200px; */
-  top: 50%;
-  left: 50%;
-  margin-top: -40vh; /* Negative half of height. */
-  margin-left: -500px; /* Negative half of width. */
-}
-
 .mod__contents h1 {
   margin: 2rem;
   padding: 0;
@@ -362,5 +336,11 @@
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .valo-game{
+    margin-top: 32rem;
   }
 }
