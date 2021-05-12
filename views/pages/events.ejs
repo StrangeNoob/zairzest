@@ -42,7 +42,7 @@
        <% for (var d in events) { %>
         <% if (Object.prototype.hasOwnProperty.call(events, d)) { %>
           <div class="wrapper antialiased text-gray-900">
-            <div class="modal-open cursor-pointer" data-id="<%= events[d]._id %>" data-title="<%= events[d].name %>" data-desc="<%= events[d].description %>" data-image="<%= events[d].imageURL %>" data-date_time="<%= events[d].date %>" data-max_participants="<%= events[d].max_participants %>" data-isListed="<%= events[d].isListed %>" data-extra_data='<%= events[d].extra_data %>' data-team_extra_data='<%= events[d].team_extra_data %>' >
+            <div class="modal-open cursor-pointer" id="<%= events[d]._id %>" data-id="<%= events[d]._id %>" data-title="<%= events[d].name %>" data-desc="<%= events[d].description %>" data-image="<%= events[d].imageURL %>" data-date_time="<%= events[d].date %>" data-max_participants="<%= events[d].max_participants %>" data-isListed="<%= events[d].isListed %>" data-extra_data='<%= events[d].extra_data %>' data-team_extra_data='<%= events[d].team_extra_data %>' >
               <img
                   alt=""
                   class="rounded-xl mx-auto dummy"
