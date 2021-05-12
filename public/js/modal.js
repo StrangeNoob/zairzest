@@ -19,13 +19,13 @@ $(document).ready(function () {
     clickDisable(id,false);
     if (res.status == "success") {
       if (id == "unreg-btn") {
-        $("#unreg-btn").addClass("hidden");
+        $("#unreg-btn").hide();
       } else {
-        $("#join-team-form").addClass("hidden");
-        $("#create-team-form").addClass("hidden");
-        $("#create-singlereg-form").addClass("hidden");
-        $("#teamreg-btn").addClass("hidden");
-        $("#joinreg-btn").addClass("hidden");
+        $("#join-team-form").hide();
+        $("#create-team-form").hide();
+        $("#create-singlereg-form").hide();
+        $("#teamreg-btn").hide();
+        $("#joinreg-btn").hide();
         $("#unreg-btn").show();
       }
       let msg =
@@ -79,16 +79,16 @@ $(document).ready(function () {
     body.classList.toggle("overflow-hidden");
     modal.classList.toggle("mod--show");
     if (!$("body").hasClass("modal-active")) {
-      $("#teamreg-btn").addClass("hidden");
-      $("#joinreg-btn").addClass("hidden");
-      $("#unreg-btn").addClass("hidden");
-      $("#singlereg-btn").addClass("hidden");
+      $("#teamreg-btn").hide();
+      $("#joinreg-btn").hide();
+      $("#unreg-btn").hide();
+      $("#singlereg-btn").hide();
       $("#mod__title").text("Loading...");
       $("#mod__desc").text("");
       $("#mod__date_time_venue").html("<strong>Slot :</strong> Loading... ");
       $(`#mod_team-details`).text("");
-      $("#join-team-form").addClass("hidden");
-      $("#create-team-form").addClass("hidden");
+      $("#join-team-form").hide();
+      $("#create-team-form").hide();
     }
   }
   $(".modal-open").click(function (event) {
@@ -110,7 +110,7 @@ $(document).ready(function () {
       let team_extra_data = $(currentItem).attr("data-team_extra_data");
 
 
-      $("#mod__form_desc").addClass("hidden");
+      $("#mod__form_desc").hide();
 
       $("#mod__cover").attr("src", "/image/eventcomingsoon.jpeg");
 
@@ -129,7 +129,7 @@ $(document).ready(function () {
           })
           .then(function (message) {
             // console.log(message);
-            $("#loader").addClass("hidden");
+            $("#loader").hide();
             if (message.data.registered == true) {
               // Make the button into a Unregister button
               if (max_participants != 1) {
@@ -254,8 +254,8 @@ $(document).ready(function () {
       }
      
       $("#teamreg-btn").click(function () {
-        $("#teamreg-btn").addClass("hidden");
-        $("#joinreg-btn").addClass("hidden");
+        $("#teamreg-btn").hide();
+        $("#joinreg-btn").hide();
         var insertHTML = `<div class="flex flex-col items-center">`;
         insertHTML += `<input
                               class="w-full px-8 py-4 rounded-lg font-medium bg-white border-none placeholder-gray-500 text-sm focus:outline-none bg-white focus:bg-white"
@@ -364,8 +364,8 @@ $(document).ready(function () {
       });
 
       $("#joinreg-btn").click(function () {
-        $("#teamreg-btn").addClass("hidden");
-        $("#joinreg-btn").addClass("hidden");
+        $("#teamreg-btn").hide();
+        $("#joinreg-btn").hide();
         var insertHTML = `<div class="flex flex-col items-center">`;
         insertHTML += `<input
                               class="w-full px-8 py-4 rounded-lg font-medium bg-white border-none placeholder-gray-500 text-sm focus:outline-none bg-white focus:bg-white"
