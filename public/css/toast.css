@@ -1,7 +1,7 @@
 .toast__container {
   /* display: table-cell;
   vertical-align: middle; */
-  z-index: 100;
+  z-index: 102;
 }
 
 .add-margin {
@@ -20,6 +20,7 @@
   position: fixed;
   box-shadow: 1px 7px 14px -5px rgba(0, 0, 0, 0.2);
   max-width: calc(100vw - 10%);
+  z-index: 200;
 }
 
 .toast:before {
