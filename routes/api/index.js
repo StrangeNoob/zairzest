@@ -254,11 +254,31 @@ router.post('/registerForEvent/:eventID', checkIfAuthenticated, async (req, res)
     let event;
     try {
         const event_id = new mongoose.Types.ObjectId(req.params.eventID);
-        event = await Event.findById(event_id).exec();
+        if (req.body.team_id) {
+			// Only for joining a team
+			event = await Event.findById(event_id).exec();
+		} else {
+			// For creating new team or for new registration
+			event = await Event.findOneAndUpdate(
+				{
+					_id: req.params.eventID,
+					$or: [
+						{ registration_limit: null },
+						{
+							$expr: {
+								$lt: ["registered", "registration_limit"],
+							},
+						},
+					],
+				},
+				{ $inc: { registered: 1 } },
+                { new: true }
+			).exec();
+		}
         assert(event);
     } catch (e) {
         res.status(404);
-        res.send({ status: 'fail', message: "Invalid Event ID" });
+        res.send({ status: 'fail', message: "No more slots available for this event" });
         return;
     }
 
@@ -288,19 +308,34 @@ router.post('/registerForEvent/:eventID', checkIfAuthenticated, async (req, res)
     try {
         if (event.max_participants == 1) {
             // Individual events
-            await (new EventRegistration({
-                event_id: event._id,
-                participant_id: req.user._id,
-                extra_data: req.body.extra_data
-            })).save();
+            await new EventRegistration({
+				event_id: event._id,
+				participant_id: req.user._id,
+				extra_data: req.body.extra_data,
+			})
+				.save()
+				.then((regdata) =>
+					res.status(200).send({
+						status: "success",
+						data: {
+							registered: true,
+							extra_data: req.body.extra_data,
+						},
+					})
+				)
+				.catch(async (err) => {
+					await Event.findByIdAndUpdate(event._id, {
+						$inc: {
+							registered: -1,
+						},
+					}).exec();
+					return res.status(400).send({
+						status: "fail",
+						message: "You are already registered",
+					});
+				});
 
-            return res.status(200).send({
-                status: 'success',
-                data: {
-                    registered: true,
-                    extra_data: req.body.extra_data
-                }
-            });
+
         } else if (req.body.team_id) {        
             // Team events: Join a team
             const team = await Team.findOneAndUpdate({
@@ -362,24 +397,52 @@ router.post('/registerForEvent/:eventID', checkIfAuthenticated, async (req, res)
                 team_extra_data: req.body.team_extra_data,
                 member_count: 1
             });
-            await team.save();
-            const regdata = new EventRegistration({
-                event_id: event._id,
-                participant_id: req.user._id,
-                team_id: team._id,
-                extra_data: req.body.extra_data
-            });
-            await regdata.save();
-            return res.status(200).send({
-                status: 'success',
-                data: {
-                    registered: true,
-                    team_id: team._id,
-                    team_name: team.name,
-                    extra_data: regdata.extra_data,
-                    team_extra_data: team.team_extra_data
-                }
-            });
+
+            try {
+                await team.save();
+            } catch {
+                await Event.findByIdAndUpdate(event._id, {
+                    $inc: {
+                        registered: -1,
+                    },
+                }).exec();
+                return res.status(400).send({
+                    status: "fail",
+                    message: "Use a different team name",
+                });
+            }
+            await new EventRegistration({
+				event_id: event._id,
+				participant_id: req.user._id,
+				team_id: team._id,
+				extra_data: req.body.extra_data,
+			})
+				.save()
+				.then((regdata) =>
+					res.status(200).send({
+						status: "success",
+						data: {
+							registered: true,
+							team_id: team._id,
+							team_name: team.name,
+							extra_data: regdata.extra_data,
+							team_extra_data: team.team_extra_data,
+						},
+					})
+				)
+				.catch(async (err) => {
+                    team.remove();
+					await Event.findByIdAndUpdate(event._id, {
+						$inc: {
+							registered: -1,
+						},
+					}).exec();
+					return res.status(400).send({
+						status: "fail",
+						message: "You are already registered",
+					});
+				});
+            
         } else {
             return res.status(400).send({
                 status: 'fail',
@@ -409,10 +472,10 @@ router.post('/deregisterForEvent/:eventID', checkIfAuthenticated, async (req, re
             participant_id: req.user._id,
             event_id: event._id
         }).exec();
-
+        assert(registration_data);
         res.status(200).send({ status: 'success', data: { registered: false } });
     } catch (e) {
-        res.status(500).send({ status: 'fail', message: "Sorry, There seems to be a problem at our end" });
+        return res.status(500).send({ status: 'fail', message: "Sorry, There seems to be a problem at our end" });
     }
 
     try {
@@ -429,7 +492,24 @@ router.post('/deregisterForEvent/:eventID', checkIfAuthenticated, async (req, re
 			).exec();
             if(team.member_count == 0){
                 team.remove();
+                await Event.findByIdAndUpdate(
+                    event._id,
+                    {
+                        $inc: {
+                            registered: -1,
+                        },
+                    }
+                ).exec();
             }
+        } else {
+            await Event.findByIdAndUpdate(
+                event._id,
+                {
+                    $inc: {
+                        registered: -1,
+                    },
+                }
+            ).exec();
         }
     } catch (e) {
         console.error(e);

@@ -80,6 +80,15 @@ const eventSchema = new mongoose.Schema({
     date: String,
     isListed: Boolean,
     max_participants: Number,
+    registration_limit: {
+        type: Number,
+        null: true,
+        default: null
+    },
+    registered: {
+        type: Number,
+        default: 0
+    },
     category: {
         type: String,
         enum: [
