@@ -261,13 +261,18 @@ router.post('/registerForEvent/:eventID', checkIfAuthenticated, async (req, res)
 			// For creating new team or for new registration
 			event = await Event.findOneAndUpdate(
 				{
-					_id: event._id,
+					_id: req.params.eventID,
 					$or: [
 						{ registration_limit: null },
-						{ registered: { $lt: event.registration_limit } },
+						{
+							$expr: {
+								$lt: ["registered", "registration_limit"],
+							},
+						},
 					],
 				},
-				{ $inc: { registered: 1 } }
+				{ $inc: { registered: 1 } },
+                { new: true }
 			).exec();
 		}
         assert(event);
@@ -392,7 +397,20 @@ router.post('/registerForEvent/:eventID', checkIfAuthenticated, async (req, res)
                 team_extra_data: req.body.team_extra_data,
                 member_count: 1
             });
-            await team.save();
+
+            try {
+                await team.save();
+            } catch {
+                await Event.findByIdAndUpdate(event._id, {
+                    $inc: {
+                        registered: -1,
+                    },
+                }).exec();
+                return res.status(400).send({
+                    status: "fail",
+                    message: "Use a different team name",
+                });
+            }
             await new EventRegistration({
 				event_id: event._id,
 				participant_id: req.user._id,
@@ -413,6 +431,7 @@ router.post('/registerForEvent/:eventID', checkIfAuthenticated, async (req, res)
 					})
 				)
 				.catch(async (err) => {
+                    team.remove();
 					await Event.findByIdAndUpdate(event._id, {
 						$inc: {
 							registered: -1,
@@ -453,10 +472,10 @@ router.post('/deregisterForEvent/:eventID', checkIfAuthenticated, async (req, re
             participant_id: req.user._id,
             event_id: event._id
         }).exec();
-
+        assert(registration_data);
         res.status(200).send({ status: 'success', data: { registered: false } });
     } catch (e) {
-        res.status(500).send({ status: 'fail', message: "Sorry, There seems to be a problem at our end" });
+        return res.status(500).send({ status: 'fail', message: "Sorry, There seems to be a problem at our end" });
     }
 
     try {
