@@ -307,7 +307,7 @@
   border-width: 3px;
   font-size: 0;
   border-radius: 40px;
-  background-color: #fff;
+  background-color: #fff !important;
   margin: auto;
   margin-top: 20px;
   border-left-color: forestgreen;
@@ -319,7 +319,7 @@
 }
 .onclic:hover {
   color: forestgreen;
-  background: white;
+  background: white !important;
 }
 
 .validate-success {
@@ -344,7 +344,6 @@
   font-size: 20px;
   vertical-align: middle;
 }
-
 .loader {
   border: 16px solid #f3f3f3; /* Light grey */
   border-top: 16px solid #8ff057; /* Green */

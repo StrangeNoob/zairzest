@@ -1,10 +1,10 @@
 <link rel="stylesheet" href="/css/modal.css" />
 <!-- This example requires Tailwind CSS v2.0+ -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-<div class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
+<div class="modal opacity-0 z-10 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
   <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
   
-  <div class="modal-container bg-green-50 w-2/3 mx-auto rounded rounded-lg shadow-lg z-50 overflow-y-auto">
+  <div class="modal-container bg-green-50 lg:w-2/3 w-screen mx-auto rounded rounded-lg shadow-lg z-50 overflow-y-auto">
     
     <!-- Add margin if you want to see some of the overlay behind the modal-->
     <div class="modal-content py-4 text-left px-6" >
@@ -19,29 +19,24 @@
       </div>
 
       <!--Body-->
-        <div class="grid lg:grid-cols-2 grid-cols-1">
+        <div class="grid sm:grid-cols-2 grid-cols-1">
           <div class="pb-8">
             <img id="mod__cover" class="rounded" onerror="this.src='/images/eventcomingsoon.jpeg';" src="/images/eventcomingsoon.jpeg" />
           </div>
           <div class="flex flex-row justify-center px-8">
           <div class="">
-            <h1 id="mod__title" class="font-bold text-xl md:text-3xl text-center">Lorem ipsum</h1>
-            <p id="mod__desc" class="mt-2">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Id eveniet, in
-              nisi nihil accusamus et voluptatum, harum dolores incidunt sapiente
-              distinctio dignissimos ut? Facilis voluptates eligendi sapiente in
-              delectus voluptate?
+            <h1 id="mod__title" class="font-bold text-xl md:text-3xl text-center">Loading... </h1>
+            <p id="mod__desc" class="mt-2">Loading...
             </p>
-            <p id="mod__date_time_venue" class="mt-4 w-max px-2 py-1 rounded rounded-full"></p>
+            <p id="mod__date_time_venue" class="mt-4 w-max px-2 py-1 rounded rounded-lg"></p>
             <div id="mod_team-details" class="mt-2"></div>
             <%	if(user){ %>
                 <!--Footer-->
                 <div id="loader" class="loader hidden mx-auto"></div> 
                 <div class="flex flex-col justify mt-8">
-                  <button id="singlereg-btn" class="hidden px-4 bg-transparent p-3 rounded-lg text-indigo-500 hover:bg-gray-100 hover:text-indigo-400 mr-2">Register</button>
                   <button id="teamreg-btn" class="hidden px-4 bg-transparent p-3 rounded-lg text-green-900 mr-2">Create a Team</button>
                   <button id="joinreg-btn" class="hidden px-4 bg-transparent p-3 rounded-lg text-green-900 mr-2">Join a Team</button>
-                  <button id="unreg-btn" class="hidden px-4 bg-transparent p-3 rounded-lg text-indigo-500 hover:bg-gray-100 hover:text-indigo-400 mr-2">Unregister</button>
+                  <button id="unreg-btn" class="hidden px-4 bg-transparent p-3 rounded-lg text-green-900 mr-2">Unregister</button>
                 </div>
             <% } else { %>
               <script>
@@ -53,8 +48,12 @@
               <button id="login-btn" class=" mt-5 tracking-wide font-semibold register-btn text-gray-100 hover:text-white w-full py-4 rounded-lg transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none" onclick="gotoLogin()">Please Log In to register for events</button>  
             <% } %>
             <div class="flex flex-row justify-center">
-            <div id="create-team-form" class="hidden mt-8 form max-w-md w-full"> 
+              <div id="create-singlereg-form" class="mt-8 form max-w-md w-full"> 
+              </div>
             </div>
+            <div class="flex flex-row justify-center">
+              <div id="create-team-form" class="hidden mt-8 form max-w-md w-full"> 
+              </div>
             </div>
             <div id="join-team-form" class="hidden form w-full mt-8">
               <div class="flex flex-col mx-auto max-w-md">

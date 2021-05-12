@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var session = require('express-session');
+var favicon = require('serve-favicon')
 var passport = require("passport");
 const MongoDBStore = require("connect-mongodb-session")(session);
 
@@ -21,6 +22,7 @@ store.on("error", function (error) {
   console.log(error);
 });
 
+app.use(favicon(path.join(__dirname, 'public/images/Visual.webp')));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

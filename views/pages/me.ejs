@@ -35,28 +35,28 @@
           <div class="flex flex-col w-full p-5 bg-green-600 bg-opacity-10 rounded rounded-xl">
             <div class="flex flex-row justify-between">
               <div class="font-bold text-2xl overflow-ellipsis">
-                John Doe
+                <%= user.name %>
               </div>
               <div class="flex flex-row space-x-2">
-                <button class="font-bold px-4 py-1 rounded rounded-full text-white" style="background-color: #37BC61">Edit</button>
+                <a href="/profile"><button class="font-bold px-4 py-1 rounded rounded-full text-white" style="background-color: #37BC61">Edit</button></a>
                 <!-- sign out button --> 
-                <button class="font-bold px-4 py-1 rounded rounded-full text-white" style="background-color: #37BC61">LOGOUT</button>
+                <a href="/logout?next=/"><button class="font-bold px-4 py-1 rounded rounded-full text-white" style="background-color: #37BC61">LOGOUT</button></a>
               </div>
             </div>
-            <div class="text-sm">1901102382</div>
+            <div class="text-sm"><%= user.regNo %></div>
             <div class="flex flex-col px-4 py-2 mt-4 rouned rounded-lg bg-white">
               <!-- email --> 
               <div class="flex flex-col mt-2">
                 <div class="text-xs font-bold">Email</div>
                 <div class="flex flex-row justify-between items-center w-full">
-                  <div class="truncate">johndoe@email.com</div>
+                  <div class="truncate"><%= user.username %></div>
                 </div>
               </div>
               <!-- branch --> 
               <div class="flex flex-col mt-4 mb-2">
                 <div class="text-xs font-bold">Branch</div>
                 <div class="flex flex-row justify-between items-center w-full">
-                  <div class="text-sm flex-grow-1 truncate">Computer Science and Engineering</div>
+                  <div class="text-sm flex-grow-1 truncate"><%= user.branch %></div>
                 </div>
               </div>
 
@@ -68,7 +68,6 @@
             <div
               class="grid grid-cols-1 2xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-2 xl:grid-cols-3 xl:gap-0 lg:gap-4 gap-2 grid-container justify-items-center"
             >
-      
              <% for (var d in events) { %>
               <% if (Object.prototype.hasOwnProperty.call(events, d)) { %>
                 <div class="wrapper antialiased text-gray-900">

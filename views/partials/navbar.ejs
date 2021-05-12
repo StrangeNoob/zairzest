@@ -1,0 +1,158 @@
+<style>
+    .navbar {
+        top: 0;
+        z-index: 100;
+        position: fixed;
+        height: 5rem;
+        will-change: height;
+        width: 100%;
+        transition: all 300ms ease;
+        }
+
+        .navbar-fixed {
+        height: 4rem;
+        box-shadow: 2px 5px 5px rgb(241, 233, 233);
+        }
+        .menu {
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        padding: 0;
+        }
+
+        .bg-green:hover {
+        background-color: #4C6E4E;
+        cursor: pointer;
+        }
+
+        .bg-focus {
+        background-color: #4C6E4E;
+        color: #ffffff;
+        cursor: pointer;
+        transition: all 400ms ease-in-out;
+        }
+
+        .leading-tight {
+        line-height: 1.25 !important;
+        }
+
+        .icon:hover {
+        color: #4C6E4E;
+        cursor: pointer;
+        }
+
+        .line {
+        fill: none;
+        stroke: black;
+        stroke-width: 6;
+        transition: stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1),
+            stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .line1 {
+        stroke-dasharray: 60 207;
+        stroke-width: 6;
+        }
+
+        .line2 {
+        stroke-dasharray: 60 60;
+        stroke-width: 6;
+        }
+
+        .line3 {
+        stroke-dasharray: 60 207;
+        stroke-width: 6;
+        }
+
+        .opened .line1 {
+        stroke-dasharray: 90 207;
+        stroke-dashoffset: -134;
+        stroke-width: 6;
+        }
+
+        .opened .line2 {
+        stroke-dasharray: 1 60;
+        stroke-dashoffset: -30;
+        stroke-width: 6;
+        }
+
+        .opened .line3 {
+        stroke-dasharray: 90 207;
+        stroke-dashoffset: -134;
+        stroke-width: 6;
+        }
+        @media (max-width: 800px) {
+            .navbar {
+                height: 4rem;
+            }
+
+        }   
+</style>
+<section>
+    <header class="navbar bg-white lg:flex lg:justify-between lg:items-center sm:px-16 sm:py-6">
+      <div class="flex justify-between items-center px-4 py-3 sm:p-0">
+        <div class="pt-3 sm:pt-0">
+          <img class="h-6 cursor-pointer" src="/images/zairzest.png">
+        </div>
+        <div class="lg:hidden float-right">
+          <button class="menu text-gray-500 hover:text-black focus:outline-none"
+            onclick="toggleMenu(); this.classList.toggle('opened');" aria-label="Menu">
+            <svg class="h-8 w-8 fill-current" viewBox="0 0 100 100">
+              <path class="line line1"
+                d="M 20,29.000046 H 80.000231 C 80.000231,29.000046 94.498839,28.817352 94.532987,66.711331 94.543142,77.980673 90.966081,81.670246 85.259173,81.668997 79.552261,81.667751 75.000211,74.999942 75.000211,74.999942 L 25.000021,25.000058" />
+              <path class="line line2" d="M 20,50 H 80" />
+              <path class="line line3"
+                d="M 20,70.999954 H 80.000231 C 80.000231,70.999954 94.498839,71.182648 94.532987,33.288669 94.543142,22.019327 90.966081,18.329754 85.259173,18.331003 79.552261,18.332249 75.000211,25.000058 75.000211,25.000058 L 25.000021,74.999942" />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <ul id="mob-menu" class="lg:flex lg:justify-between lg:w-8/12 px-2 pt-2 pb-4 hidden bg-white">
+        <a href="/"><li class="block hover:text-white px-2 py-1 lg:my-0 my-1 lg:ml-2 font-normal bg-green rounded">Home</li></a>
+        <a href="/funevents"><li class="block hover:text-white px-2 py-1 lg:my-0 my-1 lg:ml-2 font-normal bg-green rounded">Fun Events</li></a>
+        <a href="/techevents"><li class="block hover:text-white px-2 py-1 lg:my-0 my-1 lg:ml-2 font-normal bg-green rounded">Tech Events</li></a>
+        <a href="/workshops"><li class="block hover:text-white px-2 py-1 lg:my-0 my-1 lg:ml-2 font-normal bg-green rounded">Workshop</li></a>
+       
+        <% if(user){ %>
+          <a href="/me" id="user">
+            <li class="block hover:text-white px-2 py-1 lg:my-0 my-1 lg:ml-2 font-normal bg-green rounded" id="authRoute">Profile</li>
+          </a>
+        <% } else { %>
+          <a href="/auth#signin" id="user">
+            <li class="block hover:text-white px-2 py-1 lg:my-0 my-1 lg:ml-2 font-normal bg-green rounded" id="authRoute">Login</li>
+          </a>
+        <% } %>
+        <a href="https://zairza.in">
+          <li class="pt-3 sm:pt-0"> 
+            <img class="h-6 cursor-pointer" src="/images/Zairzalogo.webp">
+          </li>
+        </a>
+      </ul>
+    </header>
+  </section>
+<script>
+    function toggleMenu() {
+        let menu = document.getElementById("mob-menu");
+        if (menu.classList.contains("hidden")) {
+            menu.classList.remove("hidden");
+            menu.classList.add("block");
+        } else {
+            menu.classList.remove("block");
+            menu.classList.add("hidden");
+        }
+    }
+        link = window.location.pathname;
+        if(link === "/funevents"){
+          $("title").text("Fun Events | Zairzest");
+        } else if(link === "/workshops") {
+          $("title").text('Workshops | Zairzest');
+        } else if(link === "/techevents") {
+          $("title").text('Tech Events | Zairzest');
+        }
+        $("#mob-menu").children().each(function () {
+            if ($(this).attr("href").indexOf(link) !== -1) {
+                $(this).children().addClass("bg-focus");
+            }
+        });
+</script>
