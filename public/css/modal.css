@@ -152,15 +152,24 @@
   color: white;
 }
 
-#teamreg-btn:hover {
-  background-color: rgba(118, 238, 0, 0.3);
+#teamreg-btn {
+  background-color: rgba(119, 238, 0, 0.493);
   color: #0b1700;
+  margin: 5px;
 }
 
-#joinreg-btn:hover {
+#joinreg-btn {
+  background-color: rgba(119, 238, 0, 0.555);
+  color: #0b1700;
+  margin: 5px;
+}
+
+#unreg-btn {
   background-color: rgba(118, 238, 0, 0.3);
   color: #0b1700;
+  margin: 5px;
 }
+
 
 .spinner__container {
   display: flex;

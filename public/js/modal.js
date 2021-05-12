@@ -4,9 +4,11 @@ $(document).ready(function () {
       $(`#${id}`).removeClass("onclic");
       // console.log(res);
       if (res.status == "success") {
-        $(`#${id}`).addClass("validate-success", 450, callback(id, res));
+        callback(id, res);
+        // $(`#${id}`).addClass("validate-success", 450, callback(id, res));
       } else {
-        $(`#${id}`).addClass("validate-fail", 450, callback(id, res));
+        callback(id, res);
+        // $(`#${id}`).addClass("validate-fail", 450, callback(id, res));
       }
     }, 2250);
   }
@@ -37,7 +39,7 @@ $(document).ready(function () {
           ? "Register Successfully"
           : "Unregistred Successfully";
       showToast(200, msg);
-      $(`#${id}`).removeClass("validate-success");
+      // $(`#${id}`).removeClass("validate-success");
       toggleModal();
     } else {
       showToast(
@@ -45,7 +47,7 @@ $(document).ready(function () {
         res.responseJSON.message ||
           "Sorry, There seems to be a problem at our end"
       );
-      $(`#${id}`).removeClass("validate-fail");
+      // $(`#${id}`).removeClass("validate-fail");
     }
   }
 
@@ -92,6 +94,8 @@ $(document).ready(function () {
       $(".modal-content").removeClass("valo-game");
     }
   }
+
+  $(".modal-open").off('click');
   $(".modal-open").click(function (event) {
     window.currentItem = $(event.target).parent();
     console.log("clicked", currentItem);
@@ -213,6 +217,8 @@ $(document).ready(function () {
                         </div>`;
         // console.log(insertHTML);
         $("#create-singlereg-form").html(insertHTML);
+
+        $("#singlereg-btn").off('click');
         $("#singlereg-btn").click(function () {
           clickDisable("singlereg-btn",true);
           let post_extra_data = {};
@@ -255,6 +261,7 @@ $(document).ready(function () {
 
       }
      
+      $("#teamreg-btn").off('click');
       $("#teamreg-btn").click(function () {
         $("#teamreg-btn").hide();
         $("#joinreg-btn").hide();
@@ -308,6 +315,8 @@ $(document).ready(function () {
         }  
         $("#create-team-form").html(insertHTML);
         $("#create-team-form").show();
+
+        $("#create-team-btn").off('click');
         $("#create-team-btn").click(function () {
           // console.log("-226");
           clickDisable("create-team-btn",true);
@@ -372,6 +381,8 @@ $(document).ready(function () {
         });
       });
 
+
+      $("#joinreg-btn").off('click');
       $("#joinreg-btn").click(function () {
         $("#teamreg-btn").hide();
         $("#joinreg-btn").hide();
@@ -401,6 +412,8 @@ $(document).ready(function () {
                         > Join Team</button>`;
         $("#join-team-form").html(insertHTML);
         $("#join-team-form").show();
+
+        $("#join-team-btn").off('click');
         $("#join-team-btn").click(function () {
           var team_id = $("#join-team-code").val();
           var post_extra_data={};
@@ -442,6 +455,7 @@ $(document).ready(function () {
         });
       });
 
+      $("#unreg-btn").off("click");
       $("#unreg-btn").click(function () {
         clickDisable("unreg-btn",true);
         $(`#unreg-btn`).addClass("onclic", 50);
