@@ -36,7 +36,7 @@ $(document).ready(function () {
           : id == "join-team-btn"
           ? "Team Joined Successfully"
           : id =="singlereg-btn"
-          ? "Register Successfully"
+          ? "Registered Successfully"
           : "Unregistred Successfully";
       showToast(200, msg);
       // $(`#${id}`).removeClass("validate-success");
@@ -391,7 +391,7 @@ $(document).ready(function () {
                               class="w-full px-8 py-4 rounded-lg font-medium bg-white border-none placeholder-gray-500 text-sm focus:outline-none bg-white focus:bg-white"
                               type="text"
                               id="join-team-code"
-                              placeholder="Enter Team name"
+                              placeholder="Enter Team ID"
                               required
                             />`;
         if(extra_data != ""){
