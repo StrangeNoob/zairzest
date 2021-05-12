@@ -11,16 +11,21 @@ $(document).ready(function () {
     }, 2250);
   }
 
+  function clickDisable(id,value){
+    $(`#${id}`).attr('disabled',value);
+  }
+
   function callback(id, res) {
+    clickDisable(id,false);
     if (res.status == "success") {
       if (id == "unreg-btn") {
-        $("#unreg-btn").hide();
+        $("#unreg-btn").addClass("hidden");
       } else {
-        $("#join-team-form").hide();
-        $("#create-team-form").hide();
-        $("#create-singlereg-form").hide();
-        $("#teamreg-btn").hide();
-        $("#joinreg-btn").hide();
+        $("#join-team-form").addClass("hidden");
+        $("#create-team-form").addClass("hidden");
+        $("#create-singlereg-form").addClass("hidden");
+        $("#teamreg-btn").addClass("hidden");
+        $("#joinreg-btn").addClass("hidden");
         $("#unreg-btn").show();
       }
       let msg =
@@ -71,18 +76,19 @@ $(document).ready(function () {
     modal.classList.toggle("opacity-0");
     modal.classList.toggle("pointer-events-none");
     body.classList.toggle("modal-active");
+    body.classList.toggle("overflow-hidden");
     modal.classList.toggle("mod--show");
     if (!$("body").hasClass("modal-active")) {
-      $("#teamreg-btn").hide();
-      $("#joinreg-btn").hide();
-      $("#unreg-btn").hide();
-      $("#singlereg-btn").hide();
+      $("#teamreg-btn").addClass("hidden");
+      $("#joinreg-btn").addClass("hidden");
+      $("#unreg-btn").addClass("hidden");
+      $("#singlereg-btn").addClass("hidden");
       $("#mod__title").text("Loading...");
       $("#mod__desc").text("");
       $("#mod__date_time_venue").html("<strong>Slot :</strong> Loading... ");
       $(`#mod_team-details`).text("");
-      $("#join-team-form").hide();
-      $("#create-team-form").hide();
+      $("#join-team-form").addClass("hidden");
+      $("#create-team-form").addClass("hidden");
     }
   }
   $(".modal-open").click(function (event) {
@@ -104,7 +110,7 @@ $(document).ready(function () {
       let team_extra_data = $(currentItem).attr("data-team_extra_data");
 
 
-      $("#mod__form_desc").hide();
+      $("#mod__form_desc").addClass("hidden");
 
       $("#mod__cover").attr("src", "/image/eventcomingsoon.jpeg");
 
@@ -123,7 +129,7 @@ $(document).ready(function () {
           })
           .then(function (message) {
             // console.log(message);
-            $("#loader").hide();
+            $("#loader").addClass("hidden");
             if (message.data.registered == true) {
               // Make the button into a Unregister button
               if (max_participants != 1) {
@@ -206,6 +212,7 @@ $(document).ready(function () {
         // console.log(insertHTML);
         $("#create-singlereg-form").html(insertHTML);
         $("#singlereg-btn").click(function () {
+          clickDisable("singlereg-btn",true);
           let post_extra_data = {};
           if(extra_data != ""){
             // console.log("havda-228");
@@ -215,6 +222,7 @@ $(document).ready(function () {
                 post_extra_data[`${element}`]=$(`#create-single-${ele}`).val()
               }else{
                 showToast(400,`All ${element} is required.`);
+                clickDisable("singlereg-btn",false);
                 return;
               }    
             });
@@ -246,8 +254,8 @@ $(document).ready(function () {
       }
      
       $("#teamreg-btn").click(function () {
-        $("#teamreg-btn").hide();
-        $("#joinreg-btn").hide();
+        $("#teamreg-btn").addClass("hidden");
+        $("#joinreg-btn").addClass("hidden");
         var insertHTML = `<div class="flex flex-col items-center">`;
         insertHTML += `<input
                               class="w-full px-8 py-4 rounded-lg font-medium bg-white border-none placeholder-gray-500 text-sm focus:outline-none bg-white focus:bg-white"
@@ -293,6 +301,7 @@ $(document).ready(function () {
         $("#create-team-form").show();
         $("#create-team-btn").click(function () {
           // console.log("-226");
+          clickDisable("create-team-btn",true);
           if (moment(Date.now()) < (moment(date_time, "DD-MM-YYYY hh:mm:ss"))){
             // console.log("havda-228");
             var teamName = $("#create-team-name").val();
@@ -306,6 +315,7 @@ $(document).ready(function () {
                   post_extra_data[`${element}`]=$(`#create-${ele}`).val()
                 }else{
                   showToast(400,`All ${element} is required.`);
+                  clickDisable("create-team-btn",false);
                   return;
                 }    
               });
@@ -317,12 +327,14 @@ $(document).ready(function () {
                   post_team_extra_data[`${element}`]=$(`#create-${ele}`).val();
                 }else{
                   showToast(400,`All ${element} is required.`);
+                  clickDisable("create-team-btn",false);
                   return;
                 }
               });
             }
             if (teamName === "") {
               showToast(400, "Team Name Should not be empty");
+              clickDisable("create-team-btn",false);
             } else {
               $(`#create-team-btn`).addClass("onclic", 50);
               const data = {
@@ -352,8 +364,8 @@ $(document).ready(function () {
       });
 
       $("#joinreg-btn").click(function () {
-        $("#teamreg-btn").hide();
-        $("#joinreg-btn").hide();
+        $("#teamreg-btn").addClass("hidden");
+        $("#joinreg-btn").addClass("hidden");
         var insertHTML = `<div class="flex flex-col items-center">`;
         insertHTML += `<input
                               class="w-full px-8 py-4 rounded-lg font-medium bg-white border-none placeholder-gray-500 text-sm focus:outline-none bg-white focus:bg-white"
@@ -389,6 +401,7 @@ $(document).ready(function () {
                 post_extra_data[`${element}`]=$(`#join-${ele}`).val()
               }else{
                 showToast(400,`All ${element} is required.`);
+                clickDisable("create-team-btn",false);
                 return;
               }  
           });
@@ -396,6 +409,7 @@ $(document).ready(function () {
             showToast(400, "Registration Time is Over.");
           } else if (team_id === "") {
             showToast(400, "Team Name Should not be empty");
+            clickDisable("create-team-btn",false);
           } else {
             $(`#join-team-btn`).addClass("onclic", 50);
             const data = {
@@ -419,95 +433,8 @@ $(document).ready(function () {
         });
       });
 
-
-      // $("#create-team-btn").click(function () {
-        console.log("havda");
-      //   if (moment(Date.now()) < (moment(date_time, "DD-MM-YYYY hh:mm:ss"))){
-      //     var teamName = $("#create-team-name").val();
-      //     var post_extra_data={};
-      //     var post_team_extra_data={};
-      //     if(extra_data != ""){
-      //       extra_data.split(',').forEach((element)=>{
-      //         element=element.replaceAll(" ","-");
-      //         post_extra_data['element']=$(`#create-${element}`).val()
-      //       });
-      //     }
-      //     if(team_extra_data != ""){
-      //       team_extra_data.split(',').forEach((element) => {
-      //         element=element.replaceAll(" ","-");
-      //         post_team_extra_data['element']=$(`#create-${element}`).val()
-      //       });
-      //     }
-      //     else if (teamName === "") {
-      //       showToast(400, "Team Name Should not be empty");
-      //     } else if(jQuery.isEmpty(post_extra_data) && extra_data != ""){
-      //       showToast(400,"All data are required Please it up");
-      //     } else if(jQuery.isEmpty(post_team_extra_data) && team_extra_data != ""){
-      //       showToast(400,"All data are required Please it up");
-      //     }else {
-      //       $(`#create-team-btn`).addClass("onclic", 50);
-      //       const data = {
-      //         eventID: eventID,
-      //         team_name: teamName,
-      //         team_extra_data:post_extra_data,
-      //         extra_data: extra_data,
-      //       };
-
-      //       $.ajax({
-      //         type: "POST",
-      //         url: `/registerForEvent/${eventID}`,
-      //         data: data,
-      //         dataType: "json",
-      //       })
-      //         .done(function (data) {
-      //           validate("create-team-btn", data);
-      //         })
-      //         .fail(function (err) {
-      //           validate("create-team-btn", err);
-      //         });
-      //     }
-      //   } else {
-      //     showToast(400, "Registration Time is Over.");
-      //   }
-      // });
-      
-      // function
-
-      $("#join-team-btn").click(function () {
-        var team_id = $("#join-team-code").val();
-        var post_extra_data={};
-        extra_data.forEach((element)=>{
-            element=element.replaceAll(" ","-");
-            post_extra_data['element']=$(`#create-${element}`).val()
-        });
-        if (moment(Date.now()) < (moment(date_time, "DD-MM-YYYY hh:mm:ss"))){
-          showToast(400, "Registration Time is Over.");
-        } else if (team_id === "") {
-          showToast(400, "Team Name Should not be empty");
-        } else if(jQuery.isEmpty(post_extra_data) && extra_data != ""){
-          showToast(400,"All data are required Please it up");
-        } else {
-          $(`#join-team-btn`).addClass("onclic", 50);
-          const data = {
-            eventID: eventID,
-            team_id: team_id,
-            extra_data: post_extra_data,
-          };
-          $.ajax({
-            type: "POST",
-            url: `/registerForEvent/${eventID}`,
-            data: data,
-            dataType: "json",
-          })
-            .done(function (data) {
-              validate("join-team-btn", data);
-            })
-            .fail(function (err) {
-              validate("join-team-btn", err);
-            });
-        } 
-      });
       $("#unreg-btn").click(function () {
+        clickDisable("unreg-btn",false);
         $(`#unreg-btn`).addClass("onclic", 50);
         $.ajax({
           type: "POST",
@@ -523,9 +450,6 @@ $(document).ready(function () {
           });
       });
     } else {
-      // When the modal closes, remove both classes and hide the button
-
-      // Empty the title and description
       $("#mod__title").text("Loading...");
       $("#mod__desc").text("");
       $("#mod__date_time_venue").html("<strong>Slot :</strong> Loading... ");
