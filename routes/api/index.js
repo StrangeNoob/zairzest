@@ -49,8 +49,7 @@ const checkIfAuthenticated = (req, res, next) => {
 
 router.get("/logout", function (req, res) {
     req.logout();
-    res.status(200);
-    res.send();
+    res.redirect("/");
 });
 
 router.post("/signin", function (req, res, next) {
@@ -266,7 +265,7 @@ router.post('/registerForEvent/:eventID', checkIfAuthenticated, async (req, res)
 						{ registration_limit: null },
 						{
 							$expr: {
-								$lt: ["registered", "registration_limit"],
+								$lt: ["$registered", "$registration_limit"],
 							},
 						},
 					],
