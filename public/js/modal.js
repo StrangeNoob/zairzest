@@ -191,6 +191,7 @@ $(document).ready(function () {
       
       function showSingleRegForm(){
         // console.log("hey");
+        $("#create-singlereg-form").show();
         var insertHTML = `<div class="flex flex-col items-center">`;
         if(extra_data != ""){
           // console.log("havda-228");
