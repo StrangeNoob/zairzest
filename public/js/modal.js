@@ -41,6 +41,8 @@ $(document).ready(function () {
       showToast(200, msg);
       // $(`#${id}`).removeClass("validate-success");
       toggleModal();
+      // console.log($(`#${$("#mod__desc").data("eventID")}`), "triiger it ");
+      $(`#${$("#mod__desc").data("eventID")} > img`).get(0).click();
     } else {
       showToast(
         res.responseJSON.errorCode,
@@ -114,7 +116,7 @@ $(document).ready(function () {
       let extra_data = $(currentItem).attr("data-extra_data");
       let team_extra_data = $(currentItem).attr("data-team_extra_data");
 
-
+      $("#mod__desc").data("eventID",eventID);
       $("#mod__form_desc").hide();
 
       $("#mod__cover").attr("src", "/image/eventcomingsoon.jpeg");
@@ -454,7 +456,7 @@ $(document).ready(function () {
           if (moment(Date.now()) > (moment(date_time, "DD-MM-YYYY hh:mm:ss"))){
             showToast(400, "Registration Time is Over.");
           } else if (team_id === "") {
-            showToast(400, "Team Name Should not be empty");
+            showToast(400, "Team ID Should not be empty");
             clickDisable("create-team-btn",false);
           } else if(extra_data != "" && !post_extra_data_empty){
             showToast(400, "All fields are required ");
