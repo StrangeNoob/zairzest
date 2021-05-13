@@ -4,9 +4,11 @@ $(document).ready(function () {
       $(`#${id}`).removeClass("onclic");
       // console.log(res);
       if (res.status == "success") {
-        $(`#${id}`).addClass("validate-success", 450, callback(id, res));
+        callback(id, res);
+        // $(`#${id}`).addClass("validate-success", 450, callback(id, res));
       } else {
-        $(`#${id}`).addClass("validate-fail", 450, callback(id, res));
+        callback(id, res);
+        // $(`#${id}`).addClass("validate-fail", 450, callback(id, res));
       }
     }, 2250);
   }
@@ -34,10 +36,10 @@ $(document).ready(function () {
           : id == "join-team-btn"
           ? "Team Joined Successfully"
           : id =="singlereg-btn"
-          ? "Register Successfully"
+          ? "Registered Successfully"
           : "Unregistred Successfully";
       showToast(200, msg);
-      $(`#${id}`).removeClass("validate-success");
+      // $(`#${id}`).removeClass("validate-success");
       toggleModal();
     } else {
       showToast(
@@ -45,7 +47,7 @@ $(document).ready(function () {
         res.responseJSON.message ||
           "Sorry, There seems to be a problem at our end"
       );
-      $(`#${id}`).removeClass("validate-fail");
+      // $(`#${id}`).removeClass("validate-fail");
     }
   }
 
@@ -90,9 +92,10 @@ $(document).ready(function () {
       $("#join-team-form").hide();
       $("#create-team-form").hide();
       $(".modal-content").removeClass("valo-game");
-
     }
   }
+
+  $(".modal-open").off('click');
   $(".modal-open").click(function (event) {
     window.currentItem = $(event.target).parent();
     console.log("clicked", currentItem);
@@ -192,6 +195,7 @@ $(document).ready(function () {
       
       function showSingleRegForm(){
         // console.log("hey");
+        $("#create-singlereg-form").show();
         var insertHTML = `<div class="flex flex-col items-center">`;
         if(extra_data != ""){
           // console.log("havda-228");
@@ -213,11 +217,15 @@ $(document).ready(function () {
                         </div>`;
         // console.log(insertHTML);
         $("#create-singlereg-form").html(insertHTML);
+
+        $("#singlereg-btn").off('click');
         $("#singlereg-btn").click(function () {
           clickDisable("singlereg-btn",true);
           let post_extra_data = {};
+          let post_extra_data_empty = false;
           if(extra_data != ""){
             // console.log("havda-228");
+            post_extra_data_empty = true;
             extra_data.split(',').forEach((element)=>{
               ele=element.replaceAll(" ","-");
               if($(`#create-${ele}`).val() != ""){
@@ -225,11 +233,17 @@ $(document).ready(function () {
               }else{
                 showToast(400,`All ${element} is required.`);
                 clickDisable("singlereg-btn",false);
+                post_extra_data_empty = fasle;
                 return;
               }    
             });
           }
-          if(moment(Date.now()) < (moment(date_time, "DD-MM-YYYY hh:mm:ss"))){
+          if(moment(Date.now()) > (moment(date_time, "DD-MM-YYYY hh:mm:ss"))){
+            showToast(400, "Registration Time is Over.");
+          } else if(extra_data != "" && !post_extra_data_empty){
+              showToast(400, "All fields are required ");
+          }  
+         else {
             $("#singlereg-btn").addClass("onclic",50);
             const data = {
                 eventID: eventID,
@@ -248,13 +262,12 @@ $(document).ready(function () {
                 .fail(function (err) {
                   validate("singlereg-btn", err);
                 });
-          } else {
-            showToast(400, "Registration Time is Over.");
           }
         });
 
       }
      
+      $("#teamreg-btn").off('click');
       $("#teamreg-btn").click(function () {
         $("#teamreg-btn").hide();
         $("#joinreg-btn").hide();
@@ -306,45 +319,59 @@ $(document).ready(function () {
         if(count > 6){
           $(".modal-content").addClass("valo-game");
         }  
-        $(".modal-content").css("margin-top")
         $("#create-team-form").html(insertHTML);
         $("#create-team-form").show();
+
+        $("#create-team-btn").off('click');
         $("#create-team-btn").click(function () {
           // console.log("-226");
           clickDisable("create-team-btn",true);
           if (moment(Date.now()) < (moment(date_time, "DD-MM-YYYY hh:mm:ss"))){
-            // console.log("havda-228");
             var teamName = $("#create-team-name").val();
             var post_extra_data={};
             var post_team_extra_data={};
+            let post_extra_data_empty = false;
+            let post_team_extra_data_empty = false;
+           
             if(extra_data != ""){
-              // console.log("havda-228");
+              post_extra_data_empty = true;  
               extra_data.split(',').forEach((element)=>{
                 ele=element.replaceAll(" ","-");
+                console.log($(`#create-${ele}`).val())
                 if($(`#create-${ele}`).val() != ""){
                   post_extra_data[`${element}`]=$(`#create-${ele}`).val()
                 }else{
                   showToast(400,`All ${element} is required.`);
                   clickDisable("create-team-btn",false);
+                  post_extra_data_empty =false;
                   return;
                 }    
               });
             }
             if(team_extra_data != ""){
+              post_team_extra_data_empty = true;
               team_extra_data.split(',').forEach((element) => {
                 ele=element.replaceAll(" ","-");
+                console.log($(`#create-${ele}`).val())
                 if($(`#create-${ele}`).val() != ""){
                   post_team_extra_data[`${element}`]=$(`#create-${ele}`).val();
                 }else{
                   showToast(400,`All ${element} is required.`);
                   clickDisable("create-team-btn",false);
+                  post_team_extra_data_empty =false;
                   return;
                 }
               });
             }
+            console.log(`post_extra_data_empty = ${post_extra_data_empty}`)
+            console.log(`post_team_extra_data_empty = ${post_team_extra_data_empty}`)
             if (teamName === "") {
               showToast(400, "Team Name Should not be empty");
               clickDisable("create-team-btn",false);
+            } else if (extra_data != "" && !post_extra_data_empty){
+              showToast(400, "All fields are required ");
+            }else if(team_extra_data != "" && !post_team_extra_data_empty){
+              showToast(400, "All fields are required ");
             } else {
               $(`#create-team-btn`).addClass("onclic", 50);
               const data = {
@@ -373,6 +400,8 @@ $(document).ready(function () {
         });
       });
 
+
+      $("#joinreg-btn").off('click');
       $("#joinreg-btn").click(function () {
         $("#teamreg-btn").hide();
         $("#joinreg-btn").hide();
@@ -381,7 +410,7 @@ $(document).ready(function () {
                               class="w-full px-8 py-4 rounded-lg font-medium bg-white border-none placeholder-gray-500 text-sm focus:outline-none bg-white focus:bg-white"
                               type="text"
                               id="join-team-code"
-                              placeholder="Enter Team name"
+                              placeholder="Enter Team ID"
                               required
                             />`;
         if(extra_data != ""){
@@ -402,24 +431,33 @@ $(document).ready(function () {
                         > Join Team</button>`;
         $("#join-team-form").html(insertHTML);
         $("#join-team-form").show();
+
+        $("#join-team-btn").off('click');
         $("#join-team-btn").click(function () {
           var team_id = $("#join-team-code").val();
           var post_extra_data={};
-          extra_data.split(',').forEach((element)=>{
+          let post_extra_data_empty = false;
+          if(extra_data != ""){
+            post_extra_data_empty= true;
+            extra_data.split(',').forEach((element)=>{
               ele=element.replaceAll(" ","-");
               if($(`#join-${ele}`).val() != ""){
                 post_extra_data[`${element}`]=$(`#join-${ele}`).val()
               }else{
                 showToast(400,`All ${element} is required.`);
                 clickDisable("create-team-btn",false);
+                post_extra_data_empty= false;
                 return;
               }  
           });
+          }
           if (moment(Date.now()) > (moment(date_time, "DD-MM-YYYY hh:mm:ss"))){
             showToast(400, "Registration Time is Over.");
           } else if (team_id === "") {
             showToast(400, "Team Name Should not be empty");
             clickDisable("create-team-btn",false);
+          } else if(extra_data != "" && !post_extra_data_empty){
+            showToast(400, "All fields are required ");
           } else {
             $(`#join-team-btn`).addClass("onclic", 50);
             const data = {
@@ -443,8 +481,9 @@ $(document).ready(function () {
         });
       });
 
+      $("#unreg-btn").off("click");
       $("#unreg-btn").click(function () {
-        clickDisable("unreg-btn",false);
+        clickDisable("unreg-btn",true);
         $(`#unreg-btn`).addClass("onclic", 50);
         $.ajax({
           type: "POST",

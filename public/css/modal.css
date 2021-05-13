@@ -19,7 +19,6 @@
   z-index: 1283123619283610;
 }
 
-
 .mod__contents h1 {
   margin: 2rem;
   padding: 0;
@@ -153,15 +152,23 @@
   color: white;
 }
 
-#teamreg-btn:hover {
-  background-color: rgba(118, 238, 0, 0.3);
+#teamreg-btn {
+  background-color: rgba(119, 238, 0, 0.555);
+  color: #0b1700;
+  margin: 5px;
+}
+
+#joinreg-btn {
+  background-color: rgba(119, 238, 0, 0.555);
+  color: #0b1700;
+  margin: 5px;
+}
+
+#unreg-btn {
+  background-color: rgba(119, 238, 0, 0.555);
   color: #0b1700;
 }
 
-#joinreg-btn:hover {
-  background-color: rgba(118, 238, 0, 0.3);
-  color: #0b1700;
-}
 
 .spinner__container {
   display: flex;
@@ -340,8 +347,7 @@
   }
 }
 
-
-@media (max-width: 768px) {
+@media only screen and (max-width: 600px) {
   .valo-game{
     margin-top: 32rem;
   }
