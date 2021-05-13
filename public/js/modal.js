@@ -83,6 +83,8 @@ $(document).ready(function () {
     body.classList.toggle("overflow-hidden");
     modal.classList.toggle("mod--show");
     if (!$("body").hasClass("modal-active")) {
+      window.location.hash = "";
+      
       $("#teamreg-btn").hide();
       $("#joinreg-btn").hide();
       $("#unreg-btn").hide();
@@ -94,6 +96,8 @@ $(document).ready(function () {
       $("#join-team-form").hide();
       $("#create-team-form").hide();
       $(".modal-content").removeClass("valo-game");
+    } else {
+      window.location.hash = $("#mod__desc").data("eventID");
     }
   }
 
@@ -506,4 +510,9 @@ $(document).ready(function () {
       $("#mod__date_time_venue").html("<strong>Slot :</strong> Loading... ");
     }
   });
+
+  if(window.location.hash !== "" && window.location.hash !== "#"){
+    $(`${window.location.hash} > img`).get(0).click();
+  }
+
 });
