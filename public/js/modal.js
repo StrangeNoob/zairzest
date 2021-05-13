@@ -84,7 +84,6 @@ $(document).ready(function () {
     modal.classList.toggle("mod--show");
     if (!$("body").hasClass("modal-active")) {
       window.location.hash = "";
-      
       $("#teamreg-btn").hide();
       $("#joinreg-btn").hide();
       $("#unreg-btn").hide();
@@ -143,6 +142,7 @@ $(document).ready(function () {
             $("#loader").hide();
             if (message.data.registered == true) {
               // Make the button into a Unregister button
+              let count = 3;
               if (max_participants != 1) {
                 var insertHTML =
                   "<h1 class='text-black-800 lg:text-xl text-lg'>Team Leader must share <b> Team Code/Id</b> with their respective Team members.Futher Information will be notified through Mail </h1>";
@@ -151,6 +151,7 @@ $(document).ready(function () {
                 insertHTML += `<ol><strong>Team Members :</strong>`;
                 message.data.members.forEach((element) => {
                   insertHTML += `<li>${element} <li>`;
+                  count++;
                 });
                 insertHTML += `</ol>`;
                 if (
@@ -163,8 +164,12 @@ $(document).ready(function () {
                     index
                   ) {
                     insertHTML += `<li>${key} : ${message.data.team_extra_data[key]} <li>`;
+                    count++;
                   });
                   insertHTML += `</ol>`;
+                }
+               if(count > 6){
+                $('.modal-content').addClass("valo-game");
                 }
                 $(`#mod_team-details`).html(insertHTML);
               }
