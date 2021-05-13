@@ -62,6 +62,7 @@ if (vw >= 768) {
     alert[i].style.animation = "myanimation 2s ease-in-out infinite";
   }
 
+
   // for (let i = 0; i < wood.length; i++) {
   //   dummy[i].addEventListener("mouseout", () => {
   //     if (wood[i].style.display === "block") {

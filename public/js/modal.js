@@ -512,6 +512,7 @@ $(document).ready(function () {
   });
 
   if(window.location.hash !== "" && window.location.hash !== "#"){
+    console.log(`${window.location.hash} > img`)
     $(`${window.location.hash} > img`).get(0).click();
   }
 
